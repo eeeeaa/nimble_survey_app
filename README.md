@@ -2,15 +2,9 @@
 
 Nimble Survey app project implemented in Flutter
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Running the app
+- pull the project
+- do a fetching/installing of flutter dependencies
+- create `.env.dev`, `.env.staging`, and `.env.prod` file on the root of the project
+- add environment variables according to `.env.sample`
+- Note: this app is created with Android studio flutter template, the configuration steps might be different for VS Code
