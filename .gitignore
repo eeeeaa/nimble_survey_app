@@ -46,3 +46,9 @@ app.*.map.json
 
 # Enviroment variable
 .env.*
+
+# Generated files
+*.g.dart
+/lib/l10n/app_localizations.dart
+/lib/l10n/app_localizations_en.dart
+/lib/l10n/app_localizations_th.dart
