@@ -1,3 +1,12 @@
+---
+name: General Issue
+about: General issue template
+title: ''
+labels: ''
+assignees: ''
+
+---
+
 ## Why
 
 Provide brief description of the issue
