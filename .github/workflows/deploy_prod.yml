@@ -1,0 +1,72 @@
+name: Deploy Prod
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+
+      - name: Set up Flutter environment
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.3'
+          channel: 'stable'
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Generate Flutter files
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+
+      - name: Build APK
+        run: flutter build apk --flavor prod --release --build-number $GITHUB_RUN_NUMBER
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prod-release-apk
+          path: build/app/outputs/flutter-apk/app-prod-release.apk
+
+      - name: Upload Android APK to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID_ANDROID_PROD }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: tester
+          releaseNotes: Prod build
+          file: build/app/outputs/flutter-apk/app-prod-release.apk
+
+      - name: Get version name
+        id: version
+        run: |
+          VERSION_NAME=$(grep '^version:' pubspec.yaml | cut -d ':' -f2 | cut -d '+' -f1 | xargs)
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+
+      - name: Create Git tag if not exists
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          TAG="v${{ steps.version.outputs.version_name }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists"
+          else
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
+
+      - name: Upload release to GitHub
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.version_name }}
+          files: build/app/outputs/flutter-apk/app-prod-release.apk
