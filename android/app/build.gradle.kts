@@ -26,8 +26,6 @@ android {
         }
         create("prod") {
             dimension = "environment"
-            applicationIdSuffix = ".prod"
-            versionNameSuffix = "-prod"
         }
     }
 
