@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
   # Network
   dio: ^5.8.0+1
@@ -32,6 +35,7 @@ dependencies:
   cached_network_image: ^3.4.1
   flutter_dotenv: ^5.2.1
   dart_style: ^3.0.1
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -52,7 +56,18 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
   assets:
     - .env.dev
     - .env.staging
     - .env.prod
+    - assets/
+    - assets/images/
+    - assets/lotties/
+  fonts:
+    - family: Neuzeit
+      fonts:
+        - asset: assets/fonts/Neuzeit-Regular.otf
+          weight: 400
+        - asset: assets/fonts/Neuzeit-Bold.otf
+          weight: 800

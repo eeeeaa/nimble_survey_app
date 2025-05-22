@@ -49,6 +49,7 @@ app.*.map.json
 
 # Generated files
 *.g.dart
+*.gen.dart
 /lib/l10n/app_localizations.dart
 /lib/l10n/app_localizations_en.dart
 /lib/l10n/app_localizations_th.dart
