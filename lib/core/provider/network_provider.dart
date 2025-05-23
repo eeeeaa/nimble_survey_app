@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:nimble_survey_app/core/network/service/user_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../network/auth_intercepter.dart';
@@ -15,8 +16,26 @@ FlutterSecureStorage secureStorage(Ref ref) {
 }
 
 @riverpod
-Dio dio(Ref ref) {
-  return Dio();
+Dio dio(Ref ref) => Dio();
+
+@riverpod
+Dio authorizedDio(Ref ref) {
+  final dio = Dio();
+  final authService = ref.watch(authServiceProvider);
+  final storage = ref.watch(secureStorageProvider);
+  final clientId = ref.watch(clientIdProvider);
+  final clientSecret = ref.watch(clientSecretProvider);
+
+  dio.interceptors.add(
+    AuthInterceptor(
+      secureStorage: storage,
+      authService: authService,
+      clientId: clientId,
+      clientSecret: clientSecret,
+    ),
+  );
+
+  return dio;
 }
 
 @riverpod
@@ -42,23 +61,17 @@ AuthService authService(Ref ref) {
 }
 
 @riverpod
-SurveyService surveyService(Ref ref) {
-  final dio = ref.watch(dioProvider);
+UserService userService(Ref ref) {
+  final dio = ref.watch(authorizedDioProvider);
   final baseUrl = ref.watch(baseUrlProvider);
 
-  final authService = ref.watch(authServiceProvider);
-  final storage = ref.watch(secureStorageProvider);
-  final clientId = ref.watch(clientIdProvider);
-  final clientSecret = ref.watch(clientSecretProvider);
+  return UserService(dio, baseUrl: baseUrl);
+}
 
-  dio.interceptors.add(
-    AuthInterceptor(
-      secureStorage: storage,
-      authService: authService,
-      clientId: clientId,
-      clientSecret: clientSecret,
-    ),
-  );
+@riverpod
+SurveyService surveyService(Ref ref) {
+  final dio = ref.watch(authorizedDioProvider);
+  final baseUrl = ref.watch(baseUrlProvider);
 
   return SurveyService(dio, baseUrl: baseUrl);
 }
