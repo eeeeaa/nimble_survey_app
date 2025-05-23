@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/core/ui/theme/app_text.dart';
 
 import '../features/auth/ui/auth_screen.dart';
 import '../features/home/ui/home_screen.dart';
@@ -28,7 +29,13 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      theme: ThemeData(fontFamily: 'Neuzeit'),
+      theme: ThemeData(
+        fontFamily: 'Neuzeit',
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(fontSize: AppText.textSizeLarge),
+          bodyMedium: TextStyle(fontSize: AppText.textSizeMedium),
+        ),
+      ),
       routerConfig: router,
       title: 'Nimble Survey App',
     );
