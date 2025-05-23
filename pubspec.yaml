@@ -12,7 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_localizations:
     sdk: flutter
-  intl: any
+  intl: ^0.20.2
 
   # Network
   dio: ^5.8.0+1
