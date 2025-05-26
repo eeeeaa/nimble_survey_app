@@ -32,6 +32,7 @@ dependencies:
   riverpod_annotation: ^3.0.0-dev.15
 
   # Misc
+  fluttertoast: ^8.2.12
   cached_network_image: ^3.4.1
   flutter_dotenv: ^5.2.1
   dart_style: ^3.0.1

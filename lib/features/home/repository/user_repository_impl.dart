@@ -12,8 +12,8 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<Result<UserEntity>> getUser() async {
     return safeApiCall<UserResponse, UserEntity>(
-        call: () => userService.getUser(),
-        mapper: (res) => UserEntity.fromResponse(res: res)
+      call: () => userService.getUser(),
+      mapper: (res) => UserEntity.fromResponse(res: res),
     );
   }
 }

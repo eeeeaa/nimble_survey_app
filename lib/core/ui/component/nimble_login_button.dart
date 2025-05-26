@@ -25,6 +25,7 @@ class NimbleLoginButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppDimension.borderRadius),
           ),
         ),
+        onPressed: onPressed,
         child: Text(
           buttonText,
           style: TextStyle(
@@ -33,7 +34,6 @@ class NimbleLoginButton extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        onPressed: () => onPressed,
       ),
     );
   }

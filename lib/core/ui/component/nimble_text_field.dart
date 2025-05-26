@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_color.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_dimension.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_text.dart';
-import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
 class NimbleTextField extends StatelessWidget {
   final String hintText;
   final bool obscureText;
+  final Function(String) onChanged;
   final String? suffixText;
   final Function()? onButtonPressed;
 
   const NimbleTextField({
     required this.hintText,
+    required this.onChanged,
     this.suffixText,
     this.onButtonPressed,
     this.obscureText = false,
@@ -49,6 +50,7 @@ class NimbleTextField extends StatelessWidget {
         hintText: hintText,
         hintStyle: TextStyle(color: AppColor.secondaryText),
       ),
+      onChanged: onChanged,
     );
   }
 }

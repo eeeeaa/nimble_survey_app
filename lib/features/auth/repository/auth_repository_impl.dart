@@ -13,16 +13,16 @@ class AuthRepositoryImpl extends AuthRepository {
   final String clientId;
   final String clientSecret;
 
-  AuthRepositoryImpl(
-    this.authService,
-    this.secureStorage,
-    this.clientId,
-    this.clientSecret,
-  );
+  AuthRepositoryImpl({
+    required this.authService,
+    required this.secureStorage,
+    required this.clientId,
+    required this.clientSecret,
+  });
 
   @override
-  Future<Result<AuthResponse>> login(String email, String password) async {
-    return safeApiCall(
+  Future<Result<void>> login(String email, String password) async {
+    return safeApiCall<AuthResponse, void>(
       call:
           () => authService.login(
             AuthRequest.forLogin(
@@ -32,10 +32,14 @@ class AuthRepositoryImpl extends AuthRepository {
               clientSecret: clientSecret,
             ),
           ),
-      doOnSuccess: (response) {
-        final attr = response.data.attributes;
-        secureStorage.write(key: 'access_token', value: attr.accessToken);
-        secureStorage.write(key: 'refresh_token', value: attr.refreshToken);
+      mapper: (res) async {
+        final attr = res.data.attributes;
+        await secureStorage.write(key: 'access_token', value: attr.accessToken);
+        await secureStorage.write(
+          key: 'refresh_token',
+          value: attr.refreshToken,
+        );
+        return;
       },
     );
   }
@@ -61,7 +65,6 @@ class AuthRepositoryImpl extends AuthRepository {
               clientSecret: clientSecret,
             ),
           ),
-      doOnSuccess: null,
     );
   }
 
@@ -81,7 +84,7 @@ class AuthRepositoryImpl extends AuthRepository {
               clientSecret: clientSecret,
             ),
           ),
-      doOnSuccess: (response) async {
+      mapper: (response) async {
         await secureStorage.deleteAll();
       },
     );
