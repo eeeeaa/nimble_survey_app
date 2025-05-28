@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nimble_survey_app/core/model/auth_request.dart';
 import 'package:nimble_survey_app/core/model/auth_response.dart';
@@ -93,6 +95,6 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<bool> isLoggedIn() async {
     final token = await secureStorage.read(key: 'access_token');
-    return token != null;
+    return token != null && token.isNotEmpty;
   }
 }

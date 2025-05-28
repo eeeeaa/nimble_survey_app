@@ -1,27 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nimble_survey_app/core/provider/navigation_provider.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_text.dart';
 
-import '../features/auth/ui/auth_screen.dart';
-import '../features/home/ui/home_screen.dart';
-import '../features/splash/ui/splash_screen.dart';
 import '../l10n/app_localizations.dart';
 
-final GoRouter router = GoRouter(
-  initialLocation: '/auth',
-  routes: [
-    GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
-    GoRoute(path: '/auth', builder: (context, state) => const AuthScreen()),
-    GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
-  ],
-);
-
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(goRouterProvider);
+
     return MaterialApp.router(
       localizationsDelegates: const [
         AppLocalizations.delegate,
