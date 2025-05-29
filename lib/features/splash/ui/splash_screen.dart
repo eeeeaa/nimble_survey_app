@@ -35,7 +35,7 @@ class SplashScreen extends ConsumerWidget {
           Positioned.fill(
             child: Center(
               child: Padding(
-                padding: EdgeInsetsGeometry.all(AppDimension.paddingLarge),
+                padding: EdgeInsetsGeometry.all(AppDimension.paddingExtraLarge),
                 child: Image.asset(AppImage.icNimbleSplash, fit: BoxFit.cover),
               ),
             ),
