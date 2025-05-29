@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nimble_survey_app/core/network/service/user_service.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../network/auth_intercepter.dart';
@@ -16,7 +18,13 @@ FlutterSecureStorage secureStorage(Ref ref) {
 }
 
 @riverpod
-Dio dio(Ref ref) => Dio();
+Dio dio(Ref ref) {
+  final dio = Dio();
+  if (!kReleaseMode) {
+    dio.interceptors.add(PrettyDioLogger());
+  }
+  return dio;
+}
 
 @riverpod
 Dio authorizedDio(Ref ref) {

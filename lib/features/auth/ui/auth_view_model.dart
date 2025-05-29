@@ -2,6 +2,7 @@ import 'package:nimble_survey_app/core/provider/repository_provider.dart';
 import 'package:nimble_survey_app/features/auth/repository/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../core/utils/error_wrapper.dart';
 import '../model/auth_ui_model.dart';
 
 part 'auth_view_model.g.dart';
@@ -17,16 +18,18 @@ class AuthViewModel extends _$AuthViewModel {
     return AuthUiModel(isLoggedIn: loggedIn);
   }
 
-  Future<void> login(String email, String password) async {
+  Future<Result<void>> login(String email, String password) async {
     state = const AsyncValue.loading();
-    await _authRepository.login(email, password);
+    final result = await _authRepository.login(email, password);
     await refreshUiState();
+    return result;
   }
 
-  Future<void> logout() async {
+  Future<Result<void>> logout() async {
     state = const AsyncValue.loading();
-    await _authRepository.logout();
+    final result = await _authRepository.logout();
     await refreshUiState();
+    return result;
   }
 
   Future<void> refreshUiState() async {

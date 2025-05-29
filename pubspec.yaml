@@ -19,6 +19,7 @@ dependencies:
   retrofit: ^4.4.0
   logger: ^2.4.0
   json_annotation: ^4.9.0
+  pretty_dio_logger: ^1.4.0
 
   # Authentication
   flutter_appauth: ^9.0.0

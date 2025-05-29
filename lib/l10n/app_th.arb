@@ -12,6 +12,7 @@
     "homeToday": "วันนี้",
     "homeUser": "ผู้ใช้",
     "homeLogout": "ออกจากระบบ",
+    "homeLogoutFailed": "ไม่สามารถออกจากระบบได้",
     "surveyDetailStartSurvey": "เริ่มทำแบบสอบถาม",
     "questionsSubmit": "ส่งแบบสอบถาม",
     "questionsQuitSurveyDialogTitle": "คำเตือน!",

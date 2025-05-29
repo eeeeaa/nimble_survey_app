@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/ui/asset/app_image.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_login_button.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_text_field.dart';
+import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 import 'package:nimble_survey_app/features/auth/ui/auth_view_model.dart';
 import 'package:nimble_survey_app/features/auth/ui/login_form_view_model.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
@@ -62,17 +63,25 @@ class LoginForm extends ConsumerWidget {
                   : NimbleLoginButton(
                     buttonText: AppLocalizations.of(context)?.login ?? "",
                     onPressed: () async {
-                      await ref
+                      if (loginFormUiModel.isLoginEnabled == false) return;
+                      final result = await ref
                           .read(authViewModelProvider.notifier)
                           .login(
                             loginFormUiModel.email,
                             loginFormUiModel.password,
                           );
-                      if (authUiModel.value?.isLoggedIn == true) {
-                        if (context.mounted) context.go('/home');
+
+                      if (context.mounted == false) return;
+                      if (result is Success) {
+                        context.go('/home');
                       } else {
-                        // TODO show error from result wrapper
-                        Fluttertoast.showToast(msg: 'login failed');
+                        Fluttertoast.showToast(
+                          msg:
+                              AppLocalizations.of(
+                                context,
+                              )?.loginInvalidEmailPassword ??
+                              "",
+                        );
                       }
                     },
                   ),
