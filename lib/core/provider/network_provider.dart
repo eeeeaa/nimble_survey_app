@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nimble_survey_app/core/network/service/user_service.dart';
+import 'package:nimble_survey_app/core/provider/repository_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -30,13 +31,13 @@ Dio dio(Ref ref) {
 Dio authorizedDio(Ref ref) {
   final dio = Dio();
   final authService = ref.watch(authServiceProvider);
-  final storage = ref.watch(secureStorageProvider);
+  final secureStorageRepository = ref.watch(secureStorageRepositoryProvider);
   final clientId = ref.watch(clientIdProvider);
   final clientSecret = ref.watch(clientSecretProvider);
 
   dio.interceptors.add(
     AuthInterceptor(
-      secureStorage: storage,
+      secureStorageRepository: secureStorageRepository,
       authService: authService,
       clientId: clientId,
       clientSecret: clientSecret,

@@ -1,23 +1,23 @@
 import 'dart:async';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nimble_survey_app/core/model/auth_request.dart';
 import 'package:nimble_survey_app/core/model/auth_response.dart';
 import 'package:nimble_survey_app/core/model/logout_request.dart';
 import 'package:nimble_survey_app/core/model/registration_request.dart';
 import 'package:nimble_survey_app/core/network/service/auth_service.dart';
+import 'package:nimble_survey_app/core/repository/auth/auth_repository.dart';
+import 'package:nimble_survey_app/core/repository/local/secure_storage_repository.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
-import 'package:nimble_survey_app/features/auth/repository/auth_repository.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final AuthService authService;
-  final FlutterSecureStorage secureStorage;
+  final SecureStorageRepository secureStorageRepository;
   final String clientId;
   final String clientSecret;
 
   AuthRepositoryImpl({
     required this.authService,
-    required this.secureStorage,
+    required this.secureStorageRepository,
     required this.clientId,
     required this.clientSecret,
   });
@@ -36,11 +36,8 @@ class AuthRepositoryImpl extends AuthRepository {
           ),
       mapper: (res) async {
         final attr = res.data.attributes;
-        await secureStorage.write(key: 'access_token', value: attr.accessToken);
-        await secureStorage.write(
-          key: 'refresh_token',
-          value: attr.refreshToken,
-        );
+        await secureStorageRepository.updateAccessToken(attr.accessToken);
+        await secureStorageRepository.updateRefreshToken(attr.refreshToken);
         return;
       },
     );
@@ -72,29 +69,41 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<Result<void>> logout() async {
-    final token = await secureStorage.read(key: 'access_token');
-    if (token == null) {
-      return Failure(Exception("no token found"));
-    }
+    final result = await secureStorageRepository.getAccessToken();
 
-    return safeApiCall(
-      call:
-          () => authService.logout(
-            LogoutRequest(
-              token: token,
-              clientId: clientId,
-              clientSecret: clientSecret,
+    if (result is Success<String?>) {
+      final token = result.data;
+
+      if (token == null || token.isEmpty) {
+        return Failure(Exception("no token found"));
+      }
+
+      return safeApiCall(
+        call:
+            () => authService.logout(
+              LogoutRequest(
+                token: token,
+                clientId: clientId,
+                clientSecret: clientSecret,
+              ),
             ),
-          ),
-      mapper: (response) async {
-        await secureStorage.deleteAll();
-      },
-    );
+        mapper: (response) async {
+          await secureStorageRepository.clearToken();
+        },
+      );
+    } else {
+      return Failure(Exception("failed to get token"));
+    }
   }
 
   @override
   Future<bool> isLoggedIn() async {
-    final token = await secureStorage.read(key: 'access_token');
-    return token != null && token.isNotEmpty;
+    final result = await secureStorageRepository.getAccessToken();
+    if (result is Success<String?>) {
+      final token = result.data;
+      return token != null && token.isNotEmpty;
+    } else {
+      return false;
+    }
   }
 }

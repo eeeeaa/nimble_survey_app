@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nimble_survey_app/core/provider/navigation_provider.dart';
-import 'package:nimble_survey_app/core/ui/theme/app_text.dart';
+import 'package:nimble_survey_app/core/ui/theme/app_text_size.dart';
+import 'package:nimble_survey_app/gen/fonts.gen.dart';
 
 import '../l10n/app_localizations.dart';
 
@@ -21,10 +22,10 @@ class MyApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       theme: ThemeData(
-        fontFamily: 'Neuzeit',
+        fontFamily: FontFamily.neuzeit,
         textTheme: TextTheme(
-          bodyLarge: TextStyle(fontSize: AppText.textSizeLarge),
-          bodyMedium: TextStyle(fontSize: AppText.textSizeMedium),
+          bodyLarge: TextStyle(fontSize: AppTextSize.textSizeLarge),
+          bodyMedium: TextStyle(fontSize: AppTextSize.textSizeMedium),
         ),
       ),
       routerConfig: router,

@@ -1,19 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-sealed class Result<T> {
-  const Result();
-}
+part 'error_wrapper.freezed.dart';
 
-class Success<T> extends Result<T> {
-  final T data;
+@freezed
+sealed class Result<T> with _$Result<T> {
+  const factory Result.success(T data) = Success<T>;
 
-  const Success(this.data);
-}
-
-class Failure<T> extends Result<T> {
-  final Exception error;
-
-  const Failure(this.error);
+  const factory Result.failure(Exception error) = Failure<T>;
 }
 
 Future<Result<R>> safeApiCall<T, R>({
@@ -23,11 +17,11 @@ Future<Result<R>> safeApiCall<T, R>({
   try {
     final response = await call();
     final mapped = mapper != null ? mapper(response) : response as R;
-    return Success(mapped);
+    return Result.success(mapped);
   } on DioException catch (e) {
-    return Failure(_mapDioError(e));
+    return Result.failure(_mapDioError(e));
   } catch (e) {
-    return Failure(Exception('Unknown error: $e'));
+    return Result.failure(Exception('Unknown error: $e'));
   }
 }
 

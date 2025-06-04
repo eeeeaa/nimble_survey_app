@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nimble_survey_app/core/ui/theme/app_color.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_dimension.dart';
-import 'package:nimble_survey_app/core/ui/theme/app_text.dart';
+import 'package:nimble_survey_app/core/ui/theme/app_text_size.dart';
+import 'package:nimble_survey_app/gen/colors.gen.dart';
 
 class NimbleTextField extends StatelessWidget {
   final String hintText;
@@ -28,8 +28,8 @@ class NimbleTextField extends StatelessWidget {
               child: Text(
                 suffixText ?? "",
                 style: TextStyle(
-                  fontSize: AppText.textSizeMedium,
-                  color: AppColor.secondaryText,
+                  fontSize: AppTextSize.textSizeMedium,
+                  color: ColorName.secondaryText,
                 ),
               ),
             )
@@ -37,7 +37,7 @@ class NimbleTextField extends StatelessWidget {
 
     return TextField(
       obscureText: obscureText,
-      style: TextStyle(color: AppColor.primaryText),
+      style: TextStyle(color: ColorName.primaryText),
       decoration: InputDecoration(
         suffixIcon: suffixButton,
         border: OutlineInputBorder(
@@ -48,7 +48,7 @@ class NimbleTextField extends StatelessWidget {
         filled: true,
         fillColor: Colors.white.withAlpha(25),
         hintText: hintText,
-        hintStyle: TextStyle(color: AppColor.secondaryText),
+        hintStyle: TextStyle(color: ColorName.secondaryText),
       ),
       onChanged: onChanged,
     );

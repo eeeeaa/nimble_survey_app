@@ -1,9 +1,9 @@
 import 'package:nimble_survey_app/core/provider/repository_provider.dart';
-import 'package:nimble_survey_app/features/auth/repository/auth_repository.dart';
+import 'package:nimble_survey_app/core/repository/auth/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/utils/error_wrapper.dart';
-import '../model/auth_ui_model.dart';
+import '../../../../core/utils/error_wrapper.dart';
+import '../../model/auth_ui_model.dart';
 
 part 'auth_view_model.g.dart';
 

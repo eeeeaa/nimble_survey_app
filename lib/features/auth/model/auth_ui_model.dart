@@ -1,11 +1,8 @@
-import 'package:nimble_survey_app/features/home/model/user_entity.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class AuthUiModel {
-  final bool isLoggedIn;
+part 'auth_ui_model.freezed.dart';
 
-  const AuthUiModel({required this.isLoggedIn});
-
-  AuthUiModel copyWith({required bool isLoggedIn}) {
-    return AuthUiModel(isLoggedIn: isLoggedIn);
-  }
+@freezed
+abstract class AuthUiModel with _$AuthUiModel {
+  const factory AuthUiModel({required bool isLoggedIn}) = _AuthUiModel;
 }

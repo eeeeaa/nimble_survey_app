@@ -1,23 +1,32 @@
-import 'package:nimble_survey_app/features/auth/repository/auth_repository_impl.dart';
-import 'package:nimble_survey_app/features/home/repository/user_repository.dart';
-import 'package:nimble_survey_app/features/home/repository/user_repository_impl.dart';
+import 'package:nimble_survey_app/core/repository/auth/auth_repository_impl.dart';
+import 'package:nimble_survey_app/core/repository/local/secure_storage_repository.dart';
+import 'package:nimble_survey_app/core/repository/local/secure_storage_repository_impl.dart';
+import 'package:nimble_survey_app/core/repository/user/user_repository.dart';
+import 'package:nimble_survey_app/core/repository/user/user_repository_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../features/auth/repository/auth_repository.dart';
+import '../repository/auth/auth_repository.dart';
 import 'network_provider.dart';
 
 part 'repository_provider.g.dart';
 
 @riverpod
+SecureStorageRepository secureStorageRepository(Ref ref) {
+  final storage = ref.watch(secureStorageProvider);
+
+  return SecureStorageRepositoryImpl(secureStorage: storage);
+}
+
+@riverpod
 AuthRepository authRepository(Ref ref) {
-  final authService = ref.read(authServiceProvider);
-  final storage = ref.read(secureStorageProvider);
-  final clientId = ref.read(clientIdProvider);
-  final clientSecret = ref.read(clientSecretProvider);
+  final authService = ref.watch(authServiceProvider);
+  final secureStorageRepository = ref.watch(secureStorageRepositoryProvider);
+  final clientId = ref.watch(clientIdProvider);
+  final clientSecret = ref.watch(clientSecretProvider);
 
   return AuthRepositoryImpl(
     authService: authService,
-    secureStorage: storage,
+    secureStorageRepository: secureStorageRepository,
     clientId: clientId,
     clientSecret: clientSecret,
   );
@@ -25,7 +34,7 @@ AuthRepository authRepository(Ref ref) {
 
 @riverpod
 UserRepository userRepository(Ref ref) {
-  final userService = ref.read(userServiceProvider);
+  final userService = ref.watch(userServiceProvider);
 
   return UserRepositoryImpl(userService: userService);
 }

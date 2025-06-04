@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_dimension.dart';
 
-import '../theme/app_color.dart';
-import '../theme/app_text.dart';
+import '../../../gen/colors.gen.dart';
+import '../theme/app_text_size.dart';
 
 class NimbleLoginButton extends StatelessWidget {
   final String buttonText;
@@ -29,8 +29,8 @@ class NimbleLoginButton extends StatelessWidget {
         child: Text(
           buttonText,
           style: TextStyle(
-            fontSize: AppText.textSizeLarge,
-            color: AppColor.blackPrimaryText,
+            fontSize: AppTextSize.textSizeLarge,
+            color: ColorName.blackPrimaryText,
             fontWeight: FontWeight.bold,
           ),
         ),

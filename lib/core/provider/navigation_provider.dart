@@ -10,12 +10,9 @@ part 'navigation_provider.g.dart';
 @riverpod
 GoRouter goRouter(Ref ref) {
   return GoRouter(
-    initialLocation: '/splash',
+    initialLocation: '/',
     routes: [
-      GoRoute(
-        path: '/splash',
-        builder: (context, state) => const SplashScreen(),
-      ),
+      GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
       GoRoute(path: '/auth', builder: (context, state) => const AuthScreen()),
       GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
     ],

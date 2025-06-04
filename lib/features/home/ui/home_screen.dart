@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nimble_survey_app/core/ui/theme/app_color.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
-import '../../../core/ui/asset/app_image.dart';
-import '../../auth/ui/auth_view_model.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../gen/colors.gen.dart';
+import '../../auth/ui/viewmodel/auth_view_model.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -22,7 +22,7 @@ class HomeScreen extends ConsumerWidget {
         children: [
           // Background image
           Positioned.fill(
-            child: Image.asset(AppImage.bgOnboarding, fit: BoxFit.cover),
+            child: Assets.images.bgOnboarding.image(fit: BoxFit.cover),
           ),
 
           Positioned.fill(
@@ -32,7 +32,7 @@ class HomeScreen extends ConsumerWidget {
                 children: [
                   Text(
                     "Home screen dummy",
-                    style: TextStyle(color: AppColor.primaryText),
+                    style: TextStyle(color: ColorName.primaryText),
                   ),
                   authUiModel.isLoading
                       ? CircularProgressIndicator()

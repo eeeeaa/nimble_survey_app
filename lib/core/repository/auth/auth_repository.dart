@@ -1,4 +1,4 @@
-import '../../../core/utils/error_wrapper.dart';
+import '../../utils/error_wrapper.dart';
 
 abstract class AuthRepository {
   Future<Result<void>> login(String email, String password);

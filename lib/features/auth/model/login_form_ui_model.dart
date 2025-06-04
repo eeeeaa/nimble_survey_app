@@ -1,15 +1,15 @@
-class LoginFormUiModel {
-  final String email;
-  final String password;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const LoginFormUiModel({this.email = '', this.password = ''});
+part 'login_form_ui_model.freezed.dart';
+
+@freezed
+abstract class LoginFormUiModel with _$LoginFormUiModel {
+  const LoginFormUiModel._(); // Allows adding custom getters
+
+  const factory LoginFormUiModel({
+    @Default('') String email,
+    @Default('') String password,
+  }) = _LoginFormUiModel;
 
   bool get isLoginEnabled => email.isNotEmpty && password.isNotEmpty;
-
-  LoginFormUiModel copyWith({String? email, String? password}) {
-    return LoginFormUiModel(
-      email: email ?? this.email,
-      password: password ?? this.password,
-    );
-  }
 }
