@@ -2,17 +2,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'auth_request.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class AuthRequest {
-  @JsonKey(name: 'grant_type')
   final String grantType;
   final String? email;
   final String? password;
-  @JsonKey(name: 'refresh_token')
   final String? refreshToken;
-  @JsonKey(name: 'client_id')
   final String clientId;
-  @JsonKey(name: 'client_secret')
   final String clientSecret;
 
   AuthRequest({

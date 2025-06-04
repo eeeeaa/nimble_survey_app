@@ -4,7 +4,7 @@ part 'auth_response.g.dart';
 
 @JsonSerializable()
 class AuthResponse {
-  final Data data;
+  final AuthData data;
 
   AuthResponse({required this.data});
 
@@ -15,32 +15,28 @@ class AuthResponse {
 }
 
 @JsonSerializable()
-class Data {
+class AuthData {
   final String id;
   final String type;
-  final Attributes attributes;
+  final AuthAttributes attributes;
 
-  Data({required this.id, required this.type, required this.attributes});
+  AuthData({required this.id, required this.type, required this.attributes});
 
-  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
+  factory AuthData.fromJson(Map<String, dynamic> json) =>
+      _$AuthDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DataToJson(this);
+  Map<String, dynamic> toJson() => _$AuthDataToJson(this);
 }
 
-@JsonSerializable()
-class Attributes {
-  @JsonKey(name: 'access_token')
+@JsonSerializable(fieldRename: FieldRename.snake)
+class AuthAttributes {
   final String accessToken;
-  @JsonKey(name: 'token_type')
   final String tokenType;
-  @JsonKey(name: 'expires_in')
   final int expiresIn;
-  @JsonKey(name: 'refresh_token')
   final String refreshToken;
-  @JsonKey(name: 'created_at')
   final int createdAt;
 
-  Attributes({
+  AuthAttributes({
     required this.accessToken,
     required this.tokenType,
     required this.expiresIn,
@@ -48,8 +44,8 @@ class Attributes {
     required this.createdAt,
   });
 
-  factory Attributes.fromJson(Map<String, dynamic> json) =>
-      _$AttributesFromJson(json);
+  factory AuthAttributes.fromJson(Map<String, dynamic> json) =>
+      _$AuthAttributesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AttributesToJson(this);
+  Map<String, dynamic> toJson() => _$AuthAttributesToJson(this);
 }

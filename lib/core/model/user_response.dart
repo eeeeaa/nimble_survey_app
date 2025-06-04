@@ -28,12 +28,10 @@ class UserData {
   Map<String, dynamic> toJson() => _$UserDataToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class UserAttributes {
   final String email;
   final String name;
-
-  @JsonKey(name: 'avatar_url')
   final String avatarUrl;
 
   UserAttributes({

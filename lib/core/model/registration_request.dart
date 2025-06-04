@@ -2,14 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'registration_request.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class RegistrationRequest {
   final RegistrationUser user;
-
-  @JsonKey(name: 'client_id')
   final String clientId;
-
-  @JsonKey(name: 'client_secret')
   final String clientSecret;
 
   RegistrationRequest({
@@ -24,13 +20,11 @@ class RegistrationRequest {
   Map<String, dynamic> toJson() => _$RegistrationRequestToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class RegistrationUser {
   final String email;
   final String name;
   final String password;
-
-  @JsonKey(name: 'password_confirmation')
   final String passwordConfirmation;
 
   RegistrationUser({

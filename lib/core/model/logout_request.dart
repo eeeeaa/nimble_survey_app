@@ -2,15 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'logout_request.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class LogoutRequest {
-  @JsonKey(name: 'token')
   final String token;
-
-  @JsonKey(name: 'client_id')
   final String clientId;
-
-  @JsonKey(name: 'client_secret')
   final String clientSecret;
 
   LogoutRequest({
