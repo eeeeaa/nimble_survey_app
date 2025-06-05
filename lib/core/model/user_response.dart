@@ -4,7 +4,7 @@ part 'user_response.g.dart';
 
 @JsonSerializable()
 class UserResponse {
-  final UserData data;
+  final UserData? data;
 
   UserResponse({required this.data});
 
@@ -16,9 +16,9 @@ class UserResponse {
 
 @JsonSerializable()
 class UserData {
-  final String id;
-  final String type;
-  final UserAttributes attributes;
+  final String? id;
+  final String? type;
+  final UserAttributes? attributes;
 
   UserData({required this.id, required this.type, required this.attributes});
 
@@ -30,9 +30,9 @@ class UserData {
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class UserAttributes {
-  final String email;
-  final String name;
-  final String avatarUrl;
+  final String? email;
+  final String? name;
+  final String? avatarUrl;
 
   UserAttributes({
     required this.email,

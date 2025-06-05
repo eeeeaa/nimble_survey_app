@@ -18,14 +18,14 @@ class SecureStorageRepositoryImpl extends SecureStorageRepository {
   }
 
   @override
-  Future<Result<void>> updateAccessToken(String token) async {
+  Future<Result<void>> updateAccessToken(String? token) async {
     return safeApiCall(
       call: () => secureStorage.write(key: 'access_token', value: token),
     );
   }
 
   @override
-  Future<Result<void>> updateRefreshToken(String token) async {
+  Future<Result<void>> updateRefreshToken(String? token) async {
     return safeApiCall(
       call: () => secureStorage.write(key: 'refresh_token', value: token),
     );

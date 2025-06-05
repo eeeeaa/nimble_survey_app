@@ -4,7 +4,7 @@ part 'auth_response.g.dart';
 
 @JsonSerializable()
 class AuthResponse {
-  final AuthData data;
+  final AuthData? data;
 
   AuthResponse({required this.data});
 
@@ -16,9 +16,9 @@ class AuthResponse {
 
 @JsonSerializable()
 class AuthData {
-  final String id;
-  final String type;
-  final AuthAttributes attributes;
+  final String? id;
+  final String? type;
+  final AuthAttributes? attributes;
 
   AuthData({required this.id, required this.type, required this.attributes});
 
@@ -30,11 +30,11 @@ class AuthData {
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class AuthAttributes {
-  final String accessToken;
-  final String tokenType;
-  final int expiresIn;
-  final String refreshToken;
-  final int createdAt;
+  final String? accessToken;
+  final String? tokenType;
+  final int? expiresIn;
+  final String? refreshToken;
+  final int? createdAt;
 
   AuthAttributes({
     required this.accessToken,

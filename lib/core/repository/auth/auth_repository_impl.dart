@@ -35,9 +35,9 @@ class AuthRepositoryImpl extends AuthRepository {
             ),
           ),
       mapper: (res) async {
-        final attr = res.data.attributes;
-        await secureStorageRepository.updateAccessToken(attr.accessToken);
-        await secureStorageRepository.updateRefreshToken(attr.refreshToken);
+        final attr = res.data?.attributes;
+        await secureStorageRepository.updateAccessToken(attr?.accessToken);
+        await secureStorageRepository.updateRefreshToken(attr?.refreshToken);
         return;
       },
     );

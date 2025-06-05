@@ -59,15 +59,15 @@ class AuthInterceptor extends Interceptor {
             );
 
             await secureStorageRepository.updateAccessToken(
-              newToken.data.attributes.accessToken,
+              newToken.data?.attributes?.accessToken,
             );
             await secureStorageRepository.updateRefreshToken(
-              newToken.data.attributes.refreshToken,
+              newToken.data?.attributes?.refreshToken,
             );
 
             final retryRequest = err.requestOptions;
             retryRequest.headers['Authorization'] =
-                'Bearer ${newToken.data.attributes.accessToken}';
+                'Bearer ${newToken.data?.attributes?.accessToken}';
 
             final response = await Dio().fetch(retryRequest);
             return handler.resolve(response);

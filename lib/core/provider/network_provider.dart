@@ -7,7 +7,7 @@ import 'package:nimble_survey_app/core/provider/repository_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../network/auth_intercepter.dart';
+import '../network/auth_interceptor.dart';
 import '../network/service/auth_service.dart';
 import '../network/service/survey_service.dart';
 
