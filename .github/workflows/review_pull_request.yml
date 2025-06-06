@@ -1,0 +1,58 @@
+name: Review pull request
+
+on:
+  pull_request:
+    types: [ opened, reopened, synchronize, ready_for_review ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  review_pull_request:
+    name: Review pull request
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter environment
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.32.0'
+          channel: 'stable'
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Inject .env files
+        run: |
+          echo "API_ENDPOINT=${{ secrets.API_ENDPOINT }}" >> .env.dev
+          echo "CLIENT_ID=${{ secrets.CLIENT_ID }}" >> .env.dev
+          echo "CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}" >> .env.dev
+          echo "" >> .env.staging
+          echo "" >> .env.prod
+
+      - name: Generate Flutter files
+        run: flutter packages pub run build_runner build --delete-conflicting-outputs
+
+      - name: Analyze error
+        run: flutter analyze --no-fatal-warnings
+
+      - name: Check code formatting
+        run: dart format --set-exit-if-changed .
+
+      - name: Run tests
+        run: flutter test --coverage
+
+      - name: Upload code coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
