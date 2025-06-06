@@ -12,6 +12,7 @@
     "homeToday": "Today",
     "homeUser": "User",
     "homeLogout": "Logout",
+    "homeLogoutFailed": "Failed to logout",
     "surveyDetailStartSurvey": "Start Survey",
     "questionsSubmit": "Submit",
     "questionsQuitSurveyDialogTitle": "Warning!",
