@@ -41,7 +41,7 @@ jobs:
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
 
       - name: Build APK
-        run: flutter build apk --flavor dev --release --build-number $GITHUB_RUN_NUMBER
+        run: flutter build apk --flavor dev --release --build-number $GITHUB_RUN_NUMBER --dart-define=FLAVOR=dev
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

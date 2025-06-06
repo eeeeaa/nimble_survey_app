@@ -5,6 +5,7 @@ on:
     types: [ opened, synchronize, reopened ]
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -42,7 +43,7 @@ jobs:
         run: flutter packages pub run build_runner build --delete-conflicting-outputs
 
       - name: Build APK
-        run: flutter build apk --flavor staging --release --build-number $GITHUB_RUN_NUMBER
+        run: flutter build apk --flavor staging --release --build-number $GITHUB_RUN_NUMBER --dart-define=FLAVOR=staging
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
