@@ -1,7 +1,7 @@
 name: nimble_survey_app
 description: "Nimble Survey app project implemented in Flutter"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 0.2.0
+version: 
 
 environment:
   sdk: ^3.7.2
