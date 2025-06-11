@@ -94,3 +94,5 @@ jobs:
           commit-message: "chore: prepare release ${{ steps.get_version.outputs.version }}"
           branch: release/${{ steps.get_version.outputs.version }}
           base: master
+          labels: |
+            type: release

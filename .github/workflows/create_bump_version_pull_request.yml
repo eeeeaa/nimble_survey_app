@@ -31,5 +31,7 @@ jobs:
           commit-message: "chore: bump version to ${{ github.event.inputs.version }}"
           title: "chore: bump version to ${{ github.event.inputs.version }}"
           body: "This PR bumps the version to `${{ github.event.inputs.version }}`."
-          branch: bump/version-${{ github.event.inputs.version }}
+          branch: chore/bump-version-${{ github.event.inputs.version }}
           base: develop
+          labels: |
+            type: chore
