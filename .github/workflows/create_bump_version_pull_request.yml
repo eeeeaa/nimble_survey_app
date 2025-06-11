@@ -6,7 +6,6 @@ on:
       version:
         description: 'New version (e.g., 1.2.3)'
         required: true
-  pull_request:
 
 jobs:
   bump-version:
