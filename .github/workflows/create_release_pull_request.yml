@@ -1,0 +1,97 @@
+name: Create Release PR
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  create-release-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Read version from pubspec.yaml
+        id: get_version
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | cut -d ' ' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Fetch PRs from milestone and group
+        id: fetch_prs
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const version = '${{ steps.get_version.outputs.version }}';
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const milestoneLink = `https://github.com/${owner}/${repo}/milestone/${version}?closed=1`;
+
+            const milestones = await github.rest.issues.listMilestones({ owner, repo });
+            const milestone = milestones.data.find(m => m.title === version);
+
+            if (!milestone) {
+              core.setFailed(`Milestone "${version}" not found`);
+              return;
+            }
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              milestone: milestone.number,
+              state: 'closed'
+            });
+
+            const groups = {
+              feature: [],
+              chore: [],
+              bug: [],
+              others: []
+            };
+
+            for (const issue of issues) {
+              if (!issue.pull_request) continue;
+              const labels = issue.labels.map(l => l.name);
+              const type = labels.find(l =>
+                ['type:feature', 'type:chore', 'type:bug'].includes(l)
+              );
+
+              const title = issue.title;
+              const number = issue.number;
+              const item = `- ${title} (#${number})`;
+
+              if (type === 'type:feature') groups.feature.push(item);
+              else if (type === 'type:chore') groups.chore.push(item);
+              else if (type === 'type:bug') groups.bug.push(item);
+              else groups.others.push(item);
+            }
+
+            function section(title, items) {
+              return `## ${title}\n\n${items.length ? items.join('\n') : 'None'}\n`;
+            }
+
+            const description = [
+              `Link to the milestone on Github: ${milestoneLink}`,
+              ``,
+              section("Features", groups.feature),
+              section("Chores", groups.chore),
+              section("Bugs", groups.bug),
+              section("Others", groups.others)
+            ].join('\n');
+
+            core.setOutput("description", description);
+
+      - name: Create Release PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          title: "Release ${{ steps.get_version.outputs.version }}"
+          body: "${{ steps.fetch_prs.outputs.description }}"
+          commit-message: "chore: prepare release ${{ steps.get_version.outputs.version }}"
+          branch: release/${{ steps.get_version.outputs.version }}
+          base: master
