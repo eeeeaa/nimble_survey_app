@@ -25,13 +25,6 @@ class AuthViewModel extends _$AuthViewModel {
     return result;
   }
 
-  Future<Result<void>> logout() async {
-    state = const AsyncValue.loading();
-    final result = await _authRepository.logout();
-    await refreshUiState();
-    return result;
-  }
-
   Future<void> refreshUiState() async {
     state = await AsyncValue.guard(() async {
       final loggedIn = await _authRepository.isLoggedIn();

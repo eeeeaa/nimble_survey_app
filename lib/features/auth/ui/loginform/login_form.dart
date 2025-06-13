@@ -58,6 +58,7 @@ class LoginForm extends ConsumerWidget {
                   : NimbleLoginButton(
                     buttonText: AppLocalizations.of(context)?.login ?? "",
                     onPressed: () async {
+                      FocusManager.instance.primaryFocus?.unfocus();
                       if (loginFormUiModel.isLoginEnabled == false) return;
                       final result = await ref
                           .read(authViewModelProvider.notifier)

@@ -22,6 +22,8 @@ class MyApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       theme: ThemeData(
+        dividerColor: Colors.transparent,
+        dividerTheme: DividerThemeData(color: Colors.transparent),
         fontFamily: FontFamily.neuzeit,
         textTheme: TextTheme(
           bodyLarge: TextStyle(fontSize: AppTextSize.textSizeLarge),

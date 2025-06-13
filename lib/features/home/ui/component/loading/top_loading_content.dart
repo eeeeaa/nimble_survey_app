@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nimble_survey_app/core/ui/component/loading_box.dart';
 import 'package:nimble_survey_app/core/ui/component/loading_circle.dart';
 
-import '../../../../core/ui/theme/app_dimension.dart';
+import '../../../../../core/ui/theme/app_dimension.dart';
 
 class TopShimmerContent extends StatelessWidget {
   const TopShimmerContent({super.key});
@@ -22,7 +22,7 @@ class TopShimmerContent extends StatelessWidget {
             LoadingBox(width: 110, height: 16),
           ],
         ),
-        LoadingCircle(radius: 18),
+        LoadingCircle(radius: AppDimension.profileMediumIconDiameter / 2),
       ],
     );
   }

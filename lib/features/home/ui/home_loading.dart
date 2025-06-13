@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nimble_survey_app/features/home/ui/component/bottom_loading_content.dart';
+import 'package:nimble_survey_app/features/home/ui/component/loading/bottom_loading_content.dart';
 
-import 'component/top_loading_content.dart';
+import 'component/loading/top_loading_content.dart';
 
 class HomeLoading extends StatelessWidget {
   const HomeLoading({super.key});
