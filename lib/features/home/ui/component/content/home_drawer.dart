@@ -28,7 +28,7 @@ class HomeDrawer extends ConsumerWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: ColorName.primaryText,
-                fontSize: AppTextSize.textSizeExtraLarge,
+                fontSize: AppTextSize.textSizeXL,
                 fontWeight: FontWeight.bold,
               ),
             ),

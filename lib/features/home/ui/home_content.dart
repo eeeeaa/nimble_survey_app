@@ -4,9 +4,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 import 'package:nimble_survey_app/features/home/model/home_ui_model.dart';
+import 'package:nimble_survey_app/features/home/ui/component/content/home_profile_bar.dart';
 import 'package:nimble_survey_app/features/home/ui/viewmodel/home_view_model.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
+import '../../../core/ui/theme/app_text_size.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../gen/colors.gen.dart';
 import 'component/content/home_drawer.dart';
@@ -48,21 +50,26 @@ class HomeContent extends ConsumerWidget {
           ),
 
           homeUiModel.value == null
-              ? Text("no data")
+              ? SafeArea(child: Text("no data"))
               : Positioned.fill(
-                child: Center(
+                child: SafeArea(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text(
-                        uiModel?.user?.name ?? "Name not available",
-                        style: TextStyle(color: ColorName.primaryText),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
+                      HomeProfileBar(
+                        onProfileClicked: () {
                           _scaffoldKey.currentState?.openEndDrawer();
                         },
-                        child: Text('open drawer'),
+                        uiModel: uiModel,
+                      ),
+                      Text(
+                        'survey list',
+                        style: TextStyle(
+                          color: ColorName.primaryText,
+                          fontSize: AppTextSize.textSizeSmall,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
