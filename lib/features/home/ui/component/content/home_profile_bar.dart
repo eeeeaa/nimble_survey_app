@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nimble_survey_app/core/utils/date_helper.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
@@ -10,9 +9,9 @@ import '../../../../../core/ui/theme/app_text_size.dart';
 import '../../../../../gen/colors.gen.dart';
 import '../../../model/home_ui_model.dart';
 
-class HomeProfileBar extends ConsumerWidget {
+class HomeProfileBar extends StatelessWidget {
   final HomeUiModel? uiModel;
-  final Function onProfileClicked;
+  final VoidCallback onProfileClicked;
 
   const HomeProfileBar({
     required this.onProfileClicked,
@@ -21,7 +20,7 @@ class HomeProfileBar extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsetsGeometry.directional(
         start: AppDimension.paddingLarge,

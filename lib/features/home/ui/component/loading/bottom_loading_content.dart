@@ -7,24 +7,60 @@ class BottomLoadingContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            LoadingBox(width: 50, height: 25),
-            SizedBox(height: AppDimension.spacingSmall),
-            LoadingBox(width: 250, height: 25),
-            SizedBox(height: AppDimension.spacingExtraSmall),
-            LoadingBox(width: 125, height: 25),
-            SizedBox(height: AppDimension.spacingSmall),
-            LoadingBox(width: 300, height: 25),
-            SizedBox(height: AppDimension.spacingExtraSmall),
-            LoadingBox(width: 250, height: 25),
-          ],
-        ),
-      ],
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    final contentWidth =
+        screenWidth - (AppDimension.homeBottomLoadingContentHorizontalPadding);
+    double baseHeight =
+        screenHeight * AppDimension.homeBottomLoadingContentHeightRatio;
+
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: contentWidth),
+      child: Row(
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              LoadingBox(
+                width:
+                    contentWidth *
+                    AppDimension.homeBottomLoadingContentWidthRatioFirstRow,
+                height: baseHeight,
+              ),
+              SizedBox(height: AppDimension.spacingSmall),
+              LoadingBox(
+                width:
+                    contentWidth *
+                    AppDimension.homeBottomLoadingContentWidthRatioSecondRow,
+                height: baseHeight,
+              ),
+              SizedBox(height: AppDimension.spacingExtraSmall),
+              LoadingBox(
+                width:
+                    contentWidth *
+                    AppDimension.homeBottomLoadingContentWidthRatioThirdRow,
+                height: baseHeight,
+              ),
+              SizedBox(height: AppDimension.spacingSmall),
+              LoadingBox(
+                width:
+                    contentWidth *
+                    AppDimension.homeBottomLoadingContentWidthRatioFourthRow,
+                height: baseHeight,
+              ),
+              SizedBox(height: AppDimension.spacingExtraSmall),
+              LoadingBox(
+                width:
+                    contentWidth *
+                    AppDimension.homeBottomLoadingContentWidthRatioFifthRow,
+                height: baseHeight,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -17,7 +17,7 @@ class HomeLoading extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 60),
-              child: TopShimmerContent(),
+              child: TopLoadingContent(),
             ),
             BottomLoadingContent(),
           ],
