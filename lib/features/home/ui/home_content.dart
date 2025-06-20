@@ -4,14 +4,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 import 'package:nimble_survey_app/features/home/model/home_ui_model.dart';
-import 'package:nimble_survey_app/features/home/ui/component/content/home_profile_bar.dart';
 import 'package:nimble_survey_app/features/home/ui/viewmodel/home_view_model.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
-import '../../../core/ui/theme/app_text_size.dart';
-import '../../../gen/assets.gen.dart';
-import '../../../gen/colors.gen.dart';
-import 'component/content/home_drawer.dart';
+import 'component/profile/home_drawer.dart';
+import 'component/profile/home_profile_bar.dart';
+import 'component/surveylist/survey_list.dart';
 
 class HomeContent extends ConsumerWidget {
   final HomeUiModel? uiModel;
@@ -21,65 +19,47 @@ class HomeContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeUiModel = ref.watch(homeViewModelProvider);
-
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: HomeDrawer(
         uiModel: uiModel,
         onLogout: () async {
-          final result =
-              await ref.read(homeViewModelProvider.notifier).logout();
+          final result = await ref.read(homeViewModelProvider.notifier).logout();
 
           if (!context.mounted) return;
 
           if (result is Success) {
             context.go('/auth');
           } else {
-            Fluttertoast.showToast(
-              msg: AppLocalizations.of(context)?.homeLogoutFailed ?? "",
-            );
+            Fluttertoast.showToast(msg: AppLocalizations
+                .of(context)
+                ?.homeLogoutFailed ?? "");
           }
         },
       ),
       body: Stack(
         children: [
-          // Background image
-          Positioned.fill(
-            child: Assets.images.bgOnboarding.image(fit: BoxFit.cover),
-          ),
+          Positioned.fill(child: SurveyList(uiModel: uiModel)),
 
-          homeUiModel.value == null
-              ? SafeArea(child: Text("no data"))
-              : Positioned.fill(
-                child: SafeArea(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      HomeProfileBar(
-                        onProfileClicked: () {
-                          _scaffoldKey.currentState?.openEndDrawer();
-                        },
-                        uiModel: uiModel,
-                      ),
-                      Text(
-                        'survey list',
-                        style: TextStyle(
-                          color: ColorName.primaryText,
-                          fontSize: AppTextSize.textSizeSmall,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+          Positioned.fill(
+            child: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  HomeProfileBar(
+                    onProfileClicked: () {
+                      _scaffoldKey.currentState?.openEndDrawer();
+                    },
+                    uiModel: uiModel,
                   ),
-                ),
+                  Spacer(),
+                ],
               ),
-          if (uiModel?.isLoggingOut ?? false) ...[
-            ModalBarrier(
-              dismissible: false,
-              color: Colors.black.withValues(alpha: 0.5),
             ),
+          ),
+          if (uiModel?.isLoggingOut ?? false) ...[
+            ModalBarrier(dismissible: false, color: Colors.black.withValues(alpha: 0.5)),
             Center(child: CircularProgressIndicator()),
           ],
         ],
