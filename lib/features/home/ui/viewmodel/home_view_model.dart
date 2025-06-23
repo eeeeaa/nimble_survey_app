@@ -1,5 +1,3 @@
-import 'package:nimble_survey_app/core/model/survey_response.dart';
-import 'package:nimble_survey_app/core/repository/survey/survey_repository.dart';
 import 'package:nimble_survey_app/core/repository/user/user_repository.dart';
 import 'package:nimble_survey_app/features/home/model/home_ui_model.dart';
 import 'package:nimble_survey_app/features/home/model/user_entity.dart';
@@ -15,26 +13,19 @@ part 'home_view_model.g.dart';
 class HomeViewModel extends _$HomeViewModel {
   late final AuthRepository _authRepository = ref.watch(authRepositoryProvider);
   late final UserRepository _userRepository = ref.watch(userRepositoryProvider);
-  late final SurveyRepository _surveyRepository = ref.watch(surveyRepositoryProvider);
 
   @override
-  HomeUiModel build() => HomeUiModel(user: null, surveyList: List.empty());
+  HomeUiModel build() => HomeUiModel(user: null);
 
   Future<void> loadData() async {
     state = state.copyWith(isContentLoading: true);
-    final UserEntity? user = await getUser();
-    final SurveyResponse? res = await getSurveyList(1, 5);
+    final UserEntity? user = await _getUser();
 
-    state = state.copyWith(user: user, surveyList: res?.data ?? List.empty(), isContentLoading: false);
+    state = state.copyWith(user: user, isContentLoading: false);
   }
 
-  Future<UserEntity?> getUser() async {
+  Future<UserEntity?> _getUser() async {
     final result = await _userRepository.getUser();
-    return result is Success ? (result as Success).data : null;
-  }
-
-  Future<SurveyResponse?> getSurveyList(int pageNumber, int pageSize) async {
-    final result = await _surveyRepository.getSurveyList(pageNumber: pageNumber, pageSize: pageSize);
     return result is Success ? (result as Success).data : null;
   }
 

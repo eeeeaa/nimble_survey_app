@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
-import 'package:nimble_survey_app/features/home/model/home_ui_model.dart';
 import 'package:nimble_survey_app/features/home/ui/viewmodel/home_view_model.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
@@ -12,13 +11,14 @@ import 'component/profile/home_profile_bar.dart';
 import 'component/surveylist/survey_list.dart';
 
 class HomeContent extends ConsumerWidget {
-  final HomeUiModel? uiModel;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  HomeContent({required this.uiModel, super.key});
+  HomeContent({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final uiModel = ref.watch(homeViewModelProvider);
+
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: HomeDrawer(
@@ -31,15 +31,13 @@ class HomeContent extends ConsumerWidget {
           if (result is Success) {
             context.go('/auth');
           } else {
-            Fluttertoast.showToast(msg: AppLocalizations
-                .of(context)
-                ?.homeLogoutFailed ?? "");
+            Fluttertoast.showToast(msg: AppLocalizations.of(context)?.homeLogoutFailed ?? "");
           }
         },
       ),
       body: Stack(
         children: [
-          Positioned.fill(child: SurveyList(uiModel: uiModel)),
+          Positioned.fill(child: SurveyList()),
 
           Positioned.fill(
             child: SafeArea(
@@ -58,7 +56,7 @@ class HomeContent extends ConsumerWidget {
               ),
             ),
           ),
-          if (uiModel?.isLoggingOut ?? false) ...[
+          if (uiModel.isLoggingOut) ...[
             ModalBarrier(dismissible: false, color: Colors.black.withValues(alpha: 0.5)),
             Center(child: CircularProgressIndicator()),
           ],

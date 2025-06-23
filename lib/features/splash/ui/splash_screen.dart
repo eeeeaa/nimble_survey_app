@@ -17,14 +17,18 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() async {
-      // Only read once at launch
-      final authRepository = ref.read(authRepositoryProvider);
-      await Future.delayed(const Duration(seconds: 1));
-      final isLoggedIn = await authRepository.isLoggedIn();
-      if (!mounted) return;
-      context.go(isLoggedIn ? '/home' : '/auth');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initialize();
     });
+  }
+
+  _initialize() async {
+    // Only read once at launch
+    final authRepository = ref.read(authRepositoryProvider);
+    await Future.delayed(const Duration(seconds: 1));
+    final isLoggedIn = await authRepository.isLoggedIn();
+    if (!mounted) return;
+    context.go(isLoggedIn ? '/home' : '/auth');
   }
 
   @override
@@ -34,9 +38,7 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
       body: Stack(
         children: [
           // Background image
-          Positioned.fill(
-            child: Assets.images.bgOnboarding.image(fit: BoxFit.cover),
-          ),
+          Positioned.fill(child: Assets.images.bgOnboarding.image(fit: BoxFit.cover)),
 
           Positioned.fill(
             child: Center(

@@ -24,6 +24,6 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final homeUiModel = ref.watch(homeViewModelProvider);
 
-    return homeUiModel.isContentLoading ? HomeLoading() : HomeContent(uiModel: homeUiModel);
+    return homeUiModel.isContentLoading ? HomeLoading() : HomeContent();
   }
 }
