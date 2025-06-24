@@ -16,6 +16,8 @@ class SurveyList extends ConsumerStatefulWidget {
 }
 
 class SurveyListState extends ConsumerState<SurveyList> {
+  final PageController _controller = PageController(viewportFraction: 1.0);
+
   SurveyListState();
 
   @override
@@ -24,6 +26,12 @@ class SurveyListState extends ConsumerState<SurveyList> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(surveyListViewModelProvider.notifier).initialLoad();
     });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -40,32 +48,34 @@ class SurveyListState extends ConsumerState<SurveyList> {
       );
     }
 
-    return PageView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: surveyList.length,
-      controller: PageController(viewportFraction: 1.0),
-      onPageChanged: (index) {
-        if (index >= surveyList.length - 1) {
-          Future.microtask(() async {
-            await ref.watch(surveyListViewModelProvider.notifier).loadMore();
-          });
-        }
-      },
-      itemBuilder: (context, index) {
-        SurveyData? currentSurvey = surveyList.elementAt(index);
-        return Stack(
-          children: [
-            SurveyBackgroundImage(imageUrl: currentSurvey.attributes?.coverImageUrl ?? ''),
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(AppDimension.paddingMedium),
-                child: SurveyItem(survey: currentSurvey),
+    return Expanded(
+      child: PageView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: surveyList.length,
+        controller: _controller,
+        onPageChanged: (index) {
+          if (index >= surveyList.length - 1) {
+            Future.microtask(() async {
+              await ref.watch(surveyListViewModelProvider.notifier).loadMore();
+            });
+          }
+        },
+        itemBuilder: (context, index) {
+          SurveyData? currentSurvey = surveyList.elementAt(index);
+          return Stack(
+            children: [
+              SurveyBackgroundImage(imageUrl: currentSurvey.attributes?.coverImageUrl ?? ''),
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppDimension.paddingMedium),
+                  child: SurveyItem(survey: currentSurvey, controller: _controller, listLength: surveyList.length),
+                ),
               ),
-            ),
-            isLoading ? Positioned.fill(child: Center(child: CircularProgressIndicator())) : Container(),
-          ],
-        );
-      },
+              isLoading ? Positioned.fill(child: Center(child: CircularProgressIndicator())) : Container(),
+            ],
+          );
+        },
+      ),
     );
   }
 }

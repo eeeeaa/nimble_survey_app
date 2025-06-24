@@ -31,6 +31,7 @@ class AppDimension {
   static const double iconSize = 24.0;
 
   static const double buttonHeight = 48.0;
+  static const double dotIndicatorSize = 8.0;
 
   static const double spacingExtraSmall = 8.0;
   static const double spacingSmall = 16.0;
