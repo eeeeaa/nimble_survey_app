@@ -100,14 +100,17 @@ class SurveyListState extends ConsumerState<SurveyList> {
 
   @override
   Widget build(BuildContext context) {
-    final List<SurveyData> surveyList = ref.watch(surveyListViewModelProvider).surveyList;
+    final List<SurveyData> surveyList =
+        ref.watch(surveyListViewModelProvider).surveyList;
     final isLoading = ref.watch(surveyListViewModelProvider).isLoading;
     final bottomScreenRatio = MediaQuery.of(context).size.height / 6;
 
     if (surveyList.isEmpty) {
       return Stack(
         children: [
-          Positioned.fill(child: Assets.images.bgOnboarding.image(fit: BoxFit.cover)),
+          Positioned.fill(
+            child: Assets.images.bgOnboarding.image(fit: BoxFit.cover),
+          ),
           Positioned.fill(child: Center(child: CircularProgressIndicator())),
         ],
       );
@@ -118,7 +121,8 @@ class SurveyListState extends ConsumerState<SurveyList> {
         _screenDragStart = details.globalPosition;
       },
       onHorizontalDragUpdate: (details) {
-        final dragDistance = details.globalPosition.dx - (_screenDragStart?.dx ?? 0);
+        final dragDistance =
+            details.globalPosition.dx - (_screenDragStart?.dx ?? 0);
         _controller.position.moveTo(_controller.position.pixels - dragDistance);
         _screenDragStart = details.globalPosition;
       },
@@ -137,11 +141,16 @@ class SurveyListState extends ConsumerState<SurveyList> {
             children: [
               Spacer(),
               _createPageIndicator(surveyList: surveyList),
-              _createSurveyContent(bottomScreenRatio: bottomScreenRatio, surveyList: surveyList),
+              _createSurveyContent(
+                bottomScreenRatio: bottomScreenRatio,
+                surveyList: surveyList,
+              ),
             ],
           ),
           isLoading
-              ? Positioned.fill(child: Center(child: CircularProgressIndicator()))
+              ? Positioned.fill(
+                child: Center(child: CircularProgressIndicator()),
+              )
               : Container(),
         ],
       ),

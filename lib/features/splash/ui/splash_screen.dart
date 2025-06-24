@@ -38,7 +38,9 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
       body: Stack(
         children: [
           // Background image
-          Positioned.fill(child: Assets.images.bgOnboarding.image(fit: BoxFit.cover)),
+          Positioned.fill(
+            child: Assets.images.bgOnboarding.image(fit: BoxFit.cover),
+          ),
 
           Positioned.fill(
             child: Center(

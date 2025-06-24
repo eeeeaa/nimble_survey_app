@@ -11,7 +11,12 @@ class SurveyItem extends StatelessWidget {
   final int listLength;
   final PageController controller;
 
-  const SurveyItem({required this.survey, required this.listLength, required this.controller, super.key});
+  const SurveyItem({
+    required this.survey,
+    required this.listLength,
+    required this.controller,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,9 @@ class SurveyItem extends StatelessWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
-                padding: const EdgeInsets.all(AppDimension.surveyCircleButtonDiameter / 4),
+                padding: const EdgeInsets.all(
+                  AppDimension.surveyCircleButtonDiameter / 4,
+                ),
               ),
               onPressed: () {
                 // TODO

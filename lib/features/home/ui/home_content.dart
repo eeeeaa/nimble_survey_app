@@ -24,14 +24,17 @@ class HomeContent extends ConsumerWidget {
       endDrawer: HomeDrawer(
         uiModel: uiModel,
         onLogout: () async {
-          final result = await ref.read(homeViewModelProvider.notifier).logout();
+          final result =
+              await ref.read(homeViewModelProvider.notifier).logout();
 
           if (!context.mounted) return;
 
           if (result is Success) {
             context.go('/auth');
           } else {
-            Fluttertoast.showToast(msg: AppLocalizations.of(context)?.homeLogoutFailed ?? "");
+            Fluttertoast.showToast(
+              msg: AppLocalizations.of(context)?.homeLogoutFailed ?? "",
+            );
           }
         },
       ),
@@ -57,7 +60,10 @@ class HomeContent extends ConsumerWidget {
             ),
           ),
           if (uiModel.isLoggingOut) ...[
-            ModalBarrier(dismissible: false, color: Colors.black.withValues(alpha: 0.5)),
+            ModalBarrier(
+              dismissible: false,
+              color: Colors.black.withValues(alpha: 0.5),
+            ),
             Center(child: CircularProgressIndicator()),
           ],
         ],

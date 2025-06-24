@@ -14,6 +14,8 @@ class SurveyRepositoryImpl extends SurveyRepository {
     required int pageNumber,
     required int pageSize,
   }) async {
-    return safeApiCall(call: () => surveyService.getSurveyList(pageNumber, pageSize));
+    return safeApiCall(
+      call: () => surveyService.getSurveyList(pageNumber, pageSize),
+    );
   }
 }
