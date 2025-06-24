@@ -2,4 +2,5 @@
     <color name="primary_text">#FFFFFF</color>
     <color name="black_primary_text">#000000</color>
     <color name="secondary_text">#9E9E9E</color>
+    <color name="bg_side_menu">#1E1E1E</color>
 </resources>
