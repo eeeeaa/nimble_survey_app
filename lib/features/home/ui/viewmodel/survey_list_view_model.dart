@@ -1,3 +1,4 @@
+import 'package:nimble_survey_app/core/constants/app_constants.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
 import 'package:nimble_survey_app/features/home/model/survey_list_ui_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,7 +15,6 @@ class SurveyListViewModel extends _$SurveyListViewModel {
     surveyRepositoryProvider,
   );
   int _currentPage = 1;
-  final int _pageSize = 5;
 
   @override
   SurveyListUiModel build() => SurveyListUiModel(
@@ -25,8 +25,11 @@ class SurveyListViewModel extends _$SurveyListViewModel {
 
   Future<void> initialLoad() async {
     if (!ref.mounted) return;
+
     state = state.copyWith(isLoading: true);
-    final List<SurveyModel> surveyList = await _getSurveyList(1);
+    final List<SurveyModel> surveyList = await _getSurveyList(
+      pageNumber: _currentPage,
+    );
     _currentPage++;
 
     state = state.copyWith(surveyList: surveyList, isLoading: false);
@@ -38,11 +41,11 @@ class SurveyListViewModel extends _$SurveyListViewModel {
     }
 
     state = state.copyWith(isLoading: true);
-    final List<SurveyModel> surveyList = await _getSurveyList(_currentPage);
+    final List<SurveyModel> surveyList = await _getSurveyList(
+      pageNumber: _currentPage,
+    );
 
-    if (surveyList.isEmpty) {
-      state = state.copyWith(isLoading: false, hasMore: false);
-    } else {
+    if (surveyList.isNotEmpty) {
       final updatedList = [...state.surveyList, ...surveyList];
       state = state.copyWith(
         surveyList: updatedList,
@@ -50,14 +53,20 @@ class SurveyListViewModel extends _$SurveyListViewModel {
         hasMore: true,
       );
       _currentPage++;
+    } else {
+      state = state.copyWith(isLoading: false, hasMore: false);
     }
   }
 
-  Future<List<SurveyModel>> _getSurveyList(int pageNumber) async {
+  Future<List<SurveyModel>> _getSurveyList({
+    required int pageNumber,
+    bool isForceReload = false,
+  }) async {
     final result = await _surveyRepository.getSurveyList(
       pageNumber: pageNumber,
-      pageSize: _pageSize,
+      pageSize: AppConstants.defaultPageSize,
+      isForceReload: isForceReload,
     );
-    return result is Success ? (result as Success).data : null;
+    return result is Success ? (result as Success).data : List.empty();
   }
 }

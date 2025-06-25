@@ -6,5 +6,6 @@ abstract class SurveyRepository {
   Future<Result<List<SurveyModel>>> getSurveyList({
     required int pageNumber,
     required int pageSize,
+    required bool isForceReload,
   });
 }

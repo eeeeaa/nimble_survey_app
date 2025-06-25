@@ -33,6 +33,9 @@ dependencies:
   riverpod_annotation: ^3.0.0-dev.15
 
   # Model
+  drift: ^2.26.1
+  drift_flutter: ^0.2.4
+  path_provider: ^2.1.5
   freezed_annotation: ^3.0.0
 
   # Environment
@@ -53,6 +56,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   build_runner: ^2.4.15
   flutter_gen_runner: ^5.10.0
+
   # Network
   json_serializable: ^6.9.5
 
@@ -63,6 +67,7 @@ dev_dependencies:
   # Generator
   retrofit_generator: ^9.2.0
   riverpod_generator: ^3.0.0-dev.15
+  drift_dev: ^2.27.0
   freezed: ^3.0.6
 
 flutter_gen:
