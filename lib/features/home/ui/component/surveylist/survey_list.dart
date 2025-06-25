@@ -113,7 +113,23 @@ class SurveyListState extends ConsumerState<SurveyList> {
           Positioned.fill(
             child: Assets.images.bgOnboarding.image(fit: BoxFit.cover),
           ),
-          Positioned.fill(child: Center(child: CircularProgressIndicator())),
+          isLoading
+              ? Positioned.fill(
+                child: Center(child: CircularProgressIndicator()),
+              )
+              : Positioned.fill(
+                child: Center(
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: AppDimension.profileMediumIconDiameter / 2,
+                    child: Icon(
+                      Icons.no_accounts_rounded,
+                      color: Colors.white,
+                      size: AppDimension.profileMediumIconDiameter,
+                    ),
+                  ),
+                ),
+              ),
         ],
       );
     }

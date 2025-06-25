@@ -78,9 +78,26 @@ class HomeProfileBar extends StatelessWidget {
                         radius: AppDimension.profileMediumIconDiameter / 2,
                       ),
                     ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget:
+                    (context, url, error) => CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: AppDimension.profileMediumIconDiameter / 2,
+                      child: Icon(
+                        Icons.no_accounts_rounded,
+                        color: Colors.white,
+                        size: AppDimension.profileMediumIconDiameter,
+                      ),
+                    ),
               )
-              : SizedBox.shrink(),
+              : CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: AppDimension.profileMediumIconDiameter / 2,
+                child: Icon(
+                  Icons.no_accounts_rounded,
+                  color: Colors.white,
+                  size: AppDimension.profileMediumIconDiameter,
+                ),
+              ),
         ],
       ),
     );
