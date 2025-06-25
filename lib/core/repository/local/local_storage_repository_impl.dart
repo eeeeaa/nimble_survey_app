@@ -10,21 +10,51 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
   LocalStorageRepositoryImpl({required this.database});
 
   @override
-  Future<Result<void>> clearCachedUserProfile() {
-    // TODO: implement clearCachedUserProfile
-    throw UnimplementedError();
+  Future<Result<void>> clearAll() async {
+    await clearCachedUserProfile();
+    await clearCachedSurveyModelList();
+    return Success(null);
   }
 
   @override
-  Future<Result<UserModel>> getCachedUserProfile() {
-    // TODO: implement getCachedUserProfile
-    throw UnimplementedError();
+  Future<Result<void>> clearCachedUserProfile() async {
+    return safeApiCall(
+      call: () => database.delete(database.userProfileTable).go(),
+    );
   }
 
   @override
-  Future<Result<void>> updateCachedUserProfile(UserModel model) {
-    // TODO: implement updateCachedUserProfile
-    throw UnimplementedError();
+  Future<Result<UserModel?>> getCachedUserProfile() async {
+    return safeApiCall<UserProfileTableData?, UserModel?>(
+      call: () => database.select(database.userProfileTable).getSingleOrNull(),
+      mapper:
+          (row) =>
+              row != null
+                  ? UserModel(
+                    id: row.id,
+                    email: row.email,
+                    name: row.name,
+                    avatar: row.avatar,
+                  )
+                  : null,
+    );
+  }
+
+  @override
+  Future<Result<void>> updateCachedUserProfile(UserModel model) async {
+    return safeApiCall(
+      call:
+          () => database
+              .into(database.userProfileTable)
+              .insertOnConflictUpdate(
+                UserProfileTableCompanion.insert(
+                  id: model.id,
+                  email: model.email,
+                  name: model.name,
+                  avatar: model.avatar,
+                ),
+              ),
+    );
   }
 
   @override

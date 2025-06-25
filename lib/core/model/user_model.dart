@@ -6,14 +6,16 @@ part 'user_model.freezed.dart';
 @freezed
 abstract class UserModel with _$UserModel {
   const factory UserModel({
-    required String? email,
-    required String? name,
-    required String? avatar,
+    required String id,
+    required String email,
+    required String name,
+    required String avatar,
   }) = _UserModel;
 
   factory UserModel.fromResponse({required UserResponse res}) => UserModel(
-    email: res.data?.attributes?.email,
-    name: res.data?.attributes?.name,
-    avatar: res.data?.attributes?.avatarUrl,
+    id: res.data?.id ?? '',
+    email: res.data?.attributes?.email ?? '',
+    name: res.data?.attributes?.name ?? '',
+    avatar: res.data?.attributes?.avatarUrl ?? '',
   );
 }

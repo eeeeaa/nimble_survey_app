@@ -39,8 +39,12 @@ AuthRepository authRepository(Ref ref) {
 @riverpod
 UserRepository userRepository(Ref ref) {
   final userService = ref.watch(userServiceProvider);
+  final localStorage = ref.watch(localStorageRepositoryProvider);
 
-  return UserRepositoryImpl(userService: userService);
+  return UserRepositoryImpl(
+    userService: userService,
+    localStorageRepository: localStorage,
+  );
 }
 
 @Riverpod(keepAlive: true)
@@ -56,5 +60,7 @@ SurveyRepository surveyRepository(Ref ref) {
   final localStorage = ref.watch(localStorageRepositoryProvider);
 
   return SurveyRepositoryImpl(
-      surveyService: surveyService, localStorageRepository: localStorage);
+    surveyService: surveyService,
+    localStorageRepository: localStorage,
+  );
 }

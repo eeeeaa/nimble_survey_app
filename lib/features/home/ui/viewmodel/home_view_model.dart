@@ -1,3 +1,4 @@
+import 'package:nimble_survey_app/core/repository/local/local_storage_repository.dart';
 import 'package:nimble_survey_app/core/repository/user/user_repository.dart';
 import 'package:nimble_survey_app/features/home/model/home_ui_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,6 +14,9 @@ part 'home_view_model.g.dart';
 class HomeViewModel extends _$HomeViewModel {
   late final AuthRepository _authRepository = ref.watch(authRepositoryProvider);
   late final UserRepository _userRepository = ref.watch(userRepositoryProvider);
+  late final LocalStorageRepository _localStorageRepository = ref.watch(
+    localStorageRepositoryProvider,
+  );
 
   @override
   HomeUiModel build() => HomeUiModel(user: null, isContentLoading: true);
@@ -25,13 +29,14 @@ class HomeViewModel extends _$HomeViewModel {
   }
 
   Future<UserModel?> _getUser() async {
-    final result = await _userRepository.getUser();
+    final result = await _userRepository.getUser(isForceReload: false);
     return result is Success ? (result as Success).data : null;
   }
 
   Future<Result<void>> logout() async {
     state = state.copyWith(isLoggingOut: true);
     final result = await _authRepository.logout();
+    await _localStorageRepository.clearAll();
     state = state.copyWith(isLoggingOut: false);
     return result;
   }

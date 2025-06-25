@@ -1,11 +1,12 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:nimble_survey_app/core/local/survey_list_table.dart';
+import 'package:nimble_survey_app/core/local/user_profile_table.dart';
 import 'package:path_provider/path_provider.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [SurveyListTable])
+@DriftDatabase(tables: [SurveyListTable, UserProfileTable])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
