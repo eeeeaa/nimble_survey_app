@@ -84,7 +84,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
       child: SmoothPageIndicator(
         controller: _controller,
         count: surveyList.length,
-        effect: WormEffect(
+        effect: ScrollingDotsEffect(
           dotHeight: AppDimension.dotIndicatorSize,
           dotWidth: AppDimension.dotIndicatorSize,
           activeDotColor: Colors.white,
