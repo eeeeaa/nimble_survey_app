@@ -11,16 +11,19 @@ class SurveyBackgroundImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      child: CachedNetworkImage(
-        imageUrl: imageUrl,
-        imageBuilder:
-            (context, imageProvider) =>
-                Image(image: imageProvider, fit: BoxFit.cover),
-        placeholder: (context, url) => Container(color: Colors.black),
-        errorWidget:
-            (context, url, error) =>
-                Assets.images.bgOnboarding.image(fit: BoxFit.cover),
-      ),
+      child:
+          Uri.parse(imageUrl).hasAbsolutePath
+              ? CachedNetworkImage(
+                imageUrl: imageUrl,
+                imageBuilder:
+                    (context, imageProvider) =>
+                        Image(image: imageProvider, fit: BoxFit.cover),
+                placeholder: (context, url) => Container(color: Colors.black),
+                errorWidget:
+                    (context, url, error) =>
+                        Assets.images.bgOnboarding.image(fit: BoxFit.cover),
+              )
+              : SizedBox.shrink(),
     );
   }
 }

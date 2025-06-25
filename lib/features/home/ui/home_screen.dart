@@ -15,8 +15,10 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() async {
-      await ref.watch(homeViewModelProvider.notifier).loadData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        ref.watch(homeViewModelProvider.notifier).loadData();
+      }
     });
   }
 

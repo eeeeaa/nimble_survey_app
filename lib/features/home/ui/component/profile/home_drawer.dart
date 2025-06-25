@@ -32,24 +32,26 @@ class HomeDrawer extends StatelessWidget {
               ),
             ),
           ),
-          CachedNetworkImage(
-            imageUrl: uiModel?.user?.avatar ?? '',
-            imageBuilder:
-                (context, imageProvider) => CircleAvatar(
-                  radius: AppDimension.profileMediumIconDiameter / 2,
-                  backgroundImage: imageProvider,
-                  backgroundColor: Colors.transparent,
-                ),
-            placeholder:
-                (context, url) => CircleAvatar(
-                  radius: AppDimension.profileMediumIconDiameter / 2,
-                  backgroundColor: Colors.transparent,
-                  child: LoadingCircle(
-                    radius: AppDimension.profileMediumIconDiameter / 2,
-                  ),
-                ),
-            errorWidget: (context, url, error) => Icon(Icons.error),
-          ),
+          Uri.parse(uiModel?.user?.avatar ?? '').hasAbsolutePath
+              ? CachedNetworkImage(
+                imageUrl: uiModel?.user?.avatar ?? '',
+                imageBuilder:
+                    (context, imageProvider) => CircleAvatar(
+                      radius: AppDimension.profileMediumIconDiameter / 2,
+                      backgroundImage: imageProvider,
+                      backgroundColor: Colors.transparent,
+                    ),
+                placeholder:
+                    (context, url) => CircleAvatar(
+                      radius: AppDimension.profileMediumIconDiameter / 2,
+                      backgroundColor: Colors.transparent,
+                      child: LoadingCircle(
+                        radius: AppDimension.profileMediumIconDiameter / 2,
+                      ),
+                    ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              )
+              : SizedBox.shrink(),
         ],
       ),
     );

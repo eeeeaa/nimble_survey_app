@@ -27,7 +27,9 @@ class SurveyListState extends ConsumerState<SurveyList> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(surveyListViewModelProvider.notifier).initialLoad();
+      if (mounted) {
+        ref.read(surveyListViewModelProvider.notifier).initialLoad();
+      }
     });
   }
 
