@@ -1,8 +1,9 @@
-import 'package:nimble_survey_app/core/model/survey_response.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 
+import '../../model/survey_model.dart';
+
 abstract class SurveyRepository {
-  Future<Result<SurveyResponse>> getSurveyList({
+  Future<Result<List<SurveyModel>>> getSurveyList({
     required int pageNumber,
     required int pageSize,
   });

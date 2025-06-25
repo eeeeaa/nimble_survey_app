@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nimble_survey_app/core/model/survey_response.dart';
+import 'package:nimble_survey_app/core/model/survey_model.dart';
 
 import '../../../../../core/ui/theme/app_dimension.dart';
 import '../../../../../core/ui/theme/app_text_size.dart';
@@ -7,7 +7,7 @@ import '../../../../../gen/assets.gen.dart';
 import '../../../../../gen/colors.gen.dart';
 
 class SurveyItem extends StatelessWidget {
-  final SurveyData? survey;
+  final SurveyModel survey;
   final int listLength;
   final PageController controller;
 
@@ -26,7 +26,7 @@ class SurveyItem extends StatelessWidget {
         Text(
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
-          survey?.attributes?.title ?? 'Unknown survey',
+          survey.title ?? 'Unknown survey',
           style: TextStyle(
             color: ColorName.primaryText,
             fontSize: AppTextSize.textSizeXXL,
@@ -40,7 +40,7 @@ class SurveyItem extends StatelessWidget {
               child: Text(
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
-                survey?.attributes?.description ?? 'No description',
+                survey.description ?? 'No description',
                 style: TextStyle(
                   color: ColorName.secondaryText,
                   fontSize: AppTextSize.textSizeLarge,

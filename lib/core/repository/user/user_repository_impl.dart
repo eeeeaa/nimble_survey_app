@@ -2,7 +2,8 @@ import 'package:nimble_survey_app/core/model/user_response.dart';
 import 'package:nimble_survey_app/core/network/service/user_service.dart';
 import 'package:nimble_survey_app/core/repository/user/user_repository.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
-import 'package:nimble_survey_app/features/home/model/user_entity.dart';
+
+import '../../model/user_model.dart';
 
 class UserRepositoryImpl extends UserRepository {
   final UserService userService;
@@ -10,10 +11,10 @@ class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl({required this.userService});
 
   @override
-  Future<Result<UserEntity>> getUser() async {
-    return safeApiCall<UserResponse, UserEntity>(
+  Future<Result<UserModel>> getUser() async {
+    return safeApiCall<UserResponse, UserModel>(
       call: () => userService.getUser(),
-      mapper: (res) => UserEntity.fromResponse(res: res),
+      mapper: (res) => UserModel.fromResponse(res: res),
     );
   }
 }

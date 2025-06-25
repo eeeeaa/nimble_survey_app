@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nimble_survey_app/core/model/survey_response.dart';
+import 'package:nimble_survey_app/core/model/survey_model.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_dimension.dart';
 import 'package:nimble_survey_app/features/home/ui/component/surveylist/survey_background_image.dart';
 import 'package:nimble_survey_app/features/home/ui/component/surveylist/survey_item.dart';
@@ -41,7 +41,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
 
   Widget _createSurveyContent({
     required double bottomScreenRatio,
-    required List<SurveyData> surveyList,
+    required List<SurveyModel> surveyList,
   }) {
     return SizedBox(
       height: bottomScreenRatio,
@@ -74,7 +74,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
     );
   }
 
-  Widget _createPageIndicator({required List<SurveyData> surveyList}) {
+  Widget _createPageIndicator({required List<SurveyModel> surveyList}) {
     return Padding(
       padding: const EdgeInsets.only(
         top: AppDimension.spacingSmall,
@@ -103,9 +103,9 @@ class SurveyListState extends ConsumerState<SurveyList> {
 
   @override
   Widget build(BuildContext context) {
-    final uiModel = ref.watch(surveyListViewModelProvider);
-    final List<SurveyData> surveyList = uiModel.surveyList;
-    final isLoading = uiModel.isLoading;
+    final List<SurveyModel> surveyList =
+        ref.watch(surveyListViewModelProvider).surveyList;
+    final isLoading = ref.watch(surveyListViewModelProvider).isLoading;
     final bottomScreenRatio = MediaQuery.of(context).size.height / 6;
 
     if (surveyList.isEmpty) {
@@ -151,7 +151,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
       child: Stack(
         children: [
           SurveyBackgroundImage(
-            imageUrl: surveyList[_currentIndex].attributes?.coverImageUrl ?? '',
+            imageUrl: surveyList[_currentIndex].coverImageUrl ?? '',
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
