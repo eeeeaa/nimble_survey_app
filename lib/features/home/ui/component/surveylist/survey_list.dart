@@ -54,14 +54,15 @@ class SurveyListState extends ConsumerState<SurveyList> {
             _currentIndex = index;
           });
           if (index >= surveyList.length - 1) {
-            Future.microtask(() async {
-              await ref.watch(surveyListViewModelProvider.notifier).loadMore();
-            });
+            ref.read(surveyListViewModelProvider.notifier).loadMore();
           }
         },
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.all(AppDimension.paddingMedium),
+            padding: const EdgeInsets.only(
+              left: AppDimension.paddingMedium,
+              right: AppDimension.paddingMedium,
+            ),
             child: SurveyItem(
               survey: surveyList[_currentIndex],
               controller: _controller,
@@ -102,9 +103,9 @@ class SurveyListState extends ConsumerState<SurveyList> {
 
   @override
   Widget build(BuildContext context) {
-    final List<SurveyData> surveyList =
-        ref.watch(surveyListViewModelProvider).surveyList;
-    final isLoading = ref.watch(surveyListViewModelProvider).isLoading;
+    final uiModel = ref.watch(surveyListViewModelProvider);
+    final List<SurveyData> surveyList = uiModel.surveyList;
+    final isLoading = uiModel.isLoading;
     final bottomScreenRatio = MediaQuery.of(context).size.height / 6;
 
     if (surveyList.isEmpty) {

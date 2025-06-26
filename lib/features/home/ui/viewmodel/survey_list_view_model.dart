@@ -24,6 +24,7 @@ class SurveyListViewModel extends _$SurveyListViewModel {
   );
 
   Future<void> initialLoad() async {
+    if (!ref.mounted) return;
     state = state.copyWith(isLoading: true);
     final SurveyResponse? res = await _getSurveyList(1);
     _currentPage++;
@@ -35,7 +36,9 @@ class SurveyListViewModel extends _$SurveyListViewModel {
   }
 
   Future<void> loadMore() async {
-    if (state.isLoading == true || state.hasMore == false) return;
+    if (state.isLoading == true || state.hasMore == false || !ref.mounted) {
+      return;
+    }
 
     state = state.copyWith(isLoading: true);
     final SurveyResponse? res = await _getSurveyList(_currentPage);

@@ -15,7 +15,7 @@ class HomeViewModel extends _$HomeViewModel {
   late final UserRepository _userRepository = ref.watch(userRepositoryProvider);
 
   @override
-  HomeUiModel build() => HomeUiModel(user: null);
+  HomeUiModel build() => HomeUiModel(user: null, isContentLoading: true);
 
   Future<void> loadData() async {
     state = state.copyWith(isContentLoading: true);
