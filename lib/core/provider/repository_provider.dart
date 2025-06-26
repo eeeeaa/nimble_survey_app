@@ -70,6 +70,8 @@ SurveyRepository surveyRepository(Ref ref) {
 @riverpod
 SurveyDetailsRepository surveyDetailsRepository(Ref ref) {
   final surveyService = ref.watch(surveyServiceProvider);
+  final localStorage = ref.watch(localStorageRepositoryProvider);
 
-  return SurveyDetailsRepositoryImpl(surveyService: surveyService);
+  return SurveyDetailsRepositoryImpl(
+      surveyService: surveyService, localStorageRepository: localStorage);
 }

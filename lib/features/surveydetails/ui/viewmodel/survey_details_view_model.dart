@@ -27,7 +27,7 @@ class SurveyDetailsViewModel extends _$SurveyDetailsViewModel {
   }
 
   Future<SurveyDetailsModel?> _getSurveyDetails({required String id}) async {
-    final result = await _surveyDetailsRepository.getSurveyDetails(id);
+    final result = await _surveyDetailsRepository.getSurveyDetails(id, false);
     return result is Success ? (result as Success).data : null;
   }
 }
