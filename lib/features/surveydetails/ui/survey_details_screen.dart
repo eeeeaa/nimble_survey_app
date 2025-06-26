@@ -30,8 +30,9 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        ref.read(surveyDetailsViewModelProvider.notifier).initialLoad(
-            id: widget.id);
+        ref
+            .read(surveyDetailsViewModelProvider.notifier)
+            .initialLoad(id: widget.id);
       }
     });
   }
@@ -50,21 +51,21 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
           SurveyBackgroundImage(imageUrl: ''),
           uiModel.isLoading
               ? Positioned.fill(
-            child: Center(child: CircularProgressIndicator()),
-          )
+                child: Center(child: CircularProgressIndicator()),
+              )
               : Positioned.fill(
-            child: Center(
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: AppDimension.profileMediumIconDiameter / 2,
-                child: Icon(
-                  Icons.no_backpack,
-                  color: Colors.white,
-                  size: AppDimension.profileMediumIconDiameter,
+                child: Center(
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: AppDimension.profileMediumIconDiameter / 2,
+                    child: Icon(
+                      Icons.no_backpack,
+                      color: Colors.white,
+                      size: AppDimension.profileMediumIconDiameter,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
         ],
       );
     }
@@ -94,7 +95,8 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              bottom: AppDimension.paddingMedium),
+                            bottom: AppDimension.paddingMedium,
+                          ),
                           child: GestureDetector(
                             onTap: () {
                               context.pop();
@@ -125,9 +127,9 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
                       child: NimbleButton(
                         width: null,
                         buttonText:
-                        AppLocalizations
-                            .of(context)
-                            ?.surveyDetailStartSurvey ??
+                            AppLocalizations.of(
+                              context,
+                            )?.surveyDetailStartSurvey ??
                             '',
                         onPressed: () {
                           // TODO

@@ -22,7 +22,8 @@ abstract class LocalStorageRepository {
   Future<Result<SurveyDetailsModel?>> getCachedSurveyDetailsModel(String id);
 
   Future<Result<void>> addOrUpdateCachedSurveyDetailsModel(
-      SurveyDetailsModel model);
+    SurveyDetailsModel model,
+  );
 
   Future<Result<void>> clearCachedSurveyDetailsModels();
 

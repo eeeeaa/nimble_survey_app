@@ -73,5 +73,7 @@ SurveyDetailsRepository surveyDetailsRepository(Ref ref) {
   final localStorage = ref.watch(localStorageRepositoryProvider);
 
   return SurveyDetailsRepositoryImpl(
-      surveyService: surveyService, localStorageRepository: localStorage);
+    surveyService: surveyService,
+    localStorageRepository: localStorage,
+  );
 }
