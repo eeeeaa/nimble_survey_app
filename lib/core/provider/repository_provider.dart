@@ -5,6 +5,8 @@ import 'package:nimble_survey_app/core/repository/local/secure_storage_repositor
 import 'package:nimble_survey_app/core/repository/local/secure_storage_repository_impl.dart';
 import 'package:nimble_survey_app/core/repository/survey/survey_repository.dart';
 import 'package:nimble_survey_app/core/repository/survey/survey_repository_impl.dart';
+import 'package:nimble_survey_app/core/repository/surveydetails/survey_details_repository.dart';
+import 'package:nimble_survey_app/core/repository/surveydetails/survey_details_repository_impl.dart';
 import 'package:nimble_survey_app/core/repository/user/user_repository.dart';
 import 'package:nimble_survey_app/core/repository/user/user_repository_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -63,4 +65,11 @@ SurveyRepository surveyRepository(Ref ref) {
     surveyService: surveyService,
     localStorageRepository: localStorage,
   );
+}
+
+@riverpod
+SurveyDetailsRepository surveyDetailsRepository(Ref ref) {
+  final surveyService = ref.watch(surveyServiceProvider);
+
+  return SurveyDetailsRepositoryImpl(surveyService: surveyService);
 }
