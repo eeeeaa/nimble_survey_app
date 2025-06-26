@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
 
 import '../../../../../core/ui/theme/app_dimension.dart';
@@ -56,7 +57,7 @@ class SurveyItem extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                // TODO
+                context.push('/survey/${survey.id}');
               },
               child: Assets.images.icArrowNext.svg(),
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/features/surveydetails/ui/survey_details_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/auth/ui/auth_screen.dart';
@@ -42,6 +43,17 @@ GoRouter goRouter(Ref ref) {
       route(path: '/', child: const SplashScreen()),
       route(path: '/auth', child: const AuthScreen()),
       route(path: '/home', child: const HomeScreen()),
+      GoRoute(
+        path: '/survey/:id',
+        pageBuilder: (context, state) {
+          final id = state.pathParameters['id']!;
+          return buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: SurveyDetailsScreen(id: id),
+          );
+        },
+      ),
     ],
   );
 }
