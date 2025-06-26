@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nimble_survey_app/core/utils/date_helper.dart';
+import 'package:nimble_survey_app/core/utils/uri_helper.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
 import '../../../../../core/ui/component/loading_circle.dart';
@@ -56,7 +57,7 @@ class HomeProfileBar extends StatelessWidget {
               ],
             ),
           ),
-          Uri.parse(uiModel?.user?.avatar ?? '').hasAbsolutePath
+          isValidUrl(uiModel?.user?.avatar)
               ? CachedNetworkImage(
                 imageUrl: uiModel?.user?.avatar ?? '',
                 imageBuilder:

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nimble_survey_app/core/ui/component/loading_circle.dart';
+import 'package:nimble_survey_app/core/utils/uri_helper.dart';
 
 import '../../../../../core/ui/theme/app_dimension.dart';
 import '../../../../../core/ui/theme/app_text_size.dart';
@@ -32,7 +33,7 @@ class HomeDrawer extends StatelessWidget {
               ),
             ),
           ),
-          Uri.parse(uiModel?.user?.avatar ?? '').hasAbsolutePath
+          isValidUrl(uiModel?.user?.avatar)
               ? CachedNetworkImage(
                 imageUrl: uiModel?.user?.avatar ?? '',
                 imageBuilder:

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:nimble_survey_app/core/utils/uri_helper.dart';
 
 import '../../../../../gen/assets.gen.dart';
 
@@ -12,7 +13,7 @@ class SurveyBackgroundImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned.fill(
       child:
-          Uri.parse(imageUrl).hasAbsolutePath
+          isValidUrl(imageUrl)
               ? CachedNetworkImage(
                 imageUrl: imageUrl,
                 imageBuilder:
