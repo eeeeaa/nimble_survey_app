@@ -1,9 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nimble_survey_app/core/model/survey_details_response.dart';
+import 'package:nimble_survey_app/core/model/survey_question_model.dart';
+import 'package:nimble_survey_app/core/utils/survey_question_mapper.dart';
 
 part 'survey_details_model.freezed.dart';
 
-// TODO handle question and answer list
 @freezed
 abstract class SurveyDetailsModel with _$SurveyDetailsModel {
   const factory SurveyDetailsModel({
@@ -11,6 +12,7 @@ abstract class SurveyDetailsModel with _$SurveyDetailsModel {
     required String title,
     required String description,
     required String coverImageUrl,
+    required List<SurveyQuestionModel> questions,
   }) = _SurveyDetailsModel;
 
   factory SurveyDetailsModel.fromResponse({
@@ -20,5 +22,6 @@ abstract class SurveyDetailsModel with _$SurveyDetailsModel {
     title: res.data?.attributes?.title ?? '',
     description: res.data?.attributes?.description ?? '',
     coverImageUrl: res.data?.attributes?.coverImageUrl ?? '',
+    questions: mapToQuestionModelList(res: res),
   );
 }

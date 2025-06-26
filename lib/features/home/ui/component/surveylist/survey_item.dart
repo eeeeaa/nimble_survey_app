@@ -27,7 +27,7 @@ class SurveyItem extends StatelessWidget {
         Text(
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
-          survey.title ?? 'Unknown survey',
+          survey.title,
           style: TextStyle(
             color: ColorName.primaryText,
             fontSize: AppTextSize.textSizeXXL,
@@ -41,7 +41,7 @@ class SurveyItem extends StatelessWidget {
               child: Text(
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
-                survey.description ?? 'No description',
+                survey.description,
                 style: TextStyle(
                   color: ColorName.secondaryText,
                   fontSize: AppTextSize.textSizeLarge,

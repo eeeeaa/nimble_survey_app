@@ -124,6 +124,8 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
                     title: row.title,
                     description: row.description,
                     coverImageUrl: row.coverImageUrl,
+                    questions:
+                        List.empty(), // TODO find solution for caching question
                   )
                   : null,
     );
@@ -131,7 +133,8 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
 
   @override
   Future<Result<void>> addOrUpdateCachedSurveyDetailsModel(
-    SurveyDetailsModel model,) async {
+    SurveyDetailsModel model,
+  ) async {
     return safeApiCall(
       call:
           () => database

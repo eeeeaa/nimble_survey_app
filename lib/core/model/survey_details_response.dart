@@ -110,8 +110,8 @@ class SurveyDetailsIdTypePair {
 class SurveyDetailsIncludedItem {
   final String? id;
   final String? type;
-  final SurveyDetailsAnswerAttributes? attributes;
-  final SurveyDetailsAnswerRelationships? relationships;
+  final SurveyDetailsItemAttributes? attributes;
+  final SurveyDetailsItemRelationships? relationships;
 
   SurveyDetailsIncludedItem({
     this.id,
@@ -127,19 +127,22 @@ class SurveyDetailsIncludedItem {
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class SurveyDetailsAnswerAttributes {
+class SurveyDetailsItemAttributes {
+  // Shared fields
   final String? text;
   final String? helpText;
-  final String? inputMaskPlaceholder;
+  final int? displayOrder;
   final String? shortText;
   final bool? isMandatory;
+  final String? displayType;
+
+  // Answer-specific
+  final String? inputMaskPlaceholder;
   final bool? isCustomerFirstName;
   final bool? isCustomerLastName;
   final bool? isCustomerTitle;
   final bool? isCustomerEmail;
   final bool? promptCustomAnswer;
-  final int? displayOrder;
-  final String? displayType;
   final String? inputMask;
   final String? dateConstraint;
   final String? defaultValue;
@@ -147,42 +150,8 @@ class SurveyDetailsAnswerAttributes {
   final String? referenceIdentifier;
   final int? score;
 
-  SurveyDetailsAnswerAttributes({
-    this.text,
-    this.helpText,
-    this.inputMaskPlaceholder,
-    this.shortText,
-    this.isMandatory,
-    this.isCustomerFirstName,
-    this.isCustomerLastName,
-    this.isCustomerTitle,
-    this.isCustomerEmail,
-    this.promptCustomAnswer,
-    this.displayOrder,
-    this.displayType,
-    this.inputMask,
-    this.dateConstraint,
-    this.defaultValue,
-    this.responseClass,
-    this.referenceIdentifier,
-    this.score,
-  });
-
-  factory SurveyDetailsAnswerAttributes.fromJson(Map<String, dynamic> json) =>
-      _$SurveyDetailsAnswerAttributesFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SurveyDetailsAnswerAttributesToJson(this);
-}
-
-@JsonSerializable(fieldRename: FieldRename.snake)
-class SurveyDetailsQuestionAttributes {
-  final String? text;
-  final String? helpText;
-  final int? displayOrder;
-  final String? shortText;
+  // Question-specific
   final String? pick;
-  final String? displayType;
-  final bool? isMandatory;
   final String? correctAnswerId;
   final String? facebookProfile;
   final String? twitterProfile;
@@ -196,14 +165,31 @@ class SurveyDetailsQuestionAttributes {
   final String? fontSize;
   final String? tagList;
 
-  SurveyDetailsQuestionAttributes({
+  SurveyDetailsItemAttributes({
+    // Shared
     this.text,
     this.helpText,
     this.displayOrder,
     this.shortText,
-    this.pick,
-    this.displayType,
     this.isMandatory,
+    this.displayType,
+
+    // Answer-specific
+    this.inputMaskPlaceholder,
+    this.isCustomerFirstName,
+    this.isCustomerLastName,
+    this.isCustomerTitle,
+    this.isCustomerEmail,
+    this.promptCustomAnswer,
+    this.inputMask,
+    this.dateConstraint,
+    this.defaultValue,
+    this.responseClass,
+    this.referenceIdentifier,
+    this.score,
+
+    // Question-specific
+    this.pick,
     this.correctAnswerId,
     this.facebookProfile,
     this.twitterProfile,
@@ -218,23 +204,20 @@ class SurveyDetailsQuestionAttributes {
     this.tagList,
   });
 
-  factory SurveyDetailsQuestionAttributes.fromJson(Map<String, dynamic> json) =>
-      _$SurveyDetailsQuestionAttributesFromJson(json);
+  factory SurveyDetailsItemAttributes.fromJson(Map<String, dynamic> json) =>
+      _$SurveyDetailsItemAttributesFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$SurveyDetailsQuestionAttributesToJson(this);
+  Map<String, dynamic> toJson() => _$SurveyDetailsItemAttributesToJson(this);
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class SurveyDetailsAnswerRelationships {
+class SurveyDetailsItemRelationships {
   final SurveyDetailsRelationshipDataList? answers;
 
-  SurveyDetailsAnswerRelationships({this.answers});
+  SurveyDetailsItemRelationships({this.answers});
 
-  factory SurveyDetailsAnswerRelationships.fromJson(
-    Map<String, dynamic> json,
-  ) => _$SurveyDetailsAnswerRelationshipsFromJson(json);
+  factory SurveyDetailsItemRelationships.fromJson(Map<String, dynamic> json) =>
+      _$SurveyDetailsItemRelationshipsFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$SurveyDetailsAnswerRelationshipsToJson(this);
+  Map<String, dynamic> toJson() => _$SurveyDetailsItemRelationshipsToJson(this);
 }
