@@ -44,6 +44,10 @@ Dio authorizedDio(Ref ref) {
     ),
   );
 
+  if (!kReleaseMode) {
+    dio.interceptors.add(PrettyDioLogger());
+  }
+
   return dio;
 }
 

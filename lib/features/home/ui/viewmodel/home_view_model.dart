@@ -11,32 +11,28 @@ part 'home_view_model.g.dart';
 
 @riverpod
 class HomeViewModel extends _$HomeViewModel {
-  late final AuthRepository _authRepository;
-  late final UserRepository _userRepository;
+  late final AuthRepository _authRepository = ref.watch(authRepositoryProvider);
+  late final UserRepository _userRepository = ref.watch(userRepositoryProvider);
 
   @override
-  Future<HomeUiModel?> build() async {
-    state = const AsyncValue.loading();
-    _authRepository = ref.watch(authRepositoryProvider);
-    _userRepository = ref.watch(userRepositoryProvider);
-    UserEntity? user = await getUser();
-    return HomeUiModel(user: user);
+  HomeUiModel build() => HomeUiModel(user: null, isContentLoading: true);
+
+  Future<void> loadData() async {
+    state = state.copyWith(isContentLoading: true);
+    final UserEntity? user = await _getUser();
+
+    state = state.copyWith(user: user, isContentLoading: false);
   }
 
-  Future<UserEntity?> getUser() async {
-    Result<UserEntity> result = await _userRepository.getUser();
+  Future<UserEntity?> _getUser() async {
+    final result = await _userRepository.getUser();
     return result is Success ? (result as Success).data : null;
   }
 
   Future<Result<void>> logout() async {
-    final current = state.value;
-    if (current == null) {
-      return Failure(Exception("failed to get current state"));
-    }
-
-    state = AsyncValue.data(current.copyWith(isLoggingOut: true));
+    state = state.copyWith(isLoggingOut: true);
     final result = await _authRepository.logout();
-    state = AsyncValue.data(current.copyWith(isLoggingOut: false));
+    state = state.copyWith(isLoggingOut: false);
     return result;
   }
 }

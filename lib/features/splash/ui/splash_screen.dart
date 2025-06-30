@@ -17,14 +17,20 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() async {
-      // Only read once at launch
-      final authRepository = ref.read(authRepositoryProvider);
-      await Future.delayed(const Duration(seconds: 1));
-      final isLoggedIn = await authRepository.isLoggedIn();
-      if (!mounted) return;
-      context.go(isLoggedIn ? '/home' : '/auth');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _initialize();
+      }
     });
+  }
+
+  _initialize() async {
+    // Only read once at launch
+    final authRepository = ref.read(authRepositoryProvider);
+    await Future.delayed(const Duration(seconds: 1));
+    final isLoggedIn = await authRepository.isLoggedIn();
+    if (!mounted) return;
+    context.go(isLoggedIn ? '/home' : '/auth');
   }
 
   @override

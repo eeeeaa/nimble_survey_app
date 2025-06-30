@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nimble_survey_app/core/utils/date_helper.dart';
+import 'package:nimble_survey_app/core/utils/uri_helper.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
 import '../../../../../core/ui/component/loading_circle.dart';
@@ -56,29 +57,48 @@ class HomeProfileBar extends StatelessWidget {
               ],
             ),
           ),
-          CachedNetworkImage(
-            imageUrl: uiModel?.user?.avatar ?? '',
-            imageBuilder:
-                (context, imageProvider) => InkWell(
-                  onTap: () {
-                    onProfileClicked();
-                  },
-                  child: CircleAvatar(
-                    radius: AppDimension.profileMediumIconDiameter / 2,
-                    backgroundImage: imageProvider,
-                    backgroundColor: Colors.transparent,
-                  ),
+          isValidUrl(uiModel?.user?.avatar)
+              ? CachedNetworkImage(
+                imageUrl: uiModel?.user?.avatar ?? '',
+                imageBuilder:
+                    (context, imageProvider) => InkWell(
+                      onTap: () {
+                        onProfileClicked();
+                      },
+                      child: CircleAvatar(
+                        radius: AppDimension.profileMediumIconDiameter / 2,
+                        backgroundImage: imageProvider,
+                        backgroundColor: Colors.transparent,
+                      ),
+                    ),
+                placeholder:
+                    (context, url) => CircleAvatar(
+                      radius: AppDimension.profileMediumIconDiameter / 2,
+                      backgroundColor: Colors.transparent,
+                      child: LoadingCircle(
+                        radius: AppDimension.profileMediumIconDiameter / 2,
+                      ),
+                    ),
+                errorWidget:
+                    (context, url, error) => CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: AppDimension.profileMediumIconDiameter / 2,
+                      child: Icon(
+                        Icons.no_accounts_rounded,
+                        color: Colors.white,
+                        size: AppDimension.profileMediumIconDiameter,
+                      ),
+                    ),
+              )
+              : CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: AppDimension.profileMediumIconDiameter / 2,
+                child: Icon(
+                  Icons.no_accounts_rounded,
+                  color: Colors.white,
+                  size: AppDimension.profileMediumIconDiameter,
                 ),
-            placeholder:
-                (context, url) => CircleAvatar(
-                  radius: AppDimension.profileMediumIconDiameter / 2,
-                  backgroundColor: Colors.transparent,
-                  child: LoadingCircle(
-                    radius: AppDimension.profileMediumIconDiameter / 2,
-                  ),
-                ),
-            errorWidget: (context, url, error) => Icon(Icons.error),
-          ),
+              ),
         ],
       ),
     );

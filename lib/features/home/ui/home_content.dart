@@ -3,25 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
-import 'package:nimble_survey_app/features/home/model/home_ui_model.dart';
-import 'package:nimble_survey_app/features/home/ui/component/content/home_profile_bar.dart';
 import 'package:nimble_survey_app/features/home/ui/viewmodel/home_view_model.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
-import '../../../core/ui/theme/app_text_size.dart';
-import '../../../gen/assets.gen.dart';
-import '../../../gen/colors.gen.dart';
-import 'component/content/home_drawer.dart';
+import 'component/profile/home_drawer.dart';
+import 'component/profile/home_profile_bar.dart';
+import 'component/surveylist/survey_list.dart';
 
 class HomeContent extends ConsumerWidget {
-  final HomeUiModel? uiModel;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  HomeContent({required this.uiModel, super.key});
+  HomeContent({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeUiModel = ref.watch(homeViewModelProvider);
+    final uiModel = ref.watch(homeViewModelProvider);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -44,38 +40,26 @@ class HomeContent extends ConsumerWidget {
       ),
       body: Stack(
         children: [
-          // Background image
-          Positioned.fill(
-            child: Assets.images.bgOnboarding.image(fit: BoxFit.cover),
-          ),
+          Positioned.fill(child: SurveyList()),
 
-          homeUiModel.value == null
-              ? SafeArea(child: Text("no data"))
-              : Positioned.fill(
-                child: SafeArea(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      HomeProfileBar(
-                        onProfileClicked: () {
-                          _scaffoldKey.currentState?.openEndDrawer();
-                        },
-                        uiModel: uiModel,
-                      ),
-                      Text(
-                        'survey list',
-                        style: TextStyle(
-                          color: ColorName.primaryText,
-                          fontSize: AppTextSize.textSizeSmall,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+          Positioned.fill(
+            child: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  HomeProfileBar(
+                    onProfileClicked: () {
+                      _scaffoldKey.currentState?.openEndDrawer();
+                    },
+                    uiModel: uiModel,
                   ),
-                ),
+                  Spacer(),
+                ],
               ),
-          if (uiModel?.isLoggingOut ?? false) ...[
+            ),
+          ),
+          if (uiModel.isLoggingOut) ...[
             ModalBarrier(
               dismissible: false,
               color: Colors.black.withValues(alpha: 0.5),

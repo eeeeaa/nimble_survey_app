@@ -7,6 +7,7 @@ part 'home_ui_model.freezed.dart';
 abstract class HomeUiModel with _$HomeUiModel {
   const factory HomeUiModel({
     required UserEntity? user,
+    @Default(true) bool isContentLoading,
     @Default(false) bool isLoggingOut,
   }) = _HomeUiModel;
 }
