@@ -1,7 +1,8 @@
+import 'package:nimble_survey_app/core/constants/app_constants.dart';
+import 'package:nimble_survey_app/core/model/survey_model.dart';
 import 'package:nimble_survey_app/features/home/model/survey_list_ui_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/model/survey_response.dart';
 import '../../../../core/provider/repository_provider.dart';
 import '../../../../core/repository/survey/survey_repository.dart';
 import '../../../../core/utils/error_wrapper.dart';
@@ -14,7 +15,6 @@ class SurveyListViewModel extends _$SurveyListViewModel {
     surveyRepositoryProvider,
   );
   int _currentPage = 1;
-  final int _pageSize = 5;
 
   @override
   SurveyListUiModel build() => SurveyListUiModel(
@@ -25,14 +25,14 @@ class SurveyListViewModel extends _$SurveyListViewModel {
 
   Future<void> initialLoad() async {
     if (!ref.mounted) return;
+
     state = state.copyWith(isLoading: true);
-    final SurveyResponse? res = await _getSurveyList(1);
+    final List<SurveyModel> surveyList = await _getSurveyList(
+      pageNumber: _currentPage,
+    );
     _currentPage++;
 
-    state = state.copyWith(
-      surveyList: res?.data ?? List.empty(),
-      isLoading: false,
-    );
+    state = state.copyWith(surveyList: surveyList, isLoading: false);
   }
 
   Future<void> loadMore() async {
@@ -41,12 +41,11 @@ class SurveyListViewModel extends _$SurveyListViewModel {
     }
 
     state = state.copyWith(isLoading: true);
-    final SurveyResponse? res = await _getSurveyList(_currentPage);
-    final surveyList = res?.data;
+    final List<SurveyModel> surveyList = await _getSurveyList(
+      pageNumber: _currentPage,
+    );
 
-    if (surveyList?.isEmpty == true || surveyList == null) {
-      state = state.copyWith(isLoading: false, hasMore: false);
-    } else {
+    if (surveyList.isNotEmpty) {
       final updatedList = [...state.surveyList, ...surveyList];
       state = state.copyWith(
         surveyList: updatedList,
@@ -54,14 +53,20 @@ class SurveyListViewModel extends _$SurveyListViewModel {
         hasMore: true,
       );
       _currentPage++;
+    } else {
+      state = state.copyWith(isLoading: false, hasMore: false);
     }
   }
 
-  Future<SurveyResponse?> _getSurveyList(int pageNumber) async {
+  Future<List<SurveyModel>> _getSurveyList({
+    required int pageNumber,
+    bool isForceReload = false,
+  }) async {
     final result = await _surveyRepository.getSurveyList(
       pageNumber: pageNumber,
-      pageSize: _pageSize,
+      pageSize: AppConstants.defaultPageSize,
+      isForceReload: isForceReload,
     );
-    return result is Success ? (result as Success).data : null;
+    return result is Success ? (result as Success).data : List.empty();
   }
 }
