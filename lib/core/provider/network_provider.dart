@@ -7,6 +7,7 @@ import 'package:nimble_survey_app/core/provider/repository_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../local/database.dart';
 import '../network/auth_interceptor.dart';
 import '../network/service/auth_service.dart';
 import '../network/service/survey_service.dart';
@@ -44,6 +45,10 @@ Dio authorizedDio(Ref ref) {
     ),
   );
 
+  if (!kReleaseMode) {
+    dio.interceptors.add(PrettyDioLogger());
+  }
+
   return dio;
 }
 
@@ -61,6 +66,9 @@ String clientId(Ref ref) {
 String clientSecret(Ref ref) {
   return dotenv.env['CLIENT_SECRET'] ?? '';
 }
+
+@Riverpod(keepAlive: true)
+AppDatabase database(Ref ref) => AppDatabase();
 
 @riverpod
 AuthService authService(Ref ref) {

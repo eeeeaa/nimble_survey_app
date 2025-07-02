@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:nimble_survey_app/core/model/survey_response.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
@@ -13,5 +14,9 @@ abstract class SurveyService {
     ParseErrorLogger? errorLogger,
   }) = _SurveyService;
 
-  // TODO implement survey api
+  @GET('/surveys')
+  Future<SurveyResponse> getSurveyList(
+    @Query("page[number]") int pageNumber,
+    @Query("page[size]") int pageSize,
+  );
 }
