@@ -1,4 +1,5 @@
 import 'package:nimble_survey_app/core/local/database.dart';
+import 'package:nimble_survey_app/core/model/survey_details_model.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
 import 'package:nimble_survey_app/core/model/user_model.dart';
 import 'package:nimble_survey_app/core/repository/local/local_storage_repository.dart';
@@ -13,6 +14,7 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
   Future<Result<void>> clearAll() async {
     await clearCachedUserProfile();
     await clearCachedSurveyModelList();
+    await clearCachedSurveyDetailsModels();
     return Success(null);
   }
 
@@ -104,6 +106,54 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
                   .toList(),
             );
           }),
+    );
+  }
+
+  @override
+  Future<Result<SurveyDetailsModel?>> getCachedSurveyDetailsModel(String id) {
+    return safeApiCall<SurveyDetailsTableData?, SurveyDetailsModel?>(
+      call:
+          () =>
+              (database.select(database.surveyDetailsTable)
+                ..where((tbl) => tbl.id.equals(id))).getSingleOrNull(),
+      mapper:
+          (row) =>
+              row != null
+                  ? SurveyDetailsModel(
+                    id: row.id,
+                    title: row.title,
+                    description: row.description,
+                    coverImageUrl: row.coverImageUrl,
+                    questions:
+                        List.empty(), // TODO find solution for caching question
+                  )
+                  : null,
+    );
+  }
+
+  @override
+  Future<Result<void>> addOrUpdateCachedSurveyDetailsModel(
+    SurveyDetailsModel model,
+  ) async {
+    return safeApiCall(
+      call:
+          () => database
+              .into(database.surveyDetailsTable)
+              .insertOnConflictUpdate(
+                SurveyDetailsTableCompanion.insert(
+                  id: model.id,
+                  title: model.title,
+                  description: model.description,
+                  coverImageUrl: model.coverImageUrl,
+                ),
+              ),
+    );
+  }
+
+  @override
+  Future<Result<void>> clearCachedSurveyDetailsModels() async {
+    return safeApiCall(
+      call: () => database.delete(database.surveyDetailsTable).go(),
     );
   }
 }

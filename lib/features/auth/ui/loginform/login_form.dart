@@ -55,7 +55,7 @@ class LoginForm extends ConsumerWidget {
               ),
               authUiModel.isLoading
                   ? CircularProgressIndicator()
-                  : NimbleLoginButton(
+                  : NimbleButton(
                     buttonText: AppLocalizations.of(context)?.login ?? "",
                     onPressed: () async {
                       FocusManager.instance.primaryFocus?.unfocus();
