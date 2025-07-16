@@ -26,8 +26,8 @@ class MyApp extends ConsumerWidget {
         dividerTheme: DividerThemeData(color: Colors.transparent),
         fontFamily: FontFamily.neuzeit,
         textTheme: TextTheme(
-          bodyLarge: TextStyle(fontSize: AppTextSize.textSizeLarge),
-          bodyMedium: TextStyle(fontSize: AppTextSize.textSizeMedium),
+          bodyLarge: TextStyle(fontSize: AppTextSize.textSizeMedium),
+          bodyMedium: TextStyle(fontSize: AppTextSize.textSizeSmall),
         ),
       ),
       routerConfig: router,

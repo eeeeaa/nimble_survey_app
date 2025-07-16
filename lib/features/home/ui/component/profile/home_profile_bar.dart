@@ -41,7 +41,7 @@ class HomeProfileBar extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: ColorName.primaryText,
-                    fontSize: AppTextSize.textSizeSmall,
+                    fontSize: AppTextSize.textSizeExtraSmall,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

@@ -3,17 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nimble_survey_app/features/surveydetails/model/survey_details_ui_model.dart';
-import 'package:nimble_survey_app/features/surveydetails/ui/viewmodel/survey_details_view_model.dart';
-import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
-import '../../../core/model/survey_details_model.dart';
-import '../../../core/ui/component/nimble_login_button.dart';
-import '../../../core/ui/theme/app_dimension.dart';
-import '../../../core/ui/theme/app_text_size.dart';
-import '../../../gen/assets.gen.dart';
-import '../../../gen/colors.gen.dart';
-import '../../home/ui/component/surveylist/survey_background_image.dart';
+import '../../../../core/model/survey_details_model.dart';
+import '../../../../core/ui/component/nimble_login_button.dart';
+import '../../../../core/ui/theme/app_dimension.dart';
+import '../../../../core/ui/theme/app_text_size.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../gen/colors.gen.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../home/ui/component/surveylist/survey_background_image.dart';
+import '../../model/survey_details_ui_model.dart';
+import '../../viewmodel/survey_details_view_model.dart';
 
 class SurveyDetailsScreen extends ConsumerStatefulWidget {
   final String id;
@@ -35,6 +35,39 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
             .initialLoad(id: widget.id);
       }
     });
+  }
+
+  Widget _createSurveyDetailsHeader({required SurveyDetailsModel survey}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: AppDimension.paddingMedium),
+          child: GestureDetector(
+            onTap: () {
+              context.pop();
+            },
+            child: Assets.images.icArrowBack.svg(),
+          ),
+        ),
+        Text(
+          survey.title,
+          style: TextStyle(
+            color: ColorName.primaryText,
+            fontSize: AppTextSize.textSizeXXL,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          survey.description,
+          style: TextStyle(
+            color: ColorName.secondaryText,
+            fontSize: AppTextSize.textSizeMedium,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -90,38 +123,7 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: AppDimension.paddingMedium,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {
-                              context.pop();
-                            },
-                            child: Assets.images.icArrowBack.svg(),
-                          ),
-                        ),
-                        Text(
-                          survey.title,
-                          style: TextStyle(
-                            color: ColorName.primaryText,
-                            fontSize: AppTextSize.textSizeXXL,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          survey.description,
-                          style: TextStyle(
-                            color: ColorName.secondaryText,
-                            fontSize: AppTextSize.textSizeLarge,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                    _createSurveyDetailsHeader(survey: survey),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: NimbleButton(
@@ -132,7 +134,7 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
                             )?.surveyDetailStartSurvey ??
                             '',
                         onPressed: () {
-                          // TODO
+                          context.push('/survey/${survey.id}/survey-sessions');
                         },
                       ),
                     ),

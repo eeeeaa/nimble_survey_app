@@ -44,7 +44,7 @@ class SurveyItem extends StatelessWidget {
                 survey.description,
                 style: TextStyle(
                   color: ColorName.secondaryText,
-                  fontSize: AppTextSize.textSizeLarge,
+                  fontSize: AppTextSize.textSizeMedium,
                   fontWeight: FontWeight.bold,
                 ),
               ),
