@@ -26,16 +26,16 @@ class SurveyListState extends ConsumerState<SurveyList> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final isFirstLoad = ref
-          .read(surveyListViewModelProvider)
-          .isFirstLoad;
+      final isFirstLoad = ref.read(surveyListViewModelProvider).isFirstLoad;
       if (mounted && isFirstLoad) {
         ref.read(surveyListViewModelProvider.notifier).initialLoad();
       }
-      // FIXME throw error on start due to no page view
-      _controller.jumpToPage(ref
-          .read(surveyListViewModelProvider)
-          .currentIndex);
+ 
+      if (ref.read(surveyListViewModelProvider).currentIndex > 0) {
+        _controller.jumpToPage(
+          ref.read(surveyListViewModelProvider).currentIndex,
+        );
+      }
     });
   }
 
@@ -49,9 +49,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
     required double bottomScreenRatio,
     required List<SurveyModel> surveyList,
   }) {
-    final currentIndex = ref
-        .watch(surveyListViewModelProvider)
-        .currentIndex;
+    final currentIndex = ref.watch(surveyListViewModelProvider).currentIndex;
     return SizedBox(
       height: bottomScreenRatio,
       child: PageView.builder(
@@ -116,9 +114,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
         ref.watch(surveyListViewModelProvider).surveyList;
     final isLoading = ref.watch(surveyListViewModelProvider).isLoading;
     final bottomScreenRatio = MediaQuery.of(context).size.height / 6;
-    final currentIndex = ref
-        .watch(surveyListViewModelProvider)
-        .currentIndex;
+    final currentIndex = ref.watch(surveyListViewModelProvider).currentIndex;
 
     if (surveyList.isEmpty) {
       return Stack(
