@@ -48,7 +48,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
         Align(
           alignment: Alignment.topLeft,
           child: Text(
-            "$index/${questions.length}",
+            "${index + 1}/${questions.length}",
             style: TextStyle(
               color: ColorName.secondaryText,
               fontSize: AppTextSize.textSizeSmall,

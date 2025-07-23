@@ -3,7 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nimble_survey_app/core/model/display_type.dart';
 import 'package:nimble_survey_app/features/surveydetails/model/answer_ui_model.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_checkbox.dart';
+import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_rating.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_single_choice.dart';
+
+import '../../../../../gen/assets.gen.dart';
 
 class AnswerItem extends ConsumerWidget {
   final List<AnswerUiModel> answers;
@@ -40,6 +43,37 @@ class AnswerItem extends ConsumerWidget {
             answers: answers,
           );
         }
+      case DisplayType.star:
+        return AnswerRating(
+          iconActive: Assets.images.icStarActive.image(width: 28, height: 34),
+          iconInActive: Assets.images.icStarInactive.image(
+            width: 28,
+            height: 34,
+          ),
+          answers: answers,
+          onUpdateAnswer: _onUpdateAnswer,
+        );
+      case DisplayType.heart:
+        return AnswerRating(
+          iconActive: Assets.images.icHeartActive.image(width: 28, height: 34),
+          iconInActive: Assets.images.icHeartInactive.image(
+            width: 28,
+            height: 34,
+          ),
+          answers: answers,
+          onUpdateAnswer: _onUpdateAnswer,
+        );
+      case DisplayType.thumpsUp:
+        return AnswerRating(
+          iconActive: Assets.images.icThumbsupActive.image(
+              width: 28, height: 34),
+          iconInActive: Assets.images.icThumbsupInactive.image(
+            width: 28,
+            height: 34,
+          ),
+          answers: answers,
+          onUpdateAnswer: _onUpdateAnswer,
+        );
       default:
         return AnswerSingleChoice(
           onUpdateAnswer: _onUpdateAnswer,
