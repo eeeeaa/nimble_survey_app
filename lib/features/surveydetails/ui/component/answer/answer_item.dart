@@ -6,6 +6,7 @@ import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/typ
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_dropdown.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_rating.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_single_choice.dart';
+import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_smiley.dart';
 
 import '../../../../../gen/assets.gen.dart';
 
@@ -82,6 +83,8 @@ class AnswerItem extends ConsumerWidget {
           answers: answers,
           onUpdateAnswer: _onUpdateAnswer,
         );
+      case DisplayType.smiley:
+        return AnswerSmiley(answers: answers, onUpdateAnswer: _onUpdateAnswer);
       default:
         return AnswerSingleChoice(
           onUpdateAnswer: _onUpdateAnswer,
