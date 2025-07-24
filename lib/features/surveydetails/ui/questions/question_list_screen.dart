@@ -100,6 +100,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
         // TODO show dialog
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             SurveyBackgroundImage(imageUrl: imageUrl),
