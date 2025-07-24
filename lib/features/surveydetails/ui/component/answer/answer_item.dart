@@ -4,6 +4,7 @@ import 'package:nimble_survey_app/core/model/display_type.dart';
 import 'package:nimble_survey_app/features/surveydetails/model/answer_ui_model.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_checkbox.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_dropdown.dart';
+import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_nps.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_rating.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_single_choice.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_smiley.dart';
@@ -45,6 +46,8 @@ class AnswerItem extends ConsumerWidget {
             answers: answers,
           );
         }
+      case DisplayType.nps:
+        return AnswerNps(answers: answers, onUpdateAnswer: _onUpdateAnswer);
       case DisplayType.dropdown:
         return AnswerDropDown(
           onUpdateAnswer: _onUpdateAnswer,
