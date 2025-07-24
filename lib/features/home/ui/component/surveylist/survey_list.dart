@@ -30,7 +30,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
       if (mounted && isFirstLoad) {
         ref.read(surveyListViewModelProvider.notifier).initialLoad();
       }
- 
+
       if (ref.read(surveyListViewModelProvider).currentIndex > 0) {
         _controller.jumpToPage(
           ref.read(surveyListViewModelProvider).currentIndex,
