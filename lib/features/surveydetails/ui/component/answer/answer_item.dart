@@ -11,6 +11,7 @@ import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/typ
 
 import '../../../../../gen/assets.gen.dart';
 
+/// Answer Item, populated by answer type
 class AnswerItem extends ConsumerWidget {
   final List<AnswerUiModel> answers;
   final DisplayType displayType;
