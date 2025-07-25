@@ -90,6 +90,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
                         AppLocalizations.of(context)?.questionsSubmit ?? '',
                     onPressed: () {
                       // TODO submit and finish survey
+                      context.go('/survey/completed');
                     },
                   )
                   : _createContinueButton(),
