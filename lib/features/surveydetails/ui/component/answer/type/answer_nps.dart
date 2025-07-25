@@ -26,7 +26,7 @@ class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
       onTap: () {
         setState(() {
           _selectedIndex = index;
-          submitAnswer(widget.answers[index].id);
+          submitAnswer([widget.answers[index]]);
         });
       },
       child: Container(
@@ -39,7 +39,7 @@ class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
           borderRadius: BorderRadius.circular(AppDimension.npsBorderRadius),
         ),
         child: Text(
-          widget.answers[index].answerText,
+          widget.answers[index].answer ?? '',
           style: TextStyle(
             color: isSelected ? Colors.grey : Colors.white,
             fontWeight: FontWeight.w500,

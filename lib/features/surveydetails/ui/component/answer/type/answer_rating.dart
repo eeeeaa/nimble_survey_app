@@ -33,7 +33,7 @@ class _AnswerFiveRatingState extends BaseAnswerState<AnswerRating> {
           onTap: () {
             setState(() {
               _selectedRating = index + 1;
-              submitAnswer(widget.answers[index].id);
+              submitAnswer([widget.answers[index]]);
             });
           },
           child: isSelected ? widget.iconActive : widget.iconInActive,

@@ -36,8 +36,7 @@ class _AnswerSmileyState extends BaseAnswerState<AnswerSmiley> {
               _selectedSmileyIndex = index;
             });
 
-            final selectedAnswer = widget.answers[index];
-            submitAnswer(selectedAnswer.id);
+            submitAnswer([widget.answers[index]]);
           },
           child: Opacity(
             opacity: isSelected ? 1.0 : 0.5,

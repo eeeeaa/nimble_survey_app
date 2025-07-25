@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nimble_survey_app/features/surveydetails/model/answer_ui_model.dart';
 
 import '../../../../../../core/ui/theme/app_text_size.dart';
 import '../../../../../../gen/colors.gen.dart';
@@ -16,39 +17,42 @@ class AnswerDropDown extends BaseAnswer {
 }
 
 class _AnswerDropDown extends BaseAnswerState<AnswerDropDown> {
-  String? selectedItemId = "";
+  AnswerUiModel? selectedAnswer;
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      selectedItemId = widget.answers.first.id;
+      selectedAnswer = widget.answers.first;
     });
-    submitAnswer(widget.answers.first.id);
+    submitAnswer([widget.answers.first]);
   }
 
   @override
   Widget buildAnswer(BuildContext context) {
     final answerList =
         widget.answers.map((item) {
-          return DropdownMenuEntry(value: item.id, label: item.answerText);
+          return DropdownMenuEntry<AnswerUiModel>(
+            value: item,
+            label: item.answer ?? '',
+          );
         }).toList();
 
     return Center(
-      child: DropdownMenu<String>(
-        initialSelection: widget.answers.first.id,
+      child: DropdownMenu<AnswerUiModel>(
+        initialSelection: widget.answers.first,
         dropdownMenuEntries: answerList,
         textStyle: TextStyle(
           color: ColorName.primaryText,
           fontSize: AppTextSize.textSizeLarge,
           fontWeight: FontWeight.normal,
         ),
-        onSelected: (String? itemId) {
+        onSelected: (AnswerUiModel? answer) {
           setState(() {
-            selectedItemId = itemId;
+            selectedAnswer = answer;
           });
-          if (itemId != null) {
-            submitAnswer(itemId);
+          if (answer != null) {
+            submitAnswer([answer]);
           }
         },
       ),
