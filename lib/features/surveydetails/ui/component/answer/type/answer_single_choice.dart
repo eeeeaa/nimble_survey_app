@@ -43,7 +43,7 @@ class _AnswerSingleChoice extends BaseAnswerState<AnswerSingleChoice> {
                 children: [
                   createSeparator(),
                   Text(
-                    answers[index].answerText,
+                    answers[index].answer ?? '',
                     style: TextStyle(
                       color:
                           isSelected
@@ -61,7 +61,7 @@ class _AnswerSingleChoice extends BaseAnswerState<AnswerSingleChoice> {
                 setState(() {
                   selectedIndex = index;
                 });
-                widget.onUpdateAnswer(answers[index].id);
+                widget.onUpdateAnswer([answers[index]]);
               },
             ),
           );

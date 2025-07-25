@@ -6,7 +6,7 @@ part 'survey_answer_model.freezed.dart';
 abstract class SurveyAnswerModel with _$SurveyAnswerModel {
   const factory SurveyAnswerModel({
     required String id,
-    required String answerText,
+    required String? answerText,
     required int displayOrder, // The order for the answer
   }) = _SurveyAnswerModel;
 }

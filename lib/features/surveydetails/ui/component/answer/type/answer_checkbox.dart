@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nimble_survey_app/features/surveydetails/model/answer_ui_model.dart';
 
 import '../../../../../../core/ui/theme/app_text_size.dart';
 import '../../../../../../gen/colors.gen.dart';
@@ -17,16 +18,16 @@ class AnswerCheckbox extends BaseAnswer {
 
 class _AnswerCheckbox extends BaseAnswerState<AnswerCheckbox> {
   List<int> selectedIndices = [];
-  List<String> selectedAnswerIds = [];
+  List<AnswerUiModel> selectedAnswers = [];
 
-  void _addAnswer({required int index, required String answerId}) {
+  void _addAnswer({required int index, required AnswerUiModel answer}) {
     selectedIndices.add(index);
-    selectedAnswerIds.add(answerId);
+    selectedAnswers.add(answer);
   }
 
-  void _removeAnswer({required int index, required String answerId}) {
+  void _removeAnswer({required int index, required AnswerUiModel answer}) {
     selectedIndices.remove(index);
-    selectedAnswerIds.remove(answerId);
+    selectedAnswers.remove(answer);
   }
 
   @override
@@ -46,7 +47,7 @@ class _AnswerCheckbox extends BaseAnswerState<AnswerCheckbox> {
         itemBuilder: (context, index) {
           return CheckboxListTile(
             title: Text(
-              answers[index].answerText,
+              answers[index].answer ?? '',
               style: TextStyle(
                 color: ColorName.primaryText,
                 fontSize: AppTextSize.textSizeMedium,
@@ -64,9 +65,9 @@ class _AnswerCheckbox extends BaseAnswerState<AnswerCheckbox> {
             onChanged: (isSelected) {
               setState(() {
                 if (isSelected == true) {
-                  _addAnswer(index: index, answerId: answers[index].id);
+                  _addAnswer(index: index, answer: answers[index]);
                 } else {
-                  _removeAnswer(index: index, answerId: answers[index].id);
+                  _removeAnswer(index: index, answer: answers[index]);
                 }
               });
             },

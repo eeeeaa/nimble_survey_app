@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:nimble_survey_app/core/model/survey_question_model.dart';
+import 'package:nimble_survey_app/features/surveydetails/model/answer_ui_model.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/answer_item.dart';
 
 import '../../../../../core/ui/theme/app_text_size.dart';
@@ -9,6 +10,12 @@ class QuestionItem extends StatelessWidget {
   final SurveyQuestionModel question;
 
   const QuestionItem({required this.question, super.key});
+
+  _getAnswerUiModelList() {
+    return question.answers
+        .map((item) => AnswerUiModel(itemId: item.id, answer: item.answerText))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +38,7 @@ class QuestionItem extends StatelessWidget {
         Expanded(
           child: AnswerItem(
             displayType: question.displayType,
-            answers: question.answers,
+            answers: _getAnswerUiModelList(),
             pickType: question.pickType,
           ),
         ),

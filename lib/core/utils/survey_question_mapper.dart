@@ -38,7 +38,7 @@ List<SurveyQuestionModel> mapToQuestionModelList({
               final attributes = answer.attributes;
               return SurveyAnswerModel(
                 id: answer.id ?? '',
-                answerText: attributes?.text?.trim() ?? '',
+                answerText: attributes?.text?.trim(),
                 displayOrder:
                     int.tryParse(attributes?.displayOrder?.toString() ?? '') ??
                     0,

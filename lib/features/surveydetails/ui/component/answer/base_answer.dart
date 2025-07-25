@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:nimble_survey_app/core/model/survey_answer_model.dart';
+import 'package:nimble_survey_app/features/surveydetails/model/answer_ui_model.dart';
 
 abstract class BaseAnswer extends StatefulWidget {
-  final List<SurveyAnswerModel> answers;
-  final Function(String) onUpdateAnswer;
+  final List<AnswerUiModel> answers;
+  final Function(List<AnswerUiModel>) onUpdateAnswer;
 
   const BaseAnswer({
     required this.answers,
@@ -16,8 +16,8 @@ abstract class BaseAnswer extends StatefulWidget {
 }
 
 abstract class BaseAnswerState<T extends BaseAnswer> extends State<T> {
-  void submitAnswer(String answer) {
-    widget.onUpdateAnswer(answer);
+  void submitAnswer(List<AnswerUiModel> answers) {
+    widget.onUpdateAnswer(answers);
   }
 
   Widget buildAnswer(BuildContext context);

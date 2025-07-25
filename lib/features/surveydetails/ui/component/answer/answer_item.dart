@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nimble_survey_app/core/model/display_type.dart';
-import 'package:nimble_survey_app/core/model/survey_answer_model.dart';
+import 'package:nimble_survey_app/features/surveydetails/model/answer_ui_model.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_checkbox.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_single_choice.dart';
 
 class AnswerItem extends ConsumerWidget {
-  final List<SurveyAnswerModel> answers;
+  final List<AnswerUiModel> answers;
   final DisplayType displayType;
   final PickType pickType;
 
