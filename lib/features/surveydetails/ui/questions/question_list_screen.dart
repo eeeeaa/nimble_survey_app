@@ -32,6 +32,63 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
     super.dispose();
   }
 
+  Future<void> _showExitSurveyDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          title: Text(
+            AppLocalizations.of(context)?.questionsQuitSurveyDialogTitle ?? '',
+            style: TextStyle(
+              color: ColorName.primaryText,
+              fontSize: AppTextSize.textSizeMedium,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            AppLocalizations.of(
+                  context,
+                )?.questionsQuitSurveyDialogDescription ??
+                '',
+            style: TextStyle(
+              color: ColorName.primaryText,
+              fontSize: AppTextSize.textSizeSmall,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                AppLocalizations.of(
+                      context,
+                    )?.questionsQuitSurveyDialogPositiveButtonText ??
+                    '',
+              ),
+              onPressed: () {
+                // Close dialog
+                context.pop();
+                // Go back to survey details screen
+                context.pop();
+              },
+            ),
+            TextButton(
+              child: Text(
+                AppLocalizations.of(
+                      context,
+                    )?.questionsQuitSurveyDialogNegativeButtonText ??
+                    '',
+              ),
+              onPressed: () {
+                context.pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _createContinueButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -63,7 +120,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
           alignment: Alignment.topRight,
           child: IconButton(
             onPressed: () {
-              context.pop();
+              _showExitSurveyDialog();
             },
             icon: Assets.images.icClose.svg(),
           ),
@@ -114,7 +171,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        // TODO show dialog
+        _showExitSurveyDialog();
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
