@@ -6,10 +6,12 @@ import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/model/survey_question_model.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/ui/component/nimble_login_button.dart';
 import '../../../../core/ui/theme/app_dimension.dart';
 import '../../../../core/ui/theme/app_text_size.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/colors.gen.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../home/ui/component/surveylist/survey_background_image.dart';
 import '../../viewmodel/survey_details_view_model.dart';
 import '../component/question/question_item.dart';
@@ -28,6 +30,27 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Widget _createContinueButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: const CircleBorder(),
+        padding: const EdgeInsets.all(
+          AppDimension.surveyCircleButtonDiameter / 4,
+        ),
+      ),
+      onPressed: () {
+        _controller.nextPage(
+          duration: const Duration(
+            milliseconds:
+                AppConstants.questionListPageScrollDurationInMilliseconds,
+          ),
+          curve: Curves.easeIn,
+        );
+      },
+      child: Assets.images.icArrowNext.svg(),
+    );
   }
 
   Widget _createQuestionItemContent({
@@ -59,24 +82,17 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
         Flexible(child: QuestionItem(question: questions[index])),
         Align(
           alignment: Alignment.bottomRight,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.all(
-                AppDimension.surveyCircleButtonDiameter / 4,
-              ),
-            ),
-            onPressed: () {
-              _controller.nextPage(
-                duration: const Duration(
-                  milliseconds:
-                      AppConstants.questionListPageScrollDurationInMilliseconds,
-                ),
-                curve: Curves.easeIn,
-              );
-            },
-            child: Assets.images.icArrowNext.svg(),
-          ),
+          child:
+              (index == questions.length - 1)
+                  ? NimbleButton(
+                    width: null,
+                    buttonText:
+                        AppLocalizations.of(context)?.questionsSubmit ?? '',
+                    onPressed: () {
+                      // TODO submit and finish survey
+                    },
+                  )
+                  : _createContinueButton(),
         ),
       ],
     );
@@ -121,10 +137,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(
-                        left: AppDimension.paddingMedium,
-                        right: AppDimension.paddingMedium,
-                      ),
+                      padding: const EdgeInsets.all(AppDimension.paddingMedium),
                       child: _createQuestionItemContent(
                         questions: questions,
                         index: index,
