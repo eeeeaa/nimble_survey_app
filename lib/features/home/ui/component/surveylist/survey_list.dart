@@ -58,7 +58,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
         controller: _controller,
         onPageChanged: (index) {
           ref
-              .watch(surveyListViewModelProvider.notifier)
+              .read(surveyListViewModelProvider.notifier)
               .updateCurrentIndex(index);
           if (index >= surveyList.length - 1) {
             ref.read(surveyListViewModelProvider.notifier).loadMore();

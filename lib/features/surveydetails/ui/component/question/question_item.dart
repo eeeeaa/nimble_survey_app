@@ -11,7 +11,7 @@ class QuestionItem extends StatelessWidget {
 
   const QuestionItem({required this.question, super.key});
 
-  _getAnswerUiModelList() {
+  List<AnswerUiModel> _getAnswerUiModelList() {
     return question.answers
         .map((item) => AnswerUiModel(itemId: item.id, answer: item.answerText))
         .toList();

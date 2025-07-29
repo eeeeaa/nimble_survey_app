@@ -17,7 +17,7 @@ class AnswerItem extends ConsumerWidget {
     super.key,
   });
 
-  _onUpdateAnswer(answerId) {
+  void _onUpdateAnswer(answerId) {
     // TODO handle answer id
   }
 
@@ -25,9 +25,9 @@ class AnswerItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     switch (displayType) {
       case DisplayType.intro:
-        return Container();
+        return SizedBox.shrink();
       case DisplayType.outro:
-        return Container();
+        return SizedBox.shrink();
       case DisplayType.choice:
         if (pickType == PickType.any) {
           return AnswerCheckbox(
