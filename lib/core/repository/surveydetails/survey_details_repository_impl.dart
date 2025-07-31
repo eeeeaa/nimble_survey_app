@@ -1,3 +1,4 @@
+import 'package:nimble_survey_app/core/model/submit_survey_request.dart';
 import 'package:nimble_survey_app/core/model/survey_details_model.dart';
 import 'package:nimble_survey_app/core/model/survey_details_response.dart';
 import 'package:nimble_survey_app/core/repository/surveydetails/survey_details_repository.dart';
@@ -16,5 +17,10 @@ class SurveyDetailsRepositoryImpl extends SurveyDetailsRepository {
       call: () => surveyService.getSurveyDetails(surveyId),
       mapper: (res) => SurveyDetailsModel.fromResponse(res: res),
     );
+  }
+
+  @override
+  Future<Result<void>> submitSurvey(SubmitSurveyRequest request) async {
+    return safeApiCall(call: () => surveyService.submitSurvey(request));
   }
 }
