@@ -20,16 +20,18 @@ class _AnswerTextFieldState extends BaseAnswerState<AnswerTextField> {
 
   @override
   Widget buildAnswer(BuildContext context) {
-    return Column(
-      spacing: AppDimension.spacingSmall,
-      children: List.generate(widget.answers.length, (index) {
-        return NimbleTextField(
-          hintText: widget.answers[index].answer ?? '',
-          onChanged: (text) {
-            // TODO submit the answer on button click
-          },
-        );
-      }),
+    return SingleChildScrollView(
+      child: Column(
+        spacing: AppDimension.spacingSmall,
+        children: List.generate(widget.answers.length, (index) {
+          return NimbleTextField(
+            hintText: widget.answers[index].answer ?? '',
+            onChanged: (text) {
+              // TODO submit the answer on button click
+            },
+          );
+        }),
+      ),
     );
   }
 }

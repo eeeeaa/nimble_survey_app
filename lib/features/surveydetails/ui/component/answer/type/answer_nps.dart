@@ -19,9 +19,13 @@ class AnswerNps extends BaseAnswer {
 }
 
 class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
-  int? _selectedIndex;
+  int _selectedIndex = 0;
 
-  Widget _createNpsBarItem({required int index, required bool isSelected}) {
+  Widget _createNpsBarItem({required int index}) {
+    bool isSelected = _selectedIndex < index;
+    bool shouldShowFirstItemBorder = index == 0 && widget.answers.length > 1;
+    bool shouldShowLastItemBorder =
+        index == widget.answers.length - 1 && widget.answers.length > 1;
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -36,7 +40,24 @@ class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
         decoration: BoxDecoration(
           color: Colors.transparent,
           border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(AppDimension.npsBorderRadius),
+          borderRadius: BorderRadius.only(
+            topLeft:
+                shouldShowFirstItemBorder
+                    ? Radius.circular(AppDimension.npsBorderRadius)
+                    : Radius.zero,
+            bottomLeft:
+                shouldShowFirstItemBorder
+                    ? Radius.circular(AppDimension.npsBorderRadius)
+                    : Radius.zero,
+            topRight:
+                shouldShowLastItemBorder
+                    ? Radius.circular(AppDimension.npsBorderRadius)
+                    : Radius.zero,
+            bottomRight:
+                shouldShowLastItemBorder
+                    ? Radius.circular(AppDimension.npsBorderRadius)
+                    : Radius.zero,
+          ),
         ),
         child: Text(
           widget.answers[index].answer ?? '',
@@ -54,13 +75,14 @@ class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(widget.answers.length, (index) {
-            final isSelected = _selectedIndex == index;
-
-            return _createNpsBarItem(index: index, isSelected: isSelected);
-          }),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(widget.answers.length, (index) {
+              return _createNpsBarItem(index: index);
+            }),
+          ),
         ),
         const SizedBox(height: AppDimension.spacingSmall),
         Row(
@@ -81,7 +103,7 @@ class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
               style: TextStyle(
                 color: ColorName.primaryText,
                 fontSize: AppTextSize.textSizeMedium,
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],

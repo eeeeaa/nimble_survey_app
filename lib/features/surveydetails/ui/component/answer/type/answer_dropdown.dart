@@ -18,26 +18,24 @@ class AnswerDropDown extends BaseAnswer {
 
 class _AnswerDropDown extends BaseAnswerState<AnswerDropDown> {
   AnswerUiModel? selectedAnswer;
+  List<DropdownMenuEntry<AnswerUiModel>> answerList = List.empty();
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      selectedAnswer = widget.answers.first;
-    });
-    submitAnswer([widget.answers.first]);
-  }
-
-  @override
-  Widget buildAnswer(BuildContext context) {
-    final answerList =
+    selectedAnswer = widget.answers.first;
+    answerList =
         widget.answers.map((item) {
           return DropdownMenuEntry<AnswerUiModel>(
             value: item,
             label: item.answer ?? '',
           );
         }).toList();
+    submitAnswer([widget.answers.first]);
+  }
 
+  @override
+  Widget buildAnswer(BuildContext context) {
     return Center(
       child: DropdownMenu<AnswerUiModel>(
         initialSelection: widget.answers.first,

@@ -36,25 +36,29 @@ class NimbleTextArea extends StatelessWidget {
             )
             : null;
 
-    return TextField(
-      minLines: 6,
-      maxLines: null,
-      keyboardType: TextInputType.multiline,
-      obscureText: obscureText,
-      style: TextStyle(color: ColorName.primaryText),
-      decoration: InputDecoration(
-        suffixIcon: suffixButton,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(AppDimension.borderRadius),
+    return Expanded(
+      child: SingleChildScrollView(
+        child: TextField(
+          minLines: 6,
+          maxLines: null,
+          keyboardType: TextInputType.multiline,
+          obscureText: obscureText,
+          style: TextStyle(color: ColorName.primaryText),
+          decoration: InputDecoration(
+            suffixIcon: suffixButton,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(AppDimension.borderRadius),
+              ),
+            ),
+            filled: true,
+            fillColor: Colors.white.withAlpha(25),
+            hintText: hintText,
+            hintStyle: TextStyle(color: ColorName.secondaryText),
           ),
+          onChanged: onChanged,
         ),
-        filled: true,
-        fillColor: Colors.white.withAlpha(25),
-        hintText: hintText,
-        hintStyle: TextStyle(color: ColorName.secondaryText),
       ),
-      onChanged: onChanged,
     );
   }
 }
