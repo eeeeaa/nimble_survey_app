@@ -6,10 +6,12 @@ import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/model/survey_question_model.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/ui/component/nimble_login_button.dart';
 import '../../../../core/ui/theme/app_dimension.dart';
 import '../../../../core/ui/theme/app_text_size.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../gen/colors.gen.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../home/ui/component/surveylist/survey_background_image.dart';
 import '../../viewmodel/survey_details_view_model.dart';
 import '../component/question/question_item.dart';
@@ -30,6 +32,84 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
     super.dispose();
   }
 
+  Future<void> _showExitSurveyDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          title: Text(
+            AppLocalizations.of(context)?.questionsQuitSurveyDialogTitle ?? '',
+            style: TextStyle(
+              color: ColorName.primaryText,
+              fontSize: AppTextSize.textSizeMedium,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            AppLocalizations.of(
+                  context,
+                )?.questionsQuitSurveyDialogDescription ??
+                '',
+            style: TextStyle(
+              color: ColorName.primaryText,
+              fontSize: AppTextSize.textSizeSmall,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                AppLocalizations.of(
+                      context,
+                    )?.questionsQuitSurveyDialogPositiveButtonText ??
+                    '',
+              ),
+              onPressed: () {
+                // Close dialog
+                context.pop();
+                // Go back to survey details screen
+                context.pop();
+              },
+            ),
+            TextButton(
+              child: Text(
+                AppLocalizations.of(
+                      context,
+                    )?.questionsQuitSurveyDialogNegativeButtonText ??
+                    '',
+              ),
+              onPressed: () {
+                context.pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _createContinueButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: const CircleBorder(),
+        padding: const EdgeInsets.all(
+          AppDimension.surveyCircleButtonDiameter / 4,
+        ),
+      ),
+      onPressed: () {
+        _controller.nextPage(
+          duration: const Duration(
+            milliseconds:
+                AppConstants.questionListPageScrollDurationInMilliseconds,
+          ),
+          curve: Curves.easeIn,
+        );
+      },
+      child: Assets.images.icArrowNext.svg(),
+    );
+  }
+
   Widget _createQuestionItemContent({
     required List<SurveyQuestionModel> questions,
     required int index,
@@ -40,7 +120,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
           alignment: Alignment.topRight,
           child: IconButton(
             onPressed: () {
-              context.pop();
+              _showExitSurveyDialog();
             },
             icon: Assets.images.icClose.svg(),
           ),
@@ -48,7 +128,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
         Align(
           alignment: Alignment.topLeft,
           child: Text(
-            "$index/${questions.length}",
+            "${index + 1}/${questions.length}",
             style: TextStyle(
               color: ColorName.secondaryText,
               fontSize: AppTextSize.textSizeSmall,
@@ -59,24 +139,18 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
         Flexible(child: QuestionItem(question: questions[index])),
         Align(
           alignment: Alignment.bottomRight,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.all(
-                AppDimension.surveyCircleButtonDiameter / 4,
-              ),
-            ),
-            onPressed: () {
-              _controller.nextPage(
-                duration: const Duration(
-                  milliseconds:
-                      AppConstants.questionListPageScrollDurationInMilliseconds,
-                ),
-                curve: Curves.easeIn,
-              );
-            },
-            child: Assets.images.icArrowNext.svg(),
-          ),
+          child:
+              (index == questions.length - 1)
+                  ? NimbleButton(
+                    width: null,
+                    buttonText:
+                        AppLocalizations.of(context)?.questionsSubmit ?? '',
+                    onPressed: () {
+                      // TODO submit and finish survey
+                      context.go('/survey/completed');
+                    },
+                  )
+                  : _createContinueButton(),
         ),
       ],
     );
@@ -97,9 +171,10 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        // TODO show dialog
+        _showExitSurveyDialog();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             SurveyBackgroundImage(imageUrl: imageUrl),
@@ -120,10 +195,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(
-                        left: AppDimension.paddingMedium,
-                        right: AppDimension.paddingMedium,
-                      ),
+                      padding: const EdgeInsets.all(AppDimension.paddingMedium),
                       child: _createQuestionItemContent(
                         questions: questions,
                         index: index,
