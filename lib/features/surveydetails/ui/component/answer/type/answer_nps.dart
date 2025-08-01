@@ -22,7 +22,7 @@ class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
   int _selectedIndex = 0;
 
   Widget _createNpsBarItem({required int index}) {
-    bool isSelected = _selectedIndex < index;
+    bool isSelected = index <= _selectedIndex;
     bool shouldShowFirstItemBorder = index == 0 && widget.answers.length > 1;
     bool shouldShowLastItemBorder =
         index == widget.answers.length - 1 && widget.answers.length > 1;
@@ -62,8 +62,8 @@ class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
         child: Text(
           widget.answers[index].answer ?? '',
           style: TextStyle(
-            color: isSelected ? Colors.grey : Colors.white,
-            fontWeight: FontWeight.w500,
+              color: isSelected ? Colors.white : Colors.grey,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal
           ),
         ),
       ),
@@ -72,7 +72,7 @@ class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
 
   Widget _createNpsBar() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SingleChildScrollView(
