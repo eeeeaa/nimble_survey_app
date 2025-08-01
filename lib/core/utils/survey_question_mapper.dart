@@ -38,7 +38,7 @@ List<SurveyQuestionModel> mapToQuestionModelList({
               final attributes = answer.attributes;
               return SurveyAnswerModel(
                 id: answer.id ?? '',
-                answerText: attributes?.text ?? '',
+                answerText: attributes?.text?.trim(),
                 displayOrder:
                     int.tryParse(attributes?.displayOrder?.toString() ?? '') ??
                     0,
@@ -46,15 +46,19 @@ List<SurveyQuestionModel> mapToQuestionModelList({
             })
             .toList();
 
+    answers.sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
+
     // Construct and return the SurveyQuestionModel
     final attributes = question.attributes;
     return SurveyQuestionModel(
       id: question.id ?? '',
-      questionText: attributes?.text ?? '',
+      questionText: attributes?.text?.trim() ?? '',
       displayType: DisplayTypeExtension.fromString(
-        attributes?.displayType ?? '',
+        attributes?.displayType?.trim() ?? '',
       ),
-      maxChoice: int.tryParse(attributes?.pick?.toString() ?? '') ?? 1,
+      pickType: PickTypeExtension.fromString(
+        attributes?.pick?.trim().toString() ?? "",
+      ),
       answers: answers,
     );
   }).toList();

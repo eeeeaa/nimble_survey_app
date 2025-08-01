@@ -1,4 +1,3 @@
-import 'package:nimble_survey_app/core/model/survey_details_model.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
 import 'package:nimble_survey_app/core/model/user_model.dart';
 
@@ -18,14 +17,6 @@ abstract class LocalStorageRepository {
   );
 
   Future<Result<void>> clearCachedSurveyModelList();
-
-  Future<Result<SurveyDetailsModel?>> getCachedSurveyDetailsModel(String id);
-
-  Future<Result<void>> addOrUpdateCachedSurveyDetailsModel(
-    SurveyDetailsModel model,
-  );
-
-  Future<Result<void>> clearCachedSurveyDetailsModels();
 
   Future<Result<void>> clearAll();
 }

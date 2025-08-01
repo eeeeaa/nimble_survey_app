@@ -7,7 +7,9 @@ part 'survey_list_ui_model.freezed.dart';
 abstract class SurveyListUiModel with _$SurveyListUiModel {
   const factory SurveyListUiModel({
     required List<SurveyModel> surveyList,
+    required int currentIndex,
     @Default(false) bool isLoading,
     @Default(true) bool hasMore,
+    @Default(true) bool isFirstLoad,
   }) = _SurveyListUiModel;
 }

@@ -11,7 +11,7 @@ abstract class SurveyQuestionModel with _$SurveyQuestionModel {
     required String id,
     required String questionText,
     required DisplayType displayType, // The display type of the list of answers
-    required int maxChoice, // Max number of choices user can choose
+    required PickType pickType,
     required List<SurveyAnswerModel> answers,
   }) = _SurveyQuestionModel;
 }

@@ -14,6 +14,17 @@ enum DisplayType {
   textarea,
 }
 
+enum PickType { none, one, any }
+
+extension PickTypeExtension on PickType {
+  static PickType fromString(String value) {
+    return PickType.values.firstWhere(
+      (e) => e.name == value.toLowerCase(),
+      orElse: () => PickType.none,
+    );
+  }
+}
+
 extension DisplayTypeExtension on DisplayType {
   String get value {
     switch (this) {

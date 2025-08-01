@@ -31,7 +31,7 @@ class NimbleButton extends StatelessWidget {
         child: Text(
           buttonText,
           style: TextStyle(
-            fontSize: AppTextSize.textSizeLarge,
+            fontSize: AppTextSize.textSizeMedium,
             color: ColorName.blackPrimaryText,
             fontWeight: FontWeight.bold,
           ),

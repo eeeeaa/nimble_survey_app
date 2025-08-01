@@ -28,7 +28,7 @@ class NimbleTextField extends StatelessWidget {
               child: Text(
                 suffixText ?? "",
                 style: TextStyle(
-                  fontSize: AppTextSize.textSizeMedium,
+                  fontSize: AppTextSize.textSizeSmall,
                   color: ColorName.secondaryText,
                 ),
               ),

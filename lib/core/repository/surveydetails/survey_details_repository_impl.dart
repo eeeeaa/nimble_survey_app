@@ -20,34 +20,9 @@ class SurveyDetailsRepositoryImpl extends SurveyDetailsRepository {
     String surveyId,
     bool isForceReload,
   ) async {
-    if (isForceReload) {
-      return _getRemoteSurveyDetails(surveyId);
-    }
-
-    final cache = await localStorageRepository.getCachedSurveyDetailsModel(
-      surveyId,
-    );
-
-    if (cache is Success<SurveyDetailsModel?>) {
-      final data = cache.data;
-      if (data != null) {
-        return Success(data);
-      }
-    }
-
-    return _getRemoteSurveyDetails(surveyId);
-  }
-
-  Future<Result<SurveyDetailsModel>> _getRemoteSurveyDetails(
-    String surveyId,
-  ) async {
     return safeApiCall<SurveyDetailsResponse, SurveyDetailsModel>(
       call: () => surveyService.getSurveyDetails(surveyId),
-      mapper: (res) {
-        final data = SurveyDetailsModel.fromResponse(res: res);
-        localStorageRepository.addOrUpdateCachedSurveyDetailsModel(data);
-        return data;
-      },
+      mapper: (res) => SurveyDetailsModel.fromResponse(res: res),
     );
   }
 }
