@@ -19,9 +19,15 @@ class SurveyListViewModel extends _$SurveyListViewModel {
   @override
   SurveyListUiModel build() => SurveyListUiModel(
     surveyList: List.empty(),
+    currentIndex: 0,
     isLoading: true,
     hasMore: true,
+    isFirstLoad: true,
   );
+
+  void updateCurrentIndex(int index) {
+    state = state.copyWith(currentIndex: index);
+  }
 
   Future<void> initialLoad() async {
     if (!ref.mounted) return;
@@ -32,7 +38,11 @@ class SurveyListViewModel extends _$SurveyListViewModel {
     );
     _currentPage++;
 
-    state = state.copyWith(surveyList: surveyList, isLoading: false);
+    state = state.copyWith(
+      surveyList: surveyList,
+      isLoading: false,
+      isFirstLoad: false,
+    );
   }
 
   Future<void> loadMore() async {

@@ -1,7 +1,7 @@
 name: nimble_survey_app
 description: "Nimble Survey app project implemented in Flutter"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 0.2.0
+version: 0.3.0
 
 environment:
   sdk: ^3.7.2
@@ -49,6 +49,7 @@ dependencies:
   flutter_svg: ^2.0.9
   lottie: ^3.3.1
   smooth_page_indicator: ^1.2.1
+  wheel_picker: ^0.2.2
 
 dev_dependencies:
   flutter_test:

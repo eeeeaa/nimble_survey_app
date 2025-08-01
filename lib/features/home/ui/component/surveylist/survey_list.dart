@@ -19,7 +19,6 @@ class SurveyList extends ConsumerStatefulWidget {
 class SurveyListState extends ConsumerState<SurveyList> {
   final PageController _controller = PageController(viewportFraction: 1.0);
   Offset? _screenDragStart;
-  int _currentIndex = 0;
 
   SurveyListState();
 
@@ -27,8 +26,15 @@ class SurveyListState extends ConsumerState<SurveyList> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
+      final isFirstLoad = ref.read(surveyListViewModelProvider).isFirstLoad;
+      if (mounted && isFirstLoad) {
         ref.read(surveyListViewModelProvider.notifier).initialLoad();
+      }
+
+      if (ref.read(surveyListViewModelProvider).currentIndex > 0) {
+        _controller.jumpToPage(
+          ref.read(surveyListViewModelProvider).currentIndex,
+        );
       }
     });
   }
@@ -43,6 +49,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
     required double bottomScreenRatio,
     required List<SurveyModel> surveyList,
   }) {
+    final currentIndex = ref.watch(surveyListViewModelProvider).currentIndex;
     return SizedBox(
       height: bottomScreenRatio,
       child: PageView.builder(
@@ -50,9 +57,9 @@ class SurveyListState extends ConsumerState<SurveyList> {
         itemCount: surveyList.length,
         controller: _controller,
         onPageChanged: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          ref
+              .read(surveyListViewModelProvider.notifier)
+              .updateCurrentIndex(index);
           if (index >= surveyList.length - 1) {
             ref.read(surveyListViewModelProvider.notifier).loadMore();
           }
@@ -64,7 +71,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
               right: AppDimension.paddingMedium,
             ),
             child: SurveyItem(
-              survey: surveyList[_currentIndex],
+              survey: surveyList[currentIndex],
               controller: _controller,
               listLength: surveyList.length,
             ),
@@ -107,6 +114,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
         ref.watch(surveyListViewModelProvider).surveyList;
     final isLoading = ref.watch(surveyListViewModelProvider).isLoading;
     final bottomScreenRatio = MediaQuery.of(context).size.height / 6;
+    final currentIndex = ref.watch(surveyListViewModelProvider).currentIndex;
 
     if (surveyList.isEmpty) {
       return Stack(
@@ -151,7 +159,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
       child: Stack(
         children: [
           SurveyBackgroundImage(
-            imageUrl: surveyList[_currentIndex].coverImageUrl ?? '',
+            imageUrl: surveyList[currentIndex].coverImageUrl ?? '',
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
