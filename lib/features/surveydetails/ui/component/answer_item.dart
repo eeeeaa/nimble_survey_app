@@ -11,7 +11,7 @@ import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/typ
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_text_area.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_text_field.dart';
 
-import '../../../../../gen/assets.gen.dart';
+import '../../../../gen/assets.gen.dart';
 
 /// Answer Item, populated by answer type
 class AnswerItem extends ConsumerWidget {

@@ -5,16 +5,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/model/survey_question_model.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/ui/component/nimble_login_button.dart';
-import '../../../../core/ui/theme/app_dimension.dart';
-import '../../../../core/ui/theme/app_text_size.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../gen/colors.gen.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../../home/ui/component/surveylist/survey_background_image.dart';
-import '../../viewmodel/survey_details_view_model.dart';
-import '../component/question/question_item.dart';
+import '../../../core/constants/app_constants.dart';
+import '../../../core/ui/component/nimble_login_button.dart';
+import '../../../core/ui/theme/app_dimension.dart';
+import '../../../core/ui/theme/app_text_size.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../gen/colors.gen.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../home/ui/component/surveylist/survey_background_image.dart';
+import '../viewmodel/survey_details_view_model.dart';
+import 'component/question_item.dart';
 
 class QuestionListScreen extends ConsumerStatefulWidget {
   const QuestionListScreen({super.key});
