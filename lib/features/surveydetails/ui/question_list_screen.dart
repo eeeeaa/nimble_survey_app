@@ -66,6 +66,9 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
                     '',
               ),
               onPressed: () {
+                ref
+                    .read(surveyDetailsViewModelProvider.notifier)
+                    .clearSurveyQuestion();
                 // Close dialog
                 context.pop();
                 // Go back to survey details screen

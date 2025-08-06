@@ -19,7 +19,20 @@ class AnswerRating extends BaseAnswer {
 }
 
 class _AnswerFiveRatingState extends BaseAnswerState<AnswerRating> {
+  // Should start at 1
   int _selectedRating = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Submit initial answer
+    setState(() {
+      _selectedRating = widget.answers.length;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      submitAnswer([widget.answers.last]);
+    });
+  }
 
   @override
   Widget buildAnswer(BuildContext context) {

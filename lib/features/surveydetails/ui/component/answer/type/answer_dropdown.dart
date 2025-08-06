@@ -31,7 +31,9 @@ class _AnswerDropDown extends BaseAnswerState<AnswerDropDown> {
             label: item.answer ?? '',
           );
         }).toList();
-    submitAnswer([widget.answers.first]);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      submitAnswer([widget.answers.first]);
+    });
   }
 
   @override

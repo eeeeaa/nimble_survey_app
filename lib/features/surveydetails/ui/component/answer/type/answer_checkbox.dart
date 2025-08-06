@@ -23,11 +23,24 @@ class _AnswerCheckbox extends BaseAnswerState<AnswerCheckbox> {
   void _addAnswer({required int index, required AnswerUiModel answer}) {
     selectedIndices.add(index);
     selectedAnswers.add(answer);
+
+    submitAnswer(selectedAnswers);
   }
 
   void _removeAnswer({required int index, required AnswerUiModel answer}) {
     selectedIndices.remove(index);
     selectedAnswers.remove(answer);
+
+    submitAnswer(selectedAnswers);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Initially submit empty answer list
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      submitAnswer([]);
+    });
   }
 
   @override

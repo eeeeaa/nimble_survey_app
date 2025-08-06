@@ -44,6 +44,10 @@ class SurveyDetailsViewModel extends _$SurveyDetailsViewModel {
     state = state.copyWith(surveyQuestions: updatedQuestions);
   }
 
+  void clearSurveyQuestion() {
+    state = state.copyWith(surveyQuestions: {});
+  }
+
   void submitSurvey() {
     final surveyId = state.surveyDetails?.id;
     if (surveyId == null || surveyId.isEmpty) return;

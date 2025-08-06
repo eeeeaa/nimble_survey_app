@@ -1,4 +1,3 @@
-// TODO show answer as nps list (1 to 10 bar)
 import 'package:flutter/material.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_dimension.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/base_answer.dart';
@@ -21,17 +20,30 @@ class AnswerNps extends BaseAnswer {
 class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
   int _selectedIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    // Submit initial answer
+    setState(() {
+      _selectedIndex = widget.answers.length - 1;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      submitAnswer([widget.answers.last]);
+    });
+  }
+
   Widget _createNpsBarItem({required int index}) {
     bool isSelected = index <= _selectedIndex;
     bool shouldShowFirstItemBorder = index == 0 && widget.answers.length > 1;
     bool shouldShowLastItemBorder =
         index == widget.answers.length - 1 && widget.answers.length > 1;
+
     return GestureDetector(
       onTap: () {
         setState(() {
           _selectedIndex = index;
-          submitAnswer([widget.answers[index]]);
         });
+        submitAnswer([widget.answers[index]]);
       },
       child: Container(
         width: 32,
