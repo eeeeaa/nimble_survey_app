@@ -51,6 +51,7 @@ app.*.map.json
 *.g.dart
 *.gen.dart
 *.freezed.dart
+*.mocks.dart
 /lib/l10n/app_localizations.dart
 /lib/l10n/app_localizations_en.dart
 /lib/l10n/app_localizations_th.dart
