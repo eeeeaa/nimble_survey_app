@@ -13,6 +13,9 @@ class SubmitSurveyRequest {
       _$SubmitSurveyRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$SubmitSurveyRequestToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -26,6 +29,9 @@ class SubmitSurveyQuestionItem {
       _$SubmitSurveyQuestionItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$SubmitSurveyQuestionItemToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -39,4 +45,7 @@ class SubmitSurveyAnswerItem {
       _$SubmitSurveyAnswerItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$SubmitSurveyAnswerItemToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
