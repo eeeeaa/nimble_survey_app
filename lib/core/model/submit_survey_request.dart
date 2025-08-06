@@ -2,12 +2,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'submit_survey_request.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class SubmitSurveyRequest {
-  final String id;
+  final String surveyId;
   final List<SubmitSurveyQuestionItem> questions;
 
-  SubmitSurveyRequest({required this.id, required this.questions});
+  SubmitSurveyRequest({required this.surveyId, required this.questions});
 
   factory SubmitSurveyRequest.fromJson(Map<String, dynamic> json) =>
       _$SubmitSurveyRequestFromJson(json);

@@ -32,7 +32,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
     super.dispose();
   }
 
-  Future<void> _showExitSurveyDialog() async {
+  Future<void> _createShowExitSurveyDialog() async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -120,7 +120,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
           alignment: Alignment.topRight,
           child: IconButton(
             onPressed: () {
-              _showExitSurveyDialog();
+              _createShowExitSurveyDialog();
             },
             icon: Assets.images.icClose.svg(),
           ),
@@ -146,7 +146,9 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
                     buttonText:
                         AppLocalizations.of(context)?.questionsSubmit ?? '',
                     onPressed: () {
-                      // TODO submit and finish survey
+                      ref
+                          .read(surveyDetailsViewModelProvider.notifier)
+                          .submitSurvey();
                       context.go('/survey/completed');
                     },
                   )
@@ -171,7 +173,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        _showExitSurveyDialog();
+        _createShowExitSurveyDialog();
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
