@@ -8,10 +8,9 @@ import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/typ
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_rating.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_single_choice.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_smiley.dart';
-import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_text_area.dart';
-import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_text_field.dart';
 
 import '../../../../gen/assets.gen.dart';
+import 'answer/type/answer_text.dart';
 
 /// Answer Item, populated by answer type
 class AnswerItem extends ConsumerWidget {
@@ -87,12 +86,17 @@ class AnswerItem extends ConsumerWidget {
       case DisplayType.smiley:
         return AnswerSmiley(answers: answers, onUpdateAnswer: onUpdateAnswer);
       case DisplayType.textField:
-        return AnswerTextField(
+        return AnswerText(
+          isTextArea: false,
           answers: answers,
           onUpdateAnswer: onUpdateAnswer,
         );
       case DisplayType.textarea:
-        return AnswerTextArea(answers: answers, onUpdateAnswer: onUpdateAnswer);
+        return AnswerText(
+          isTextArea: true,
+          answers: answers,
+          onUpdateAnswer: onUpdateAnswer,
+        );
       default:
         return AnswerSingleChoice(
           onUpdateAnswer: onUpdateAnswer,
