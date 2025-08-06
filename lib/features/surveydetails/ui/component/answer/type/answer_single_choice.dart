@@ -61,7 +61,7 @@ class _AnswerSingleChoice extends BaseAnswerState<AnswerSingleChoice> {
         setState(() {
           selectedIndex = index;
         });
-        submitAnswer([answers[index]]);
+        submitAnswer(answers: [answers[index]]);
       },
       style: WheelPickerStyle(
         itemExtent: AppTextSize.textSizeLarge + (3 * AppDimension.spacingSmall),

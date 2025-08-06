@@ -3,7 +3,7 @@ import 'package:nimble_survey_app/features/surveydetails/model/answer_ui_model.d
 
 abstract class BaseAnswer extends StatefulWidget {
   final List<AnswerUiModel> answers;
-  final Function(List<AnswerUiModel>) onUpdateAnswer;
+  final Function(List<AnswerUiModel>, bool shouldHaveAnswerText) onUpdateAnswer;
 
   const BaseAnswer({
     required this.answers,
@@ -16,8 +16,11 @@ abstract class BaseAnswer extends StatefulWidget {
 }
 
 abstract class BaseAnswerState<T extends BaseAnswer> extends State<T> {
-  void submitAnswer(List<AnswerUiModel> answers) {
-    widget.onUpdateAnswer(answers);
+  void submitAnswer({
+    required List<AnswerUiModel> answers,
+    bool shouldHaveAnswerText = false,
+  }) {
+    widget.onUpdateAnswer(answers, shouldHaveAnswerText);
   }
 
   Widget buildAnswer(BuildContext context);

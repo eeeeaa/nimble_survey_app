@@ -24,6 +24,20 @@ class AnswerText extends BaseAnswer {
 class _AnswerTextState extends BaseAnswerState<AnswerText> {
   Map<String, String> answerMap = {};
 
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize answer list with empty string
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      submitAnswer(
+        answers:
+            widget.answers.map((item) => item.copyWith(answer: "")).toList(),
+        shouldHaveAnswerText: true,
+      );
+    });
+  }
+
   void mapAnswerAndSubmit() {
     List<AnswerUiModel> answers = [];
 
@@ -31,7 +45,7 @@ class _AnswerTextState extends BaseAnswerState<AnswerText> {
       answers.add(AnswerUiModel(itemId: itemId, answer: answer));
     });
 
-    submitAnswer(answers);
+    submitAnswer(answers: answers, shouldHaveAnswerText: true);
   }
 
   Widget _createTextField(int index) {

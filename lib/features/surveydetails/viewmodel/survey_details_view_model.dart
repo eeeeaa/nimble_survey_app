@@ -36,11 +36,15 @@ class SurveyDetailsViewModel extends _$SurveyDetailsViewModel {
   void updateSurveyQuestion({
     required String questionId,
     required List<AnswerUiModel> answers,
+    required bool shouldHaveAnswerText,
   }) {
     final updatedQuestions = Map<String, List<AnswerUiModel>>.from(
       state.surveyQuestions,
     );
-    updatedQuestions[questionId] = answers;
+    updatedQuestions[questionId] =
+        shouldHaveAnswerText
+            ? answers
+            : answers.map((item) => item.copyWith(answer: null)).toList();
     state = state.copyWith(surveyQuestions: updatedQuestions);
   }
 

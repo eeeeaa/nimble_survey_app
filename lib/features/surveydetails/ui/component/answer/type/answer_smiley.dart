@@ -28,7 +28,7 @@ class _AnswerSmileyState extends BaseAnswerState<AnswerSmiley> {
       _selectedSmileyIndex = widget.answers.length - 1;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      submitAnswer([widget.answers.last]);
+      submitAnswer(answers: [widget.answers.last]);
     });
   }
 
@@ -51,7 +51,7 @@ class _AnswerSmileyState extends BaseAnswerState<AnswerSmiley> {
               _selectedSmileyIndex = index;
             });
 
-            submitAnswer([widget.answers[index]]);
+            submitAnswer(answers: [widget.answers[index]]);
           },
           child: Opacity(
             opacity: isSelected ? 1.0 : 0.5,

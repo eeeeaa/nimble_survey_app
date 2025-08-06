@@ -28,7 +28,7 @@ class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
       _selectedIndex = widget.answers.length - 1;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      submitAnswer([widget.answers.last]);
+      submitAnswer(answers: [widget.answers.last]);
     });
   }
 
@@ -43,7 +43,7 @@ class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
         setState(() {
           _selectedIndex = index;
         });
-        submitAnswer([widget.answers[index]]);
+        submitAnswer(answers: [widget.answers[index]]);
       },
       child: Container(
         width: 32,

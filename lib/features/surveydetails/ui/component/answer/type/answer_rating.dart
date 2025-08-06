@@ -30,7 +30,7 @@ class _AnswerFiveRatingState extends BaseAnswerState<AnswerRating> {
       _selectedRating = widget.answers.length;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      submitAnswer([widget.answers.last]);
+      submitAnswer(answers: [widget.answers.last]);
     });
   }
 
@@ -46,7 +46,7 @@ class _AnswerFiveRatingState extends BaseAnswerState<AnswerRating> {
           onTap: () {
             setState(() {
               _selectedRating = index + 1;
-              submitAnswer([widget.answers[index]]);
+              submitAnswer(answers: [widget.answers[index]]);
             });
           },
           child: isSelected ? widget.iconActive : widget.iconInActive,

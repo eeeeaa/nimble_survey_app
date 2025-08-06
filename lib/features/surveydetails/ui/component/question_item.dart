@@ -21,10 +21,17 @@ class QuestionItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void onUpdateAnswer(List<AnswerUiModel> answers) {
+    void onUpdateAnswer(
+      List<AnswerUiModel> answers,
+      bool shouldHaveAnswerText,
+    ) {
       ref
           .read(surveyDetailsViewModelProvider.notifier)
-          .updateSurveyQuestion(questionId: question.id, answers: answers);
+          .updateSurveyQuestion(
+            questionId: question.id,
+            answers: answers,
+            shouldHaveAnswerText: shouldHaveAnswerText,
+          );
     }
 
     return Column(

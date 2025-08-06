@@ -17,7 +17,8 @@ class AnswerItem extends ConsumerWidget {
   final List<AnswerUiModel> answers;
   final DisplayType displayType;
   final PickType pickType;
-  final void Function(List<AnswerUiModel>) onUpdateAnswer;
+  final void Function(List<AnswerUiModel>, bool shouldHaveAnswerText)
+  onUpdateAnswer;
 
   const AnswerItem({
     required this.answers,

@@ -24,14 +24,14 @@ class _AnswerCheckbox extends BaseAnswerState<AnswerCheckbox> {
     selectedIndices.add(index);
     selectedAnswers.add(answer);
 
-    submitAnswer(selectedAnswers);
+    submitAnswer(answers: selectedAnswers);
   }
 
   void _removeAnswer({required int index, required AnswerUiModel answer}) {
     selectedIndices.remove(index);
     selectedAnswers.remove(answer);
 
-    submitAnswer(selectedAnswers);
+    submitAnswer(answers: selectedAnswers);
   }
 
   @override
@@ -39,7 +39,7 @@ class _AnswerCheckbox extends BaseAnswerState<AnswerCheckbox> {
     super.initState();
     // Initially submit empty answer list
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      submitAnswer([]);
+      submitAnswer(answers: []);
     });
   }
 
