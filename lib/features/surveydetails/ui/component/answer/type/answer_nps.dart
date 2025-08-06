@@ -62,8 +62,8 @@ class _AnswerNpsState extends BaseAnswerState<AnswerNps> {
         child: Text(
           widget.answers[index].answer ?? '',
           style: TextStyle(
-              color: isSelected ? Colors.white : Colors.grey,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal
+            color: isSelected ? Colors.white : Colors.grey,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
         ),
       ),
