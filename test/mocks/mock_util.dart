@@ -4,6 +4,8 @@ import 'package:nimble_survey_app/core/model/logout_request.dart';
 import 'package:nimble_survey_app/core/model/registration_request.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
 import 'package:nimble_survey_app/core/model/survey_response.dart';
+import 'package:nimble_survey_app/core/model/user_model.dart';
+import 'package:nimble_survey_app/core/model/user_response.dart';
 
 class MockUtil {
   MockUtil._();
@@ -44,6 +46,23 @@ class MockUtil {
       ),
     ),
   );
+  static final UserResponse mockUserResponse = UserResponse(
+    data: UserData(
+      id: 'id',
+      type: 'type',
+      attributes: UserAttributes(
+        email: 'email',
+        name: 'john',
+        avatarUrl: 'url',
+      ),
+    ),
+  );
+  static final UserModel mockUserModel = UserModel(
+    id: 'id',
+    email: 'email',
+    name: 'john',
+    avatar: 'url',
+  );
   static final SurveyResponse mockSurveyResponse = SurveyResponse(
     data: [
       SurveyData(
@@ -64,7 +83,6 @@ class MockUtil {
     ],
     meta: SurveyMeta(page: 1, pages: 10, pageSize: 5, records: 100),
   );
-
   static final SurveyModel mockSurveyModel = SurveyModel(
     id: 'id',
     title: 'title',
