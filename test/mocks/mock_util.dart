@@ -2,6 +2,8 @@ import 'package:nimble_survey_app/core/model/auth_request.dart';
 import 'package:nimble_survey_app/core/model/auth_response.dart';
 import 'package:nimble_survey_app/core/model/logout_request.dart';
 import 'package:nimble_survey_app/core/model/registration_request.dart';
+import 'package:nimble_survey_app/core/model/survey_details_model.dart';
+import 'package:nimble_survey_app/core/model/survey_details_response.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
 import 'package:nimble_survey_app/core/model/survey_response.dart';
 import 'package:nimble_survey_app/core/model/user_model.dart';
@@ -88,5 +90,14 @@ class MockUtil {
     title: 'title',
     description: 'description',
     coverImageUrl: 'url',
+  );
+  static final SurveyDetailsResponse mockSurveyDetailsResponse =
+      SurveyDetailsResponse();
+  static final SurveyDetailsModel mockSurveyDetailsModel = SurveyDetailsModel(
+    id: '',
+    title: '',
+    description: '',
+    coverImageUrl: '',
+    questions: [],
   );
 }
