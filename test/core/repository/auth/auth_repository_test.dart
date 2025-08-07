@@ -1,8 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:nimble_survey_app/core/model/auth_request.dart';
-import 'package:nimble_survey_app/core/model/logout_request.dart';
-import 'package:nimble_survey_app/core/model/registration_request.dart';
 import 'package:nimble_survey_app/core/network/service/auth_service.dart';
 import 'package:nimble_survey_app/core/repository/auth/auth_repository.dart';
 import 'package:nimble_survey_app/core/repository/auth/auth_repository_impl.dart';
@@ -18,30 +15,14 @@ void main() {
 
   late AuthRepository repository;
 
-  setUpAll(() {
-    registerFallbackValue(
-      AuthRequest(grantType: '', clientId: '', clientSecret: ''),
-    );
-    registerFallbackValue(
-      RegistrationRequest(
-        user: RegistrationUser(
-          email: '',
-          name: '',
-          password: '',
-          passwordConfirmation: '',
-        ),
-        clientId: '',
-        clientSecret: '',
-      ),
-    );
-    registerFallbackValue(
-      LogoutRequest(token: '', clientId: '', clientSecret: ''),
-    );
-  });
-
   setUp(() {
     mockAuthService = MockAuthService();
     mockSecureStorageRepository = MockSecureStorageRepository();
+
+    // Setup fallback data
+    registerFallbackValue(MockUtil.mockAuthRequest);
+    registerFallbackValue(MockUtil.mockRegistrationRequest);
+    registerFallbackValue(MockUtil.mockLogoutRequest);
 
     repository = AuthRepositoryImpl(
       authService: mockAuthService,
