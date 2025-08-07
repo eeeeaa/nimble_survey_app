@@ -3,6 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nimble_survey_app/core/network/service/auth_service.dart';
 import 'package:nimble_survey_app/core/network/service/survey_service.dart';
 import 'package:nimble_survey_app/core/network/service/user_service.dart';
+import 'package:nimble_survey_app/core/repository/auth/auth_repository.dart';
 import 'package:nimble_survey_app/core/repository/local/local_storage_repository.dart';
 import 'package:nimble_survey_app/core/repository/local/secure_storage_repository.dart';
 
@@ -17,5 +18,7 @@ class MockLocalStorageRepository extends Mock
 
 class MockSecureStorageRepository extends Mock
     implements SecureStorageRepository {}
+
+class MockAuthRepository extends Mock implements AuthRepository {}
 
 class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
