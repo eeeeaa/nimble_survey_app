@@ -29,6 +29,7 @@ class AppDimension {
   static const double npsBorderRadius = 4.0;
   static const double profileMediumIconDiameter = 48.0;
   static const double surveyCircleButtonDiameter = 56.0;
+  static const double iconSmallSize = 1.0;
   static const double iconSize = 24.0;
 
   static const double buttonHeight = 48.0;
