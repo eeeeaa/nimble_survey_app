@@ -4,7 +4,7 @@ import 'package:nimble_survey_app/features/surveydetails/ui/question_list_screen
 import 'package:nimble_survey_app/features/surveydetails/ui/survey_completed_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../features/auth/ui/auth_screen.dart';
+import '../../features/auth/login/auth_screen.dart';
 import '../../features/home/ui/home_screen.dart';
 import '../../features/splash/ui/splash_screen.dart';
 import '../../features/surveydetails/ui/survey_details_screen.dart';

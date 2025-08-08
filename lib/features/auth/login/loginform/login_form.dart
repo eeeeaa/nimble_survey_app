@@ -5,12 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_login_button.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_text_field.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
-import 'package:nimble_survey_app/features/auth/ui/viewmodel/auth_view_model.dart';
-import 'package:nimble_survey_app/features/auth/ui/viewmodel/login_form_view_model.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
 import '../../../../core/ui/theme/app_dimension.dart';
 import '../../../../gen/assets.gen.dart';
+import '../viewmodel/auth_view_model.dart';
+import '../viewmodel/login_form_view_model.dart';
 
 class LoginForm extends ConsumerWidget {
   const LoginForm({super.key});
