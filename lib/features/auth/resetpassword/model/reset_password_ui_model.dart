@@ -6,8 +6,10 @@ part 'reset_password_ui_model.freezed.dart';
 abstract class ResetPasswordUiModel with _$ResetPasswordUiModel {
   const ResetPasswordUiModel._(); // Allows adding custom getters
 
-  const factory ResetPasswordUiModel({@Default('') String email}) =
-      _ResetPasswordUiModel;
+  const factory ResetPasswordUiModel({
+    @Default('') String email,
+    @Default(false) bool isLoading,
+  }) = _ResetPasswordUiModel;
 
   bool get isResetEnabled => email.isNotEmpty;
 }
