@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:nimble_survey_app/core/local/service/notification_service.dart';
 import 'package:nimble_survey_app/core/network/service/user_service.dart';
 import 'package:nimble_survey_app/core/provider/repository_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -89,4 +90,9 @@ SurveyService surveyService(Ref ref) {
   final baseUrl = ref.watch(baseUrlProvider);
 
   return SurveyService(dio, baseUrl: baseUrl);
+}
+
+@riverpod
+NotificationService notificationService(Ref ref) {
+  return NotificationService();
 }

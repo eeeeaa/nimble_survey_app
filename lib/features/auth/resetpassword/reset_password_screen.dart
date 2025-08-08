@@ -87,7 +87,16 @@ class ResetPasswordScreen extends ConsumerWidget {
                   if (resetPasswordUiModel.isResetEnabled) {
                     ref
                         .read(resetPasswordViewModelProvider.notifier)
-                        .resetPassword();
+                        .resetPassword(
+                          title:
+                              AppLocalizations.of(
+                                context,
+                              )?.resetPasswordSuccessTitle,
+                          description:
+                              AppLocalizations.of(
+                                context,
+                              )?.resetPasswordSuccessDescription,
+                        );
                   }
                 },
               ),

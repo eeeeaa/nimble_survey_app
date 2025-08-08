@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nimble_survey_app/core/provider/navigation_provider.dart';
+import 'package:nimble_survey_app/core/provider/network_provider.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_text_size.dart';
 import 'package:nimble_survey_app/gen/fonts.gen.dart';
 
@@ -13,6 +14,9 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(goRouterProvider);
+    final notificationService = ref.read(notificationServiceProvider);
+
+    notificationService.initNotification();
 
     return MaterialApp.router(
       localizationsDelegates: const [
