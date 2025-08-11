@@ -41,6 +41,9 @@ dependencies:
   # Environment
   flutter_dotenv: ^5.2.1
 
+  # Test
+  mocktail: ^1.0.4
+
   # Misc
   fluttertoast: ^8.2.12
   cached_network_image: ^3.4.1
