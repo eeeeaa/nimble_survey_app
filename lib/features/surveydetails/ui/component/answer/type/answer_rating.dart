@@ -26,9 +26,7 @@ class _AnswerFiveRatingState extends BaseAnswerState<AnswerRating> {
   void initState() {
     super.initState();
     // Submit initial answer
-    setState(() {
-      _selectedRating = widget.answers.length;
-    });
+    _selectedRating = widget.answers.length;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       submitAnswer(answers: [widget.answers.last]);
     });

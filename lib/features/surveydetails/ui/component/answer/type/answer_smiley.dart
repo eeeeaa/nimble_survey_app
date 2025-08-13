@@ -24,9 +24,7 @@ class _AnswerSmileyState extends BaseAnswerState<AnswerSmiley> {
   void initState() {
     super.initState();
     // Submit initial answer
-    setState(() {
-      _selectedSmileyIndex = widget.answers.length - 1;
-    });
+    _selectedSmileyIndex = widget.answers.length - 1;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       submitAnswer(answers: [widget.answers.last]);
     });

@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/model/survey_question_model.dart';
+import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/ui/component/nimble_login_button.dart';
@@ -148,11 +150,25 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
                     width: null,
                     buttonText:
                         AppLocalizations.of(context)?.questionsSubmit ?? '',
-                    onPressed: () {
-                      ref
-                          .read(surveyDetailsViewModelProvider.notifier)
-                          .submitSurvey();
-                      context.go('/survey/completed');
+                    onPressed: () async {
+                      final result =
+                          await ref
+                              .read(surveyDetailsViewModelProvider.notifier)
+                              .submitSurvey();
+
+                      if (mounted) {
+                        if (result is Success) {
+                          context.go('/survey/completed');
+                        } else {
+                          Fluttertoast.showToast(
+                            msg:
+                                AppLocalizations.of(
+                                  context,
+                                )?.surveyFailedToSubmit ??
+                                "",
+                          );
+                        }
+                      }
                     },
                   )
                   : _createContinueButton(),

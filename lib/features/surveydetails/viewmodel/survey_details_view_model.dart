@@ -52,9 +52,10 @@ class SurveyDetailsViewModel extends _$SurveyDetailsViewModel {
     state = state.copyWith(surveyQuestions: {});
   }
 
-  void submitSurvey() {
+  Future<Result<void>> submitSurvey() async {
     final surveyId = state.surveyDetails?.id;
-    if (surveyId == null || surveyId.isEmpty) return;
+    if (surveyId == null || surveyId.isEmpty)
+      return Result.failure(Exception());
 
     List<SubmitSurveyQuestionItem> questionItems = [];
 
@@ -78,6 +79,6 @@ class SurveyDetailsViewModel extends _$SurveyDetailsViewModel {
       surveyId: surveyId,
       questions: questionItems,
     );
-    _surveyDetailsRepository.submitSurvey(request);
+    return _surveyDetailsRepository.submitSurvey(request);
   }
 }
