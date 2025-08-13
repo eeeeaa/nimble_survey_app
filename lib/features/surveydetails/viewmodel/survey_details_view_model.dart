@@ -54,8 +54,9 @@ class SurveyDetailsViewModel extends _$SurveyDetailsViewModel {
 
   Future<Result<void>> submitSurvey() async {
     final surveyId = state.surveyDetails?.id;
-    if (surveyId == null || surveyId.isEmpty)
+    if (surveyId == null || surveyId.isEmpty) {
       return Result.failure(Exception());
+    }
 
     List<SubmitSurveyQuestionItem> questionItems = [];
 
