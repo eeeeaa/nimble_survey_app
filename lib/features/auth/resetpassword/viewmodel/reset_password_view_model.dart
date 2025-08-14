@@ -5,6 +5,7 @@ import 'package:nimble_survey_app/features/auth/resetpassword/model/reset_passwo
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/repository/auth/auth_repository.dart';
+import '../../../../core/utils/error_wrapper.dart';
 
 part 'reset_password_view_model.g.dart';
 
@@ -22,15 +23,16 @@ class ResetPasswordViewModel extends _$ResetPasswordViewModel {
     state = state.copyWith(email: value);
   }
 
-  Future<void> resetPassword({
+  Future<Result<String?>> resetPassword({
     required String? title,
     required String? description,
   }) async {
     state = state.copyWith(isLoading: true);
-    await _authRepository.resetPassword(email: state.email);
-    if (title != null && description != null) {
+    final result = await _authRepository.resetPassword(email: state.email);
+    if (title != null && description != null && result is Success) {
       await notificationService.showNotification(title, description);
     }
     state = state.copyWith(isLoading: false);
+    return result;
   }
 }

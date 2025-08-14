@@ -2,7 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 import 'package:nimble_survey_app/features/auth/resetpassword/viewmodel/reset_password_view_model.dart';
 
 import '../../../core/ui/component/nimble_login_button.dart';
@@ -83,9 +85,9 @@ class ResetPasswordScreen extends ConsumerWidget {
               : NimbleButton(
                 buttonText:
                     AppLocalizations.of(context)?.resetPasswordReset ?? "",
-                onPressed: () {
+                onPressed: () async {
                   if (resetPasswordUiModel.isResetEnabled) {
-                    ref
+                    final result = await ref
                         .read(resetPasswordViewModelProvider.notifier)
                         .resetPassword(
                           title:
@@ -97,6 +99,15 @@ class ResetPasswordScreen extends ConsumerWidget {
                                 context,
                               )?.resetPasswordSuccessDescription,
                         );
+                    if (result is Failure && context.mounted) {
+                      final toastText =
+                          AppLocalizations.of(
+                            context,
+                          )?.resetPasswordInvalidEmail;
+                      if (toastText != null) {
+                        Fluttertoast.showToast(msg: toastText);
+                      }
+                    }
                   }
                 },
               ),
