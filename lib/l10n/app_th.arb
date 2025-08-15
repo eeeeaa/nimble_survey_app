@@ -22,5 +22,6 @@
     "numberRatingBarAnswerPositiveText": "เป็นไปได้มาก",
     "numberRatingBarAnswerNegativeText": "ไม่น่าจะเป็นไปได้",
     "textAreaAnswerHint": "ความคิดเห็นของคุณ",
-    "surveyCompletionDefaultText": "ขอบคุณที่สละเวลาตอบแบบสอบถาม"
+    "surveyCompletionDefaultText": "ขอบคุณที่สละเวลาตอบแบบสอบถาม",
+    "surveyFailedToSubmit": "การส่งแบบสำรวจล้มเหลว กรุณาลองอีกครั้ง"
 }

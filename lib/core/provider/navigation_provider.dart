@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nimble_survey_app/features/surveydetails/ui/questions/question_list_screen.dart';
-import 'package:nimble_survey_app/features/surveydetails/ui/surveycompleted/survey_completed_screen.dart';
+import 'package:nimble_survey_app/features/surveydetails/ui/question_list_screen.dart';
+import 'package:nimble_survey_app/features/surveydetails/ui/survey_completed_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/auth/ui/auth_screen.dart';
 import '../../features/home/ui/home_screen.dart';
 import '../../features/splash/ui/splash_screen.dart';
-import '../../features/surveydetails/ui/details/survey_details_screen.dart';
+import '../../features/surveydetails/ui/survey_details_screen.dart';
 
 part 'navigation_provider.g.dart';
 

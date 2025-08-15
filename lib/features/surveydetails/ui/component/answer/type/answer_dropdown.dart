@@ -31,7 +31,9 @@ class _AnswerDropDown extends BaseAnswerState<AnswerDropDown> {
             label: item.answer ?? '',
           );
         }).toList();
-    submitAnswer([widget.answers.first]);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      submitAnswer(answers: [widget.answers.first]);
+    });
   }
 
   @override
@@ -50,7 +52,7 @@ class _AnswerDropDown extends BaseAnswerState<AnswerDropDown> {
             selectedAnswer = answer;
           });
           if (answer != null) {
-            submitAnswer([answer]);
+            submitAnswer(answers: [answer]);
           }
         },
       ),

@@ -58,4 +58,43 @@ void main() {
       verify(() => mockSurveyService.getSurveyDetails(surveyId)).called(1);
     },
   );
+
+  test(
+    'When submitting survey successful, it returns successful response',
+    () async {
+      // When
+      when(
+        () => mockSurveyService.submitSurvey(MockUtil.mockSubmitSurveyRequest),
+      ).thenAnswer((_) async => {});
+
+      final result = await repository.submitSurvey(
+        MockUtil.mockSubmitSurveyRequest,
+      );
+
+      // Then
+      expect(result, isA<Success>());
+
+      verify(
+        () => mockSurveyService.submitSurvey(MockUtil.mockSubmitSurveyRequest),
+      ).called(1);
+    },
+  );
+
+  test('When submitting survey failed, it returns wrapped error', () async {
+    // When
+    when(
+      () => mockSurveyService.submitSurvey(MockUtil.mockSubmitSurveyRequest),
+    ).thenThrow(Exception());
+
+    final result = await repository.submitSurvey(
+      MockUtil.mockSubmitSurveyRequest,
+    );
+
+    // Then
+    expect(result, isA<Failure>());
+
+    verify(
+      () => mockSurveyService.submitSurvey(MockUtil.mockSubmitSurveyRequest),
+    ).called(1);
+  });
 }

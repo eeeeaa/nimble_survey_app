@@ -4,6 +4,8 @@ import 'package:nimble_survey_app/core/model/survey_response.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
+import '../../model/submit_survey_request.dart';
+
 part 'survey_service.g.dart';
 
 @RestApi()
@@ -23,4 +25,7 @@ abstract class SurveyService {
 
   @GET('/surveys/{id}')
   Future<SurveyDetailsResponse> getSurveyDetails(@Path('id') String surveyId);
+
+  @POST("/responses")
+  Future<void> submitSurvey(@Body() SubmitSurveyRequest body);
 }

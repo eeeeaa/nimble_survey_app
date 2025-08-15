@@ -8,27 +8,25 @@ import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/typ
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_rating.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_single_choice.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_smiley.dart';
-import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_text_area.dart';
-import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/type/answer_text_field.dart';
 
-import '../../../../../gen/assets.gen.dart';
+import '../../../../gen/assets.gen.dart';
+import 'answer/type/answer_text.dart';
 
 /// Answer Item, populated by answer type
 class AnswerItem extends ConsumerWidget {
   final List<AnswerUiModel> answers;
   final DisplayType displayType;
   final PickType pickType;
+  final void Function(List<AnswerUiModel>, bool shouldHaveAnswerText)
+  onUpdateAnswer;
 
   const AnswerItem({
     required this.answers,
     required this.displayType,
     required this.pickType,
+    required this.onUpdateAnswer,
     super.key,
   });
-
-  void _onUpdateAnswer(answerId) {
-    // TODO handle answer id
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,22 +38,19 @@ class AnswerItem extends ConsumerWidget {
       case DisplayType.choice:
         if (pickType == PickType.any) {
           return AnswerCheckbox(
-            onUpdateAnswer: _onUpdateAnswer,
+            onUpdateAnswer: onUpdateAnswer,
             answers: answers,
           );
         } else {
           return AnswerSingleChoice(
-            onUpdateAnswer: _onUpdateAnswer,
+            onUpdateAnswer: onUpdateAnswer,
             answers: answers,
           );
         }
       case DisplayType.nps:
-        return AnswerNps(answers: answers, onUpdateAnswer: _onUpdateAnswer);
+        return AnswerNps(answers: answers, onUpdateAnswer: onUpdateAnswer);
       case DisplayType.dropdown:
-        return AnswerDropDown(
-          onUpdateAnswer: _onUpdateAnswer,
-          answers: answers,
-        );
+        return AnswerDropDown(onUpdateAnswer: onUpdateAnswer, answers: answers);
       case DisplayType.star:
         return AnswerRating(
           iconActive: Assets.images.icStarActive.image(width: 28, height: 34),
@@ -64,7 +59,7 @@ class AnswerItem extends ConsumerWidget {
             height: 34,
           ),
           answers: answers,
-          onUpdateAnswer: _onUpdateAnswer,
+          onUpdateAnswer: onUpdateAnswer,
         );
       case DisplayType.heart:
         return AnswerRating(
@@ -74,7 +69,7 @@ class AnswerItem extends ConsumerWidget {
             height: 34,
           ),
           answers: answers,
-          onUpdateAnswer: _onUpdateAnswer,
+          onUpdateAnswer: onUpdateAnswer,
         );
       case DisplayType.thumpsUp:
         return AnswerRating(
@@ -87,23 +82,25 @@ class AnswerItem extends ConsumerWidget {
             height: 34,
           ),
           answers: answers,
-          onUpdateAnswer: _onUpdateAnswer,
+          onUpdateAnswer: onUpdateAnswer,
         );
       case DisplayType.smiley:
-        return AnswerSmiley(answers: answers, onUpdateAnswer: _onUpdateAnswer);
+        return AnswerSmiley(answers: answers, onUpdateAnswer: onUpdateAnswer);
       case DisplayType.textField:
-        return AnswerTextField(
+        return AnswerText(
+          isTextArea: false,
           answers: answers,
-          onUpdateAnswer: _onUpdateAnswer,
+          onUpdateAnswer: onUpdateAnswer,
         );
       case DisplayType.textarea:
-        return AnswerTextArea(
+        return AnswerText(
+          isTextArea: true,
           answers: answers,
-          onUpdateAnswer: _onUpdateAnswer,
+          onUpdateAnswer: onUpdateAnswer,
         );
       default:
         return AnswerSingleChoice(
-          onUpdateAnswer: _onUpdateAnswer,
+          onUpdateAnswer: onUpdateAnswer,
           answers: answers,
         );
     }

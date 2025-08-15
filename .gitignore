@@ -56,3 +56,4 @@ app.*.map.json
 /lib/l10n/app_localizations_en.dart
 /lib/l10n/app_localizations_th.dart
 /lib/gen/*
+/devtools_options.yaml

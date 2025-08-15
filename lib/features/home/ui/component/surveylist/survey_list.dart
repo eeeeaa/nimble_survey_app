@@ -159,7 +159,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
       child: Stack(
         children: [
           SurveyBackgroundImage(
-            imageUrl: surveyList[currentIndex].coverImageUrl ?? '',
+            imageUrl: surveyList[currentIndex].coverImageUrl,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,

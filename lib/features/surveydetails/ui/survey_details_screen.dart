@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/model/survey_details_model.dart';
-import '../../../../core/ui/component/nimble_login_button.dart';
-import '../../../../core/ui/theme/app_dimension.dart';
-import '../../../../core/ui/theme/app_text_size.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../gen/colors.gen.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../../home/ui/component/surveylist/survey_background_image.dart';
-import '../../model/survey_details_ui_model.dart';
-import '../../viewmodel/survey_details_view_model.dart';
+import '../../../core/model/survey_details_model.dart';
+import '../../../core/ui/component/nimble_login_button.dart';
+import '../../../core/ui/theme/app_dimension.dart';
+import '../../../core/ui/theme/app_text_size.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../gen/colors.gen.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../home/ui/component/surveylist/survey_background_image.dart';
+import '../model/survey_details_ui_model.dart';
+import '../viewmodel/survey_details_view_model.dart';
 
 class SurveyDetailsScreen extends ConsumerStatefulWidget {
   final String id;

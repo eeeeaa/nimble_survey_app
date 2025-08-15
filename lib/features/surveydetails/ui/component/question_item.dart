@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nimble_survey_app/core/model/survey_question_model.dart';
 import 'package:nimble_survey_app/features/surveydetails/model/answer_ui_model.dart';
-import 'package:nimble_survey_app/features/surveydetails/ui/component/answer/answer_item.dart';
+import 'package:nimble_survey_app/features/surveydetails/ui/component/answer_item.dart';
+import 'package:nimble_survey_app/features/surveydetails/viewmodel/survey_details_view_model.dart';
 
-import '../../../../../core/ui/theme/app_text_size.dart';
-import '../../../../../gen/colors.gen.dart';
+import '../../../../core/ui/theme/app_text_size.dart';
+import '../../../../gen/colors.gen.dart';
 
-class QuestionItem extends StatelessWidget {
+class QuestionItem extends ConsumerWidget {
   final SurveyQuestionModel question;
 
   const QuestionItem({required this.question, super.key});
@@ -18,7 +20,20 @@ class QuestionItem extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    void onUpdateAnswer(
+      List<AnswerUiModel> answers,
+      bool shouldHaveAnswerText,
+    ) {
+      ref
+          .read(surveyDetailsViewModelProvider.notifier)
+          .updateSurveyQuestion(
+            questionId: question.id,
+            answers: answers,
+            shouldHaveAnswerText: shouldHaveAnswerText,
+          );
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,6 +55,7 @@ class QuestionItem extends StatelessWidget {
             displayType: question.displayType,
             answers: _getAnswerUiModelList(),
             pickType: question.pickType,
+            onUpdateAnswer: onUpdateAnswer,
           ),
         ),
       ],

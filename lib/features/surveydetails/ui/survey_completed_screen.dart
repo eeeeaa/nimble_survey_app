@@ -4,7 +4,7 @@ import 'package:nimble_survey_app/core/ui/theme/app_text_size.dart';
 import 'package:nimble_survey_app/gen/colors.gen.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
-import '../../../../gen/assets.gen.dart';
+import '../../../gen/assets.gen.dart';
 
 class SurveyCompletedScreen extends StatefulWidget {
   const SurveyCompletedScreen({super.key});
