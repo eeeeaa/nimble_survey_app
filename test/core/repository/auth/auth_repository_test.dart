@@ -23,6 +23,7 @@ void main() {
     registerFallbackValue(MockUtil.mockAuthRequest);
     registerFallbackValue(MockUtil.mockRegistrationRequest);
     registerFallbackValue(MockUtil.mockLogoutRequest);
+    registerFallbackValue(MockUtil.mockResetPasswordRequest);
 
     repository = AuthRepositoryImpl(
       authService: mockAuthService,
@@ -203,5 +204,42 @@ void main() {
 
     // Then
     expect(result, false);
+  });
+
+  test(
+    'When calling resetPassword successfully, it returns success response',
+    () async {
+      // Given
+      final email = 'email';
+      final message = MockUtil.mockResetPasswordResponse.meta?.message;
+
+      // When
+      when(
+        () => mockAuthService.resetPassword(any()),
+      ).thenAnswer((_) async => MockUtil.mockResetPasswordResponse);
+
+      final result = await repository.resetPassword(email: email);
+
+      // Then
+      expect(result, isA<Success>());
+      expect((result as Success).data, message);
+
+      verify(() => mockAuthService.resetPassword(any())).called(1);
+    },
+  );
+
+  test('When calling resetPassword failed, it returns warped error', () async {
+    // Given
+    final email = 'email';
+
+    // When
+    when(() => mockAuthService.resetPassword(any())).thenThrow(Exception());
+
+    final result = await repository.resetPassword(email: email);
+
+    // Then
+    expect(result, isA<Failure>());
+
+    verify(() => mockAuthService.resetPassword(any())).called(1);
   });
 }
