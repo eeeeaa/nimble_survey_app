@@ -2,19 +2,21 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/model/survey_question_model.dart';
+import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/ui/component/nimble_login_button.dart';
-import '../../../../core/ui/theme/app_dimension.dart';
-import '../../../../core/ui/theme/app_text_size.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../gen/colors.gen.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../../home/ui/component/surveylist/survey_background_image.dart';
-import '../../viewmodel/survey_details_view_model.dart';
-import '../component/question/question_item.dart';
+import '../../../core/constants/app_constants.dart';
+import '../../../core/ui/component/nimble_login_button.dart';
+import '../../../core/ui/theme/app_dimension.dart';
+import '../../../core/ui/theme/app_text_size.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../gen/colors.gen.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../home/ui/component/surveylist/survey_background_image.dart';
+import '../viewmodel/survey_details_view_model.dart';
+import 'component/question_item.dart';
 
 class QuestionListScreen extends ConsumerStatefulWidget {
   const QuestionListScreen({super.key});
@@ -32,7 +34,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
     super.dispose();
   }
 
-  Future<void> _showExitSurveyDialog() async {
+  Future<void> _createShowExitSurveyDialog() async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -66,6 +68,9 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
                     '',
               ),
               onPressed: () {
+                ref
+                    .read(surveyDetailsViewModelProvider.notifier)
+                    .clearSurveyQuestion();
                 // Close dialog
                 context.pop();
                 // Go back to survey details screen
@@ -120,7 +125,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
           alignment: Alignment.topRight,
           child: IconButton(
             onPressed: () {
-              _showExitSurveyDialog();
+              _createShowExitSurveyDialog();
             },
             icon: Assets.images.icClose.svg(),
           ),
@@ -145,9 +150,25 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
                     width: null,
                     buttonText:
                         AppLocalizations.of(context)?.questionsSubmit ?? '',
-                    onPressed: () {
-                      // TODO submit and finish survey
-                      context.go('/survey/completed');
+                    onPressed: () async {
+                      final result =
+                          await ref
+                              .read(surveyDetailsViewModelProvider.notifier)
+                              .submitSurvey();
+
+                      if (mounted) {
+                        if (result is Success) {
+                          context.go('/survey/completed');
+                        } else {
+                          Fluttertoast.showToast(
+                            msg:
+                                AppLocalizations.of(
+                                  context,
+                                )?.surveyFailedToSubmit ??
+                                "",
+                          );
+                        }
+                      }
                     },
                   )
                   : _createContinueButton(),
@@ -171,7 +192,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        _showExitSurveyDialog();
+        _createShowExitSurveyDialog();
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,

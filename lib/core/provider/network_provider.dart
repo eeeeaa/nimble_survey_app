@@ -22,9 +22,9 @@ FlutterSecureStorage secureStorage(Ref ref) {
 @riverpod
 Dio dio(Ref ref) {
   final dio = Dio();
-  if (!kReleaseMode) {
-    dio.interceptors.add(PrettyDioLogger());
-  }
+
+  dio.interceptors.add(PrettyDioLogger(requestBody: true, enabled: kDebugMode));
+
   return dio;
 }
 
@@ -45,9 +45,7 @@ Dio authorizedDio(Ref ref) {
     ),
   );
 
-  if (!kReleaseMode) {
-    dio.interceptors.add(PrettyDioLogger());
-  }
+  dio.interceptors.add(PrettyDioLogger(requestBody: true, enabled: kDebugMode));
 
   return dio;
 }

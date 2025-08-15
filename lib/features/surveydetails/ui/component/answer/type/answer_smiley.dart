@@ -21,8 +21,21 @@ class _AnswerSmileyState extends BaseAnswerState<AnswerSmiley> {
   final _smileyImages = ['😡', '😕', '😐', '🙂', '😄'];
 
   @override
+  void initState() {
+    super.initState();
+    // Submit initial answer
+    _selectedSmileyIndex = widget.answers.length - 1;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      submitAnswer(answers: [widget.answers.last]);
+    });
+  }
+
+  @override
   Widget buildAnswer(BuildContext context) {
     final int totalSmileys = widget.answers.length;
+
+    // Not support more than 5 smileys
+    if (totalSmileys > 5) return SizedBox.shrink();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +49,7 @@ class _AnswerSmileyState extends BaseAnswerState<AnswerSmiley> {
               _selectedSmileyIndex = index;
             });
 
-            submitAnswer([widget.answers[index]]);
+            submitAnswer(answers: [widget.answers[index]]);
           },
           child: Opacity(
             opacity: isSelected ? 1.0 : 0.5,

@@ -19,7 +19,18 @@ class AnswerRating extends BaseAnswer {
 }
 
 class _AnswerFiveRatingState extends BaseAnswerState<AnswerRating> {
+  // Should start at 1
   int _selectedRating = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Submit initial answer
+    _selectedRating = widget.answers.length;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      submitAnswer(answers: [widget.answers.last]);
+    });
+  }
 
   @override
   Widget buildAnswer(BuildContext context) {
@@ -33,7 +44,7 @@ class _AnswerFiveRatingState extends BaseAnswerState<AnswerRating> {
           onTap: () {
             setState(() {
               _selectedRating = index + 1;
-              submitAnswer([widget.answers[index]]);
+              submitAnswer(answers: [widget.answers[index]]);
             });
           },
           child: isSelected ? widget.iconActive : widget.iconInActive,

@@ -1,0 +1,67 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:nimble_survey_app/core/provider/repository_provider.dart';
+import 'package:nimble_survey_app/core/repository/auth/auth_repository.dart';
+import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
+import 'package:nimble_survey_app/features/auth/model/auth_ui_model.dart';
+import 'package:nimble_survey_app/features/auth/ui/viewmodel/auth_view_model.dart';
+
+import '../../../../mocks/mocks.dart';
+
+void main() {
+  late AuthRepository mockAuthRepository;
+
+  late ProviderContainer container;
+
+  setUp(() {
+    mockAuthRepository = MockAuthRepository();
+
+    container = ProviderContainer(
+      overrides: [authRepositoryProvider.overrideWithValue(mockAuthRepository)],
+    );
+  });
+
+  tearDown(() {
+    container.dispose();
+  });
+
+  test('When view model initialize, it returns initial AuthUiModel', () async {
+    // Given
+    final expected = AuthUiModel(isLoggedIn: true);
+
+    // When
+    when(() => mockAuthRepository.isLoggedIn()).thenAnswer((_) async => true);
+
+    final authUiModel = await container.read(authViewModelProvider.future);
+
+    // Then
+    expect(authUiModel, expected);
+  });
+
+  test('When calling login, it calls login and refresh ui state', () async {
+    // Given
+    final email = "email";
+    final password = "password";
+
+    // When
+    when(() => mockAuthRepository.isLoggedIn()).thenAnswer((_) async => false);
+    when(
+      () => mockAuthRepository.login(any(), any()),
+    ).thenAnswer((_) async => Success(null));
+    when(() => mockAuthRepository.isLoggedIn()).thenAnswer((_) async => true);
+
+    // Then
+    final result = await container
+        .read(authViewModelProvider.notifier)
+        .login(email, password);
+
+    expect(result, isA<Success>());
+
+    final updatedUiState = container.read(authViewModelProvider);
+    expect(updatedUiState.value?.isLoggedIn, true);
+
+    verify(() => mockAuthRepository.login(email, password)).called(1);
+    verify(() => mockAuthRepository.isLoggedIn()).called(2);
+  });
+}
