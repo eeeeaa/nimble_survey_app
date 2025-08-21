@@ -1,11 +1,14 @@
 import 'package:nimble_survey_app/core/model/auth_request.dart';
 import 'package:nimble_survey_app/core/model/auth_response.dart';
+import 'package:nimble_survey_app/core/model/display_type.dart';
 import 'package:nimble_survey_app/core/model/logout_request.dart';
 import 'package:nimble_survey_app/core/model/registration_request.dart';
 import 'package:nimble_survey_app/core/model/submit_survey_request.dart';
+import 'package:nimble_survey_app/core/model/survey_answer_model.dart';
 import 'package:nimble_survey_app/core/model/survey_details_model.dart';
 import 'package:nimble_survey_app/core/model/survey_details_response.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
+import 'package:nimble_survey_app/core/model/survey_question_model.dart';
 import 'package:nimble_survey_app/core/model/survey_response.dart';
 import 'package:nimble_survey_app/core/model/user_model.dart';
 import 'package:nimble_survey_app/core/model/user_response.dart';
@@ -95,11 +98,21 @@ class MockUtil {
   static final SurveyDetailsResponse mockSurveyDetailsResponse =
       SurveyDetailsResponse();
   static final SurveyDetailsModel mockSurveyDetailsModel = SurveyDetailsModel(
-    id: '',
-    title: '',
-    description: '',
-    coverImageUrl: '',
-    questions: [],
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    coverImageUrl: 'url',
+    questions: [
+      SurveyQuestionModel(
+        id: 'id',
+        questionText: 'tex',
+        displayType: DisplayType.choice,
+        pickType: PickType.one,
+        answers: [
+          SurveyAnswerModel(id: 'id', answerText: 'answer', displayOrder: 1),
+        ],
+      ),
+    ],
   );
   static final SubmitSurveyRequest mockSubmitSurveyRequest =
       SubmitSurveyRequest(
