@@ -22,7 +22,7 @@ class NimbleTextField extends StatelessWidget {
       obscureText: obscureText,
       style: TextStyle(color: ColorName.primaryText),
       decoration: InputDecoration(
-        suffixIcon: (suffix != null) ? suffix : null,
+        suffixIcon: suffix,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(AppDimension.borderRadius),
