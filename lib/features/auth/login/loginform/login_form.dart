@@ -5,12 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_login_button.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_text_field.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
-import 'package:nimble_survey_app/features/auth/ui/viewmodel/auth_view_model.dart';
-import 'package:nimble_survey_app/features/auth/ui/viewmodel/login_form_view_model.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
 import '../../../../core/ui/theme/app_dimension.dart';
+import '../../../../core/ui/theme/app_text_size.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../../gen/colors.gen.dart';
+import '../viewmodel/auth_view_model.dart';
+import '../viewmodel/login_form_view_model.dart';
 
 class LoginForm extends ConsumerWidget {
   const LoginForm({super.key});
@@ -44,8 +46,27 @@ class LoginForm extends ConsumerWidget {
                         .setEmail(value),
               ),
               NimbleTextField(
-                suffixText:
-                    AppLocalizations.of(context)?.loginForgotPassword ?? "",
+                suffix:
+                    authUiModel.isLoading
+                        ? Padding(
+                          padding: const EdgeInsets.all(
+                            AppDimension.spacingMedium,
+                          ),
+                          child: CircularProgressIndicator(),
+                        )
+                        : TextButton(
+                          onPressed: () {
+                            context.go('/auth/reset');
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)?.loginForgotPassword ??
+                                "",
+                            style: TextStyle(
+                              fontSize: AppTextSize.textSizeSmall,
+                              color: ColorName.secondaryText,
+                            ),
+                          ),
+                        ),
                 hintText: AppLocalizations.of(context)?.loginPassword ?? "",
                 obscureText: true,
                 onChanged:

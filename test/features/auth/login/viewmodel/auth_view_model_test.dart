@@ -4,8 +4,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:nimble_survey_app/core/provider/repository_provider.dart';
 import 'package:nimble_survey_app/core/repository/auth/auth_repository.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
-import 'package:nimble_survey_app/features/auth/model/auth_ui_model.dart';
-import 'package:nimble_survey_app/features/auth/ui/viewmodel/auth_view_model.dart';
+import 'package:nimble_survey_app/features/auth/login/model/auth_ui_model.dart';
+import 'package:nimble_survey_app/features/auth/login/viewmodel/auth_view_model.dart';
 
 import '../../../../mocks/mocks.dart';
 

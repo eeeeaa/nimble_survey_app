@@ -2,6 +2,8 @@ import 'package:nimble_survey_app/core/model/auth_request.dart';
 import 'package:nimble_survey_app/core/model/auth_response.dart';
 import 'package:nimble_survey_app/core/model/logout_request.dart';
 import 'package:nimble_survey_app/core/model/registration_request.dart';
+import 'package:nimble_survey_app/core/model/reset_password_request.dart';
+import 'package:nimble_survey_app/core/model/reset_password_response.dart';
 import 'package:nimble_survey_app/core/model/submit_survey_request.dart';
 import 'package:nimble_survey_app/core/model/survey_details_model.dart';
 import 'package:nimble_survey_app/core/model/survey_details_response.dart';
@@ -111,4 +113,12 @@ class MockUtil {
           ),
         ],
       );
+  static final ResetPasswordRequest mockResetPasswordRequest =
+      ResetPasswordRequest(
+        user: ResetPasswordUser(email: 'email'),
+        clientId: 'clientId',
+        clientSecret: 'clientSecret',
+      );
+  static final ResetPasswordResponse mockResetPasswordResponse =
+      ResetPasswordResponse(meta: ResetPasswordMeta(message: 'message'));
 }
