@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:nimble_survey_app/core/model/survey_details_model.dart';
 import 'package:nimble_survey_app/core/network/service/survey_service.dart';
 import 'package:nimble_survey_app/core/repository/surveydetails/survey_details_repository.dart';
 import 'package:nimble_survey_app/core/repository/surveydetails/survey_details_repository_impl.dart';
@@ -34,7 +35,16 @@ void main() {
 
       // Then
       expect(result, isA<Success>());
-      expect((result as Success).data, MockUtil.mockSurveyDetailsModel);
+      expect(
+        (result as Success).data,
+        SurveyDetailsModel(
+          id: '',
+          title: '',
+          description: '',
+          coverImageUrl: '',
+          questions: [],
+        ),
+      );
 
       verify(() => mockSurveyService.getSurveyDetails(surveyId)).called(1);
     },
