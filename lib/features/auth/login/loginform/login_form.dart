@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_login_button.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_text_field.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
@@ -39,6 +40,7 @@ class LoginForm extends ConsumerWidget {
             spacing: AppDimension.spacingMedium,
             children: [
               NimbleTextField(
+                key: AppWidgetKey.loginEmailTextField,
                 hintText: AppLocalizations.of(context)?.email ?? "",
                 onChanged:
                     (value) => ref
@@ -46,6 +48,7 @@ class LoginForm extends ConsumerWidget {
                         .setEmail(value),
               ),
               NimbleTextField(
+                key: AppWidgetKey.loginPasswordTextField,
                 suffix:
                     authUiModel.isLoading
                         ? Padding(
@@ -55,6 +58,7 @@ class LoginForm extends ConsumerWidget {
                           child: CircularProgressIndicator(),
                         )
                         : TextButton(
+                          key: AppWidgetKey.loginResetPasswordButton,
                           onPressed: () {
                             context.go('/auth/reset');
                           },
@@ -77,6 +81,7 @@ class LoginForm extends ConsumerWidget {
               authUiModel.isLoading
                   ? CircularProgressIndicator()
                   : NimbleButton(
+                    key: AppWidgetKey.loginSubmitButton,
                     buttonText: AppLocalizations.of(context)?.login ?? "",
                     onPressed: () async {
                       FocusManager.instance.primaryFocus?.unfocus();
