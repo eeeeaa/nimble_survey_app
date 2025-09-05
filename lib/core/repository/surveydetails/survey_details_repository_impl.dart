@@ -15,7 +15,7 @@ class SurveyDetailsRepositoryImpl extends SurveyDetailsRepository {
   Future<Result<SurveyDetailsModel>> getSurveyDetails(String surveyId) async {
     return safeApiCall<SurveyDetailsResponse, SurveyDetailsModel>(
       call: () => surveyService.getSurveyDetails(surveyId),
-      mapper: (res) => SurveyDetailsModel.fromResponse(res: res),
+      mapper: (res) async => SurveyDetailsModel.fromResponse(res: res),
     );
   }
 

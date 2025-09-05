@@ -28,7 +28,7 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
     return safeApiCall<UserProfileTableData?, UserModel?>(
       call: () => database.select(database.userProfileTable).getSingleOrNull(),
       mapper:
-          (row) =>
+          (row) async =>
               row != null
                   ? UserModel(
                     id: row.id,
@@ -69,7 +69,7 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
     return safeApiCall<List<SurveyListTableData>, List<SurveyModel>>(
       call: () => database.select(database.surveyListTable).get(),
       mapper:
-          (rows) =>
+          (rows) async =>
               rows
                   .map(
                     (row) => SurveyModel(

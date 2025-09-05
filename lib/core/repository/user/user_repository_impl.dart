@@ -35,7 +35,7 @@ class UserRepositoryImpl extends UserRepository {
   Future<Result<UserModel>> _getRemoteUser() {
     return safeApiCall<UserResponse, UserModel>(
       call: () => userService.getUser(),
-      mapper: (res) {
+      mapper: (res) async {
         final userProfile = UserModel.fromResponse(res: res);
         localStorageRepository.updateCachedUserProfile(userProfile);
         return userProfile;

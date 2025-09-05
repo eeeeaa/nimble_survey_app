@@ -45,8 +45,8 @@ class SurveyListViewModel extends _$SurveyListViewModel {
     );
   }
 
-  Future<void> refresh() async {
-    if (!ref.mounted) return;
+  Future<Result<void>> refresh() async {
+    if (!ref.mounted) return Failure(Exception());
     state = state.copyWith(isLoading: true);
 
     // Reload survey list
@@ -54,14 +54,20 @@ class SurveyListViewModel extends _$SurveyListViewModel {
       pageNumber: 1,
       isForceReload: true,
     );
-    _currentPage = 2; // Next page
+    if (surveyList.isNotEmpty) {
+      _currentPage = 2; // Next page
 
-    state = state.copyWith(
-      surveyList: surveyList,
-      currentIndex: 0,
-      isLoading: false,
-      isFirstLoad: false,
-    );
+      state = state.copyWith(
+        surveyList: surveyList,
+        currentIndex: 0,
+        isLoading: false,
+        isFirstLoad: false,
+      );
+      return Success(null);
+    } else {
+      state = state.copyWith(isLoading: false);
+      return Failure(Exception());
+    }
   }
 
   Future<void> loadMore() async {

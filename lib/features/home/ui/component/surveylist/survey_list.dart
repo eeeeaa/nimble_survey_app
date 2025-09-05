@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_dimension.dart';
+import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 import 'package:nimble_survey_app/features/home/ui/component/surveylist/survey_background_image.dart';
 import 'package:nimble_survey_app/features/home/ui/component/surveylist/survey_item.dart';
 import 'package:nimble_survey_app/features/home/ui/viewmodel/survey_list_view_model.dart';
@@ -114,10 +116,21 @@ class SurveyListState extends ConsumerState<SurveyList> {
 
     return RefreshIndicator(
       onRefresh: () async {
-        await ref.read(surveyListViewModelProvider.notifier).refresh();
-        _controller.jumpToPage(
-          ref.read(surveyListViewModelProvider).currentIndex,
-        );
+        final result =
+            await ref.read(surveyListViewModelProvider.notifier).refresh();
+        if (result is Success) {
+          _controller.jumpToPage(
+            ref.read(surveyListViewModelProvider).currentIndex,
+          );
+        } else {
+          if (mounted) {
+            Fluttertoast.showToast(
+              msg:
+                  AppLocalizations.of(context)?.homeFailedToGetSurveyList ??
+                  'Something went wrong',
+            );
+          }
+        }
       },
       child: Stack(
         children: [
@@ -141,13 +154,16 @@ class SurveyListState extends ConsumerState<SurveyList> {
   }
 
   Widget _createEmptyListContent() {
-    return Center(
-      child: Text(
-        AppLocalizations.of(context)?.homeEmptySurveyList ?? '',
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-          color: Theme.of(context).colorScheme.onSurface,
+    return Container(
+      color: Colors.black,
+      child: Center(
+        child: Text(
+          AppLocalizations.of(context)?.homeEmptySurveyList ?? '',
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+          textAlign: TextAlign.center,
         ),
-        textAlign: TextAlign.center,
       ),
     );
   }
