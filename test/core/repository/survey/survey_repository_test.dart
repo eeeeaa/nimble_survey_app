@@ -105,6 +105,9 @@ void main() {
       when(
         () => mockSurveyService.getSurveyList(any(), any()),
       ).thenAnswer((_) async => MockUtil.mockSurveyResponse);
+      when(
+        () => mockLocalStorageRepository.clearCachedSurveyModelList(),
+      ).thenAnswer((_) async => Success(null));
 
       final result = await repository.getSurveyList(
         pageNumber: pageNumber,

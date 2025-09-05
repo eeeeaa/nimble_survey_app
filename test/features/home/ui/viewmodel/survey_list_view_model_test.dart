@@ -110,6 +110,50 @@ void main() {
   );
 
   test(
+    'When calling refresh, it force reload the survey list and reset pageNumber and index',
+    () async {
+      // Given
+      final expectedInitialState = SurveyListUiModel(
+        surveyList: List.empty(),
+        currentIndex: 0,
+        isLoading: true,
+        hasMore: true,
+        isFirstLoad: true,
+      );
+
+      // When
+      final surveyListUiModel = container.read(surveyListViewModelProvider);
+
+      expect(surveyListUiModel, expectedInitialState);
+
+      when(
+        () => mockSurveyRepository.getSurveyList(
+          pageNumber: any(named: 'pageNumber'),
+          pageSize: AppConstants.defaultPageSize,
+          isForceReload: any(named: 'isForceReload'),
+        ),
+      ).thenAnswer((_) async => Success([MockUtil.mockSurveyModel]));
+
+      await container.read(surveyListViewModelProvider.notifier).initialLoad();
+      await container.read(surveyListViewModelProvider.notifier).loadMore();
+
+      final loadMoreState = container.read(surveyListViewModelProvider);
+
+      expect(loadMoreState.surveyList, [
+        MockUtil.mockSurveyModel,
+        MockUtil.mockSurveyModel,
+      ]);
+
+      await container.read(surveyListViewModelProvider.notifier).refresh();
+
+      // Then
+      final refreshState = container.read(surveyListViewModelProvider);
+
+      expect(refreshState.surveyList, [MockUtil.mockSurveyModel]);
+    },
+  );
+
+  test(
     'When calling loadMore, it fetch subsequent page of the survey list and update SurveyListUiModel',
     () async {
       // Given
