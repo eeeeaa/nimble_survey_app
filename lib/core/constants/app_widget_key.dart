@@ -14,4 +14,10 @@ class AppWidgetKey {
 
   // Home screen
   static const homeScreen = ValueKey("HomeScreen");
+  static const homeProfileBar = ValueKey("HomeProfileBar");
+  static const homeProfileAvatar = ValueKey("HomeProfileAvatar");
+  static const homeDrawer = ValueKey("HomeDrawer");
+  static const homeDrawerProfileName = ValueKey(("HomeDrawerProfileName"));
+  static const homeDrawerProfileAvatar = ValueKey("HomeDrawerProfileAvatar");
+  static const homeDrawerLogout = ValueKey("HomeDrawerLogout");
 }

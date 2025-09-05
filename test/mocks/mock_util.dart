@@ -69,7 +69,7 @@ class MockUtil {
     id: 'id',
     email: 'email',
     name: 'john',
-    avatar: 'url',
+    avatar: 'https://www.example.com/avatar',
   );
   static final SurveyResponse mockSurveyResponse = SurveyResponse(
     data: [

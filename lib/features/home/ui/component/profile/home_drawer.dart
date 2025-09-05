@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/ui/component/loading_circle.dart';
 import 'package:nimble_survey_app/core/utils/uri_helper.dart';
 
@@ -17,12 +18,14 @@ class HomeDrawer extends StatelessWidget {
 
   Widget _createHeader() {
     return DrawerHeader(
+      key: AppWidgetKey.homeDrawer,
       padding: EdgeInsets.zero,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         spacing: AppDimension.spacingMedium,
         children: [
           Flexible(
+            key: AppWidgetKey.homeDrawerProfileName,
             child: Text(
               uiModel?.user?.name ?? 'Unknown',
               overflow: TextOverflow.ellipsis,
@@ -35,6 +38,7 @@ class HomeDrawer extends StatelessWidget {
           ),
           isValidUrl(uiModel?.user?.avatar)
               ? CachedNetworkImage(
+                key: AppWidgetKey.homeDrawerProfileAvatar,
                 imageUrl: uiModel?.user?.avatar ?? '',
                 imageBuilder:
                     (context, imageProvider) => CircleAvatar(
@@ -60,6 +64,7 @@ class HomeDrawer extends StatelessWidget {
 
   Widget _createLogOut({required BuildContext context}) {
     return ListTile(
+      key: AppWidgetKey.homeDrawerLogout,
       title: Text(
         AppLocalizations.of(context)?.homeLogout ?? '',
         style: TextStyle(color: ColorName.primaryText),

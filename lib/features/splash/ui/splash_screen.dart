@@ -30,7 +30,8 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
     // Only read once at launch
     final authRepository = ref.read(authRepositoryProvider);
     await Future.delayed(
-        const Duration(seconds: AppConstants.splashScreenDelayTimeInSeconds));
+      const Duration(seconds: AppConstants.splashScreenDelayTimeInSeconds),
+    );
     final isLoggedIn = await authRepository.isLoggedIn();
     if (!mounted) return;
     context.go(isLoggedIn ? '/home' : '/auth');

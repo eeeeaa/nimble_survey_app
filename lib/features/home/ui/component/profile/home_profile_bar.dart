@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/utils/date_helper.dart';
 import 'package:nimble_survey_app/core/utils/uri_helper.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
@@ -23,6 +24,7 @@ class HomeProfileBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: AppWidgetKey.homeProfileBar,
       padding: const EdgeInsetsGeometry.directional(
         start: AppDimension.paddingLarge,
         end: AppDimension.paddingLarge,
@@ -59,6 +61,7 @@ class HomeProfileBar extends StatelessWidget {
           ),
           isValidUrl(uiModel?.user?.avatar)
               ? CachedNetworkImage(
+                key: AppWidgetKey.homeProfileAvatar,
                 imageUrl: uiModel?.user?.avatar ?? '',
                 imageBuilder:
                     (context, imageProvider) => InkWell(
@@ -83,10 +86,15 @@ class HomeProfileBar extends StatelessWidget {
                     (context, url, error) => CircleAvatar(
                       backgroundColor: Colors.transparent,
                       radius: AppDimension.profileMediumIconDiameter / 2,
-                      child: Icon(
-                        Icons.no_accounts_rounded,
-                        color: Colors.white,
-                        size: AppDimension.profileMediumIconDiameter,
+                      child: InkWell(
+                        onTap: () {
+                          onProfileClicked();
+                        },
+                        child: Icon(
+                          Icons.no_accounts_rounded,
+                          color: Colors.white,
+                          size: AppDimension.profileMediumIconDiameter,
+                        ),
                       ),
                     ),
               )
