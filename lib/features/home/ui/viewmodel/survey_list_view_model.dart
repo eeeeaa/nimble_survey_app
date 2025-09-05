@@ -45,6 +45,25 @@ class SurveyListViewModel extends _$SurveyListViewModel {
     );
   }
 
+  Future<void> refresh() async {
+    if (!ref.mounted) return;
+    state = state.copyWith(isLoading: true);
+
+    // Reload survey list
+    final List<SurveyModel> surveyList = await _getSurveyList(
+      pageNumber: 1,
+      isForceReload: true,
+    );
+    _currentPage = 2; // Next page
+
+    state = state.copyWith(
+      surveyList: surveyList,
+      currentIndex: 0,
+      isLoading: false,
+      isFirstLoad: false,
+    );
+  }
+
   Future<void> loadMore() async {
     if (state.isLoading == true || state.hasMore == false || !ref.mounted) {
       return;

@@ -22,6 +22,7 @@ class SurveyRepositoryImpl extends SurveyRepository {
     required bool isForceReload,
   }) async {
     if (isForceReload) {
+      await localStorageRepository.clearCachedSurveyModelList();
       return _getRemoteSurveyList(pageNumber: pageNumber, pageSize: pageSize);
     }
 
