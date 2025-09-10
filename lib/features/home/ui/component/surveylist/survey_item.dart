@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
 
 import '../../../../../core/ui/theme/app_dimension.dart';
@@ -50,6 +51,7 @@ class SurveyItem extends StatelessWidget {
               ),
             ),
             ElevatedButton(
+              key: AppWidgetKey.surveyItemNavigateToDetailsButton,
               style: ElevatedButton.styleFrom(
                 shape: const CircleBorder(),
                 padding: const EdgeInsets.all(

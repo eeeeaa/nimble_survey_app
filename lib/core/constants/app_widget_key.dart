@@ -30,4 +30,10 @@ class AppWidgetKey {
   static const homeDrawerProfileName = ValueKey(("HomeDrawerProfileName"));
   static const homeDrawerProfileAvatar = ValueKey("HomeDrawerProfileAvatar");
   static const homeDrawerLogout = ValueKey("HomeDrawerLogout");
+  static const surveyItemNavigateToDetailsButton = ValueKey(
+    "SurveyItemNavigateToDetailsButton",
+  );
+
+  // Survey details keys
+  static const surveyDetailsScreen = ValueKey("SurveyDetailsScreen");
 }

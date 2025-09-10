@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 
 import '../../../core/model/survey_details_model.dart';
 import '../../../core/ui/component/nimble_login_button.dart';
@@ -103,6 +104,7 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
       );
     }
     return Scaffold(
+      key: AppWidgetKey.surveyDetailsScreen,
       body: Stack(
         children: [
           SurveyBackgroundImage(imageUrl: survey.coverImageUrl),
