@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 import 'package:nimble_survey_app/features/auth/resetpassword/viewmodel/reset_password_view_model.dart';
 
@@ -52,11 +53,13 @@ class ResetPasswordScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
+                  key: AppWidgetKey.resetPasswordLogo,
                   child: Center(
                     child: Assets.images.icNimble.svg(fit: BoxFit.fill),
                   ),
                 ),
                 Padding(
+                  key: AppWidgetKey.resetPasswordDescription,
                   padding: const EdgeInsets.only(
                     top: AppDimension.paddingLarge,
                   ),
@@ -75,6 +78,7 @@ class ResetPasswordScreen extends ConsumerWidget {
             ),
           ),
           NimbleTextField(
+            key: AppWidgetKey.resetPasswordEmailTextField,
             hintText: AppLocalizations.of(context)?.email ?? "",
             onChanged: (value) {
               ref.read(resetPasswordViewModelProvider.notifier).setEmail(value);
@@ -83,6 +87,7 @@ class ResetPasswordScreen extends ConsumerWidget {
           resetPasswordUiModel.isLoading
               ? CircularProgressIndicator()
               : NimbleButton(
+                key: AppWidgetKey.resetPasswordSubmitButton,
                 buttonText:
                     AppLocalizations.of(context)?.resetPasswordReset ?? "",
                 onPressed: () async {

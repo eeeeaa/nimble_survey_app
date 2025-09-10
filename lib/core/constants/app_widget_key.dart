@@ -12,7 +12,17 @@ class AppWidgetKey {
   static const loginResetPasswordButton = ValueKey("LoginResetPasswordButton");
   static const loginSubmitButton = ValueKey("LoginSubmitButton");
 
-  // Home screen
+  // Reset password keys
+  static const resetPasswordLogo = ValueKey("resetPasswordLogo");
+  static const resetPasswordDescription = ValueKey("ResetPasswordDescription");
+  static const resetPasswordEmailTextField = ValueKey(
+    "resetPasswordEmailTextField",
+  );
+  static const resetPasswordSubmitButton = ValueKey(
+    "resetPasswordSubmitButton",
+  );
+
+  // Home screen keys
   static const homeScreen = ValueKey("HomeScreen");
   static const homeProfileBar = ValueKey("HomeProfileBar");
   static const homeProfileAvatar = ValueKey("HomeProfileAvatar");
