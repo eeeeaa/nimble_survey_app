@@ -36,4 +36,18 @@ class AppWidgetKey {
 
   // Survey details keys
   static const surveyDetailsScreen = ValueKey("SurveyDetailsScreen");
+  static const surveyDetailsTitle = ValueKey("SurveyDetailsTitle");
+  static const surveyDetailsDescription = ValueKey("SurveyDetailsDescription");
+  static const surveyDetailsStartSurveyButton = ValueKey(
+    "SurveyDetailsStartSurveyButton",
+  );
+
+  // Question list keys
+  static const questionListScreen = ValueKey("QuestionListScreen");
+  static const questionListSubmitSurveyButton = ValueKey(
+    "QuestionListSubmitSurveyButton",
+  );
+
+  // Survey completed screen
+  static const surveyCompletedScreen = ValueKey("SurveyCompletedScreen");
 }

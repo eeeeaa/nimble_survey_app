@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/model/survey_question_model.dart';
 import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 
@@ -147,6 +148,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
           child:
               (index == questions.length - 1)
                   ? NimbleButton(
+                    key: AppWidgetKey.questionListSubmitSurveyButton,
                     width: null,
                     buttonText:
                         AppLocalizations.of(context)?.questionsSubmit ?? '',
@@ -190,6 +192,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
         List.empty();
 
     return PopScope(
+      key: AppWidgetKey.questionListScreen,
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         _createShowExitSurveyDialog();

@@ -52,6 +52,7 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
           ),
         ),
         Text(
+          key: AppWidgetKey.surveyDetailsTitle,
           survey.title,
           style: TextStyle(
             color: ColorName.primaryText,
@@ -60,6 +61,7 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
           ),
         ),
         Text(
+          key: AppWidgetKey.surveyDetailsDescription,
           survey.description,
           style: TextStyle(
             color: ColorName.secondaryText,
@@ -129,6 +131,7 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: NimbleButton(
+                        key: AppWidgetKey.surveyDetailsStartSurveyButton,
                         width: null,
                         buttonText:
                             AppLocalizations.of(

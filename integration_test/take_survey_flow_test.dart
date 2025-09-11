@@ -31,6 +31,9 @@ void main() async {
 
   setUpAll(() async {
     CachedNetworkImageProvider.defaultCacheManager = MockCacheManager();
+
+    // Setup fallback data
+    registerFallbackValue(MockUtil.mockSubmitSurveyRequest);
   });
 
   group('e2e test - taking survey', () {
@@ -45,12 +48,82 @@ void main() async {
         mockSurveyRepository: mockSurveyRepository,
         mockSurveyDetailsRepository: mockSurveyDetailsRepository,
       );
+
+      // Navigate to survey details and verify
+      await tester.pump(const Duration(seconds: 3));
+      expect(find.byKey(AppWidgetKey.surveyDetailsScreen), findsOneWidget);
+      expect(find.byKey(AppWidgetKey.surveyDetailsTitle), findsOneWidget);
+      expect(find.byKey(AppWidgetKey.surveyDetailsDescription), findsOneWidget);
+      expect(
+        find.byKey(AppWidgetKey.surveyDetailsStartSurveyButton),
+        findsOneWidget,
+      );
+
+      // Click start survey
+      await tester.tap(find.byKey(AppWidgetKey.surveyDetailsStartSurveyButton));
+
+      // Navigate to survey question screen
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byKey(AppWidgetKey.questionListScreen), findsOneWidget);
+
+      // Submit survey
+      when(
+        () => mockSurveyDetailsRepository.submitSurvey(any()),
+      ).thenAnswer((_) async => Success(null));
+
+      await tester.tap(find.byKey(AppWidgetKey.questionListSubmitSurveyButton));
+      await tester.pump(const Duration(seconds: 1));
+
+      // Navigate to survey completed screen then go back to home screen
+      expect(find.byKey(AppWidgetKey.surveyCompletedScreen), findsOneWidget);
+
+      await tester.pump(const Duration(seconds: 3));
+      expect(find.byKey(AppWidgetKey.homeScreen), findsOneWidget);
     });
-    /*testWidgets('user close the survey and navigate back to home screen', (
+
+    testWidgets('user close the survey and navigate back to home screen', (
       tester,
     ) async {
-      await initializeSurveyStartingFlow(tester);
-    });*/
+      await initializeSurveyStartingFlow(
+        tester: tester,
+        mockAuthRepository: mockAuthRepository,
+        mockUserRepository: mockUserRepository,
+        mockLocalStorageRepository: mockLocalStorageRepository,
+        mockSurveyRepository: mockSurveyRepository,
+        mockSurveyDetailsRepository: mockSurveyDetailsRepository,
+      );
+
+      // Navigate to survey details and verify
+      await tester.pump(const Duration(seconds: 3));
+      expect(find.byKey(AppWidgetKey.surveyDetailsScreen), findsOneWidget);
+      expect(find.byKey(AppWidgetKey.surveyDetailsTitle), findsOneWidget);
+      expect(find.byKey(AppWidgetKey.surveyDetailsDescription), findsOneWidget);
+      expect(
+        find.byKey(AppWidgetKey.surveyDetailsStartSurveyButton),
+        findsOneWidget,
+      );
+
+      // Click start survey
+      await tester.tap(find.byKey(AppWidgetKey.surveyDetailsStartSurveyButton));
+
+      // Navigate to survey question screen
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byKey(AppWidgetKey.questionListScreen), findsOneWidget);
+
+      // Click to navigate back
+
+      // Verify Cancel survey popup dialog
+
+      // Click cancel
+
+      // Click to navigate back again
+
+      // Verify Cancel survey popup dialog
+
+      // Click to navigate back
+
+      // Verify home screen
+    });
   });
 }
 
@@ -101,7 +174,7 @@ Future<void> initializeSurveyStartingFlow({
   expect(find.byKey(AppWidgetKey.splashScreen), findsOneWidget);
 
   // Wait for splash screen to finish
-  await Future.delayed(
+  await tester.pump(
     const Duration(seconds: AppConstants.splashScreenDelayTimeInSeconds + 3),
   );
 
@@ -119,19 +192,15 @@ Future<void> initializeSurveyStartingFlow({
   );
 
   // Click submit button
-  await Future.delayed(const Duration(seconds: 3));
+  await tester.pump(const Duration(seconds: 3));
   await tester.tap(find.byKey(AppWidgetKey.loginSubmitButton));
 
   // Wait for home screen navigation
-  await Future.delayed(const Duration(seconds: 3));
+  await tester.pump(const Duration(seconds: 3));
 
   // Verify successful navigation to home
   expect(find.byKey(AppWidgetKey.homeScreen), findsOneWidget);
 
   // Click on survey
   await tester.tap(find.byKey(AppWidgetKey.surveyItemNavigateToDetailsButton));
-
-  // Navigate to survey details and verify
-  await Future.delayed(const Duration(seconds: 3));
-  expect(find.byKey(AppWidgetKey.surveyDetailsScreen), findsOneWidget);
 }
