@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/model/survey_question_model.dart';
-import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/ui/component/nimble_login_button.dart';
@@ -33,6 +32,22 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void onSubmitSurvey() async {
+    await ref.read(surveyDetailsViewModelProvider.notifier).submitSurvey();
+    final isSurveySubmitted =
+        ref.read(surveyDetailsViewModelProvider).isSurveySubmitted;
+
+    if (!mounted) return;
+
+    if (isSurveySubmitted == true) {
+      context.go('/survey/completed');
+    } else if (isSurveySubmitted == false) {
+      Fluttertoast.showToast(
+        msg: AppLocalizations.of(context)?.surveyFailedToSubmit ?? "",
+      );
+    }
   }
 
   Future<void> _createShowExitSurveyDialog() async {
@@ -155,26 +170,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
                     width: null,
                     buttonText:
                         AppLocalizations.of(context)?.questionsSubmit ?? '',
-                    onPressed: () async {
-                      final result =
-                          await ref
-                              .read(surveyDetailsViewModelProvider.notifier)
-                              .submitSurvey();
-
-                      if (mounted) {
-                        if (result is Success) {
-                          context.go('/survey/completed');
-                        } else {
-                          Fluttertoast.showToast(
-                            msg:
-                                AppLocalizations.of(
-                                  context,
-                                )?.surveyFailedToSubmit ??
-                                "",
-                          );
-                        }
-                      }
-                    },
+                    onPressed: onSubmitSurvey,
                   )
                   : _createContinueButton(),
         ),
