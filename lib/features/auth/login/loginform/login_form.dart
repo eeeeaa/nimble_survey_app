@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_login_button.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_text_field.dart';
-import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
 import '../../../../core/ui/theme/app_dimension.dart';
@@ -52,10 +51,18 @@ class LoginForm extends ConsumerWidget {
                 suffix:
                     authUiModel.isLoading
                         ? Padding(
-                          padding: const EdgeInsets.all(
-                            AppDimension.spacingMedium,
+                      padding: const EdgeInsets.all(
+                          AppDimension.spacingExtraSmall),
+                      child: Center(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: SizedBox(
+                            width: AppDimension.spacingMedium,
+                            height: AppDimension.spacingMedium,
+                            child: CircularProgressIndicator(),
                           ),
-                          child: CircularProgressIndicator(),
+                        ),
+                      ),
                         )
                         : TextButton(
                           key: AppWidgetKey.loginResetPasswordButton,
@@ -86,17 +93,21 @@ class LoginForm extends ConsumerWidget {
                     onPressed: () async {
                       FocusManager.instance.primaryFocus?.unfocus();
                       if (loginFormUiModel.isLoginEnabled == false) return;
-                      final result = await ref
+                      await ref
                           .read(authViewModelProvider.notifier)
                           .login(
                             loginFormUiModel.email,
                             loginFormUiModel.password,
                           );
+                      final isLoggedIn =
+                          ref
+                              .read(authViewModelProvider)
+                              .isLoggedIn;
 
                       if (context.mounted == false) return;
-                      if (result is Success) {
+                      if (isLoggedIn == true) {
                         context.go('/home');
-                      } else {
+                      } else if (isLoggedIn == false) {
                         Fluttertoast.showToast(
                           msg:
                               AppLocalizations.of(

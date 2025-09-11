@@ -26,14 +26,12 @@ void main() {
     container.dispose();
   });
 
-  test('When view model initialize, it returns initial AuthUiModel', () async {
+  test('When view model initialize, it returns initial AuthUiModel', () {
     // Given
-    final expected = AuthUiModel(isLoggedIn: true);
+    final expected = AuthUiModel(isLoggedIn: null);
 
     // When
-    when(() => mockAuthRepository.isLoggedIn()).thenAnswer((_) async => true);
-
-    final authUiModel = await container.read(authViewModelProvider.future);
+    final authUiModel = container.read(authViewModelProvider);
 
     // Then
     expect(authUiModel, expected);
@@ -52,16 +50,11 @@ void main() {
     when(() => mockAuthRepository.isLoggedIn()).thenAnswer((_) async => true);
 
     // Then
-    final result = await container
-        .read(authViewModelProvider.notifier)
-        .login(email, password);
-
-    expect(result, isA<Success>());
+    await container.read(authViewModelProvider.notifier).login(email, password);
 
     final updatedUiState = container.read(authViewModelProvider);
-    expect(updatedUiState.value?.isLoggedIn, true);
+    expect(updatedUiState.isLoggedIn, true);
 
     verify(() => mockAuthRepository.login(email, password)).called(1);
-    verify(() => mockAuthRepository.isLoggedIn()).called(2);
   });
 }

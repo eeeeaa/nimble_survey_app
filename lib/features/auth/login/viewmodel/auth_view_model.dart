@@ -9,26 +9,18 @@ part 'auth_view_model.g.dart';
 
 @riverpod
 class AuthViewModel extends _$AuthViewModel {
-  late final AuthRepository _authRepository;
+  late final AuthRepository _authRepository = ref.watch(authRepositoryProvider);
 
   @override
-  Future<AuthUiModel> build() async {
-    _authRepository = ref.watch(authRepositoryProvider);
-    final loggedIn = await _authRepository.isLoggedIn();
-    return AuthUiModel(isLoggedIn: loggedIn);
-  }
+  AuthUiModel build() => AuthUiModel();
 
-  Future<Result<void>> login(String email, String password) async {
-    state = const AsyncValue.loading();
+  Future<void> login(String email, String password) async {
+    state = state.copyWith(isLoading: true);
     final result = await _authRepository.login(email, password);
-    await refreshUiState();
-    return result;
-  }
-
-  Future<void> refreshUiState() async {
-    state = await AsyncValue.guard(() async {
-      final loggedIn = await _authRepository.isLoggedIn();
-      return AuthUiModel(isLoggedIn: loggedIn);
-    });
+    if (result is Success) {
+      state = state.copyWith(isLoading: false, isLoggedIn: true);
+    } else {
+      state = state.copyWith(isLoading: false, isLoggedIn: false);
+    }
   }
 }
