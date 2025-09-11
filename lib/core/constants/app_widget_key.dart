@@ -47,6 +47,23 @@ class AppWidgetKey {
   static const questionListSubmitSurveyButton = ValueKey(
     "QuestionListSubmitSurveyButton",
   );
+  static const questionListNavigateBackButton = ValueKey(
+    "QuestionListNavigateBackButton",
+  );
+
+  // Exit survey dialog
+  static const questionListExitSurveyTitle = ValueKey(
+    "QuestionListExitSurveyTitle",
+  );
+  static const questionListExitSurveyDescription = ValueKey(
+    "QuestionListExitSurveyDescription",
+  );
+  static const questionListExitSurveyPositiveButton = ValueKey(
+    "QuestionListExitSurveyPositiveButton",
+  );
+  static const questionListExitSurveyNegativeButton = ValueKey(
+    "QuestionListExitSurveyNegativeButton",
+  );
 
   // Survey completed screen
   static const surveyCompletedScreen = ValueKey("SurveyCompletedScreen");

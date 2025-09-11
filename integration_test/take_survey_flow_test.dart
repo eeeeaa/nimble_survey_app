@@ -111,18 +111,70 @@ void main() async {
       expect(find.byKey(AppWidgetKey.questionListScreen), findsOneWidget);
 
       // Click to navigate back
+      await tester.tap(find.byKey(AppWidgetKey.questionListNavigateBackButton));
 
       // Verify Cancel survey popup dialog
+      await tester.pump(const Duration(seconds: 1));
+      expect(
+        find.byKey(AppWidgetKey.questionListExitSurveyTitle),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(AppWidgetKey.questionListExitSurveyDescription),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(AppWidgetKey.questionListExitSurveyPositiveButton),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(AppWidgetKey.questionListExitSurveyNegativeButton),
+        findsOneWidget,
+      );
 
       // Click cancel
+      await tester.tap(
+        find.byKey(AppWidgetKey.questionListExitSurveyNegativeButton),
+      );
+
+      // The dialog is closed
+      await tester.pump(const Duration(seconds: 1));
+      expect(
+        find.byKey(AppWidgetKey.questionListExitSurveyTitle),
+        findsNothing,
+      );
 
       // Click to navigate back again
+      await tester.pump(const Duration(seconds: 1));
+      await tester.tap(find.byKey(AppWidgetKey.questionListNavigateBackButton));
 
       // Verify Cancel survey popup dialog
+      await tester.pump(const Duration(seconds: 1));
+      expect(
+        find.byKey(AppWidgetKey.questionListExitSurveyTitle),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(AppWidgetKey.questionListExitSurveyDescription),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(AppWidgetKey.questionListExitSurveyPositiveButton),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(AppWidgetKey.questionListExitSurveyNegativeButton),
+        findsOneWidget,
+      );
 
-      // Click to navigate back
+      // Click to confirm navigate back
+      await tester.tap(
+        find.byKey(AppWidgetKey.questionListExitSurveyPositiveButton),
+      );
 
       // Verify home screen
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byKey(AppWidgetKey.homeScreen), findsOneWidget);
     });
   });
 }

@@ -42,6 +42,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
         return AlertDialog(
           backgroundColor: Colors.black,
           title: Text(
+            key: AppWidgetKey.questionListExitSurveyTitle,
             AppLocalizations.of(context)?.questionsQuitSurveyDialogTitle ?? '',
             style: TextStyle(
               color: ColorName.primaryText,
@@ -50,6 +51,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
             ),
           ),
           content: Text(
+            key: AppWidgetKey.questionListExitSurveyDescription,
             AppLocalizations.of(
                   context,
                 )?.questionsQuitSurveyDialogDescription ??
@@ -62,6 +64,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
           ),
           actions: <Widget>[
             TextButton(
+              key: AppWidgetKey.questionListExitSurveyPositiveButton,
               child: Text(
                 AppLocalizations.of(
                       context,
@@ -72,13 +75,12 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
                 ref
                     .read(surveyDetailsViewModelProvider.notifier)
                     .clearSurveyQuestion();
-                // Close dialog
-                context.pop();
-                // Go back to survey details screen
-                context.pop();
+                // Navigate to home screen
+                context.go("/home");
               },
             ),
             TextButton(
+              key: AppWidgetKey.questionListExitSurveyNegativeButton,
               child: Text(
                 AppLocalizations.of(
                       context,
@@ -125,6 +127,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
         Align(
           alignment: Alignment.topRight,
           child: IconButton(
+            key: AppWidgetKey.questionListNavigateBackButton,
             onPressed: () {
               _createShowExitSurveyDialog();
             },
