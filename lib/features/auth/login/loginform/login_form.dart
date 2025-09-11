@@ -51,18 +51,19 @@ class LoginForm extends ConsumerWidget {
                 suffix:
                     authUiModel.isLoading
                         ? Padding(
-                      padding: const EdgeInsets.all(
-                          AppDimension.spacingExtraSmall),
-                      child: Center(
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: SizedBox(
-                            width: AppDimension.spacingMedium,
-                            height: AppDimension.spacingMedium,
-                            child: CircularProgressIndicator(),
+                          padding: const EdgeInsets.all(
+                            AppDimension.spacingExtraSmall,
                           ),
-                        ),
-                      ),
+                          child: Center(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: SizedBox(
+                                width: AppDimension.spacingMedium,
+                                height: AppDimension.spacingMedium,
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                          ),
                         )
                         : TextButton(
                           key: AppWidgetKey.loginResetPasswordButton,
@@ -100,9 +101,7 @@ class LoginForm extends ConsumerWidget {
                             loginFormUiModel.password,
                           );
                       final isLoggedIn =
-                          ref
-                              .read(authViewModelProvider)
-                              .isLoggedIn;
+                          ref.read(authViewModelProvider).isLoggedIn;
 
                       if (context.mounted == false) return;
                       if (isLoggedIn == true) {

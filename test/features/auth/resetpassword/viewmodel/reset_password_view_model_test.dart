@@ -82,13 +82,16 @@ void main() {
 
       container.read(resetPasswordViewModelProvider.notifier).setEmail(email);
 
-      final result = await container
+      await container
           .read(resetPasswordViewModelProvider.notifier)
           .resetPassword(title: noticeTitle, description: noticeDescription);
 
       // Then
-      expect(result, isA<Success>());
-      expect((result as Success).data, null);
+      final isResetPasswordEmailSent =
+          container
+              .read(resetPasswordViewModelProvider)
+              .isResetPasswordEmailSent;
+      expect(isResetPasswordEmailSent, true);
 
       verify(() => mockAuthRepository.resetPassword(email: email)).called(1);
       verify(
@@ -116,12 +119,14 @@ void main() {
 
     container.read(resetPasswordViewModelProvider.notifier).setEmail(email);
 
-    final result = await container
+    await container
         .read(resetPasswordViewModelProvider.notifier)
         .resetPassword(title: noticeTitle, description: noticeDescription);
 
     // Then
-    expect(result, isA<Failure>());
+    final isResetPasswordEmailSent =
+        container.read(resetPasswordViewModelProvider).isResetPasswordEmailSent;
+    expect(isResetPasswordEmailSent, false);
 
     verify(() => mockAuthRepository.resetPassword(email: email)).called(1);
     verifyNever(() => mockNotificationService.showNotification(any(), any()));

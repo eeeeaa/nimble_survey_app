@@ -145,12 +145,14 @@ void main() {
           .read(surveyDetailsViewModelProvider.notifier)
           .initialLoad(id: surveyId);
 
-      final result =
-          await container
-              .read(surveyDetailsViewModelProvider.notifier)
-              .submitSurvey();
+      await container
+          .read(surveyDetailsViewModelProvider.notifier)
+          .submitSurvey();
 
-      expect(result, isA<Success>());
+      // Then
+      final isSurveySubmitted =
+          container.read(surveyDetailsViewModelProvider).isSurveySubmitted;
+      expect(isSurveySubmitted, true);
       verify(() => mockSurveyDetailsRepository.submitSurvey(any())).called(1);
     },
   );
