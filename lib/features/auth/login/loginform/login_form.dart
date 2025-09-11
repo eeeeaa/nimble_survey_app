@@ -5,9 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_login_button.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_text_field.dart';
-import 'package:nimble_survey_app/features/auth/login/model/auth_ui_model.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
+import '../../../../core/ui/component/nimble_button.dart';
 import '../../../../core/ui/theme/app_dimension.dart';
 import '../../../../core/ui/theme/app_text_size.dart';
 import '../../../../gen/assets.gen.dart';
@@ -92,13 +92,18 @@ class LoginForm extends ConsumerWidget {
           : NimbleButton(
             key: AppWidgetKey.loginSubmitButton,
             buttonText: AppLocalizations.of(context)?.login ?? "",
-            onPressed: () async {
-              FocusManager.instance.primaryFocus?.unfocus();
-              if (loginFormUiModel.isLoginEnabled == false) return;
-              await ref
-                  .read(authViewModelProvider.notifier)
-                  .login(loginFormUiModel.email, loginFormUiModel.password);
-            },
+            onPressed:
+                loginFormUiModel.isLoginEnabled == true
+                    ? () async {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      await ref
+                          .read(authViewModelProvider.notifier)
+                          .login(
+                            loginFormUiModel.email,
+                            loginFormUiModel.password,
+                          );
+                    }
+                    : null,
           );
     }
 

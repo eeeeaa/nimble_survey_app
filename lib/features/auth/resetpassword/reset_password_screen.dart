@@ -8,7 +8,7 @@ import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/features/auth/resetpassword/model/reset_password_ui_model.dart';
 import 'package:nimble_survey_app/features/auth/resetpassword/viewmodel/reset_password_view_model.dart';
 
-import '../../../core/ui/component/nimble_login_button.dart';
+import '../../../core/ui/component/nimble_button.dart';
 import '../../../core/ui/component/nimble_text_field.dart';
 import '../../../core/ui/theme/app_dimension.dart';
 import '../../../core/ui/theme/app_text_size.dart';
@@ -24,8 +24,6 @@ class ResetPasswordScreen extends ConsumerWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     void onResetPasswordSubmit() async {
-      if (!resetPasswordUiModel.isResetEnabled) return;
-
       final title = AppLocalizations.of(context)?.resetPasswordSuccessTitle;
       final description =
           AppLocalizations.of(context)?.resetPasswordSuccessDescription;
@@ -102,7 +100,7 @@ class ResetPasswordScreen extends ConsumerWidget {
                 key: AppWidgetKey.resetPasswordSubmitButton,
                 buttonText:
                     AppLocalizations.of(context)?.resetPasswordReset ?? "",
-                onPressed: onResetPasswordSubmit,
+                onPressed: resetPasswordUiModel.isResetEnabled == true ? onResetPasswordSubmit : null,
               ),
         ],
       ),

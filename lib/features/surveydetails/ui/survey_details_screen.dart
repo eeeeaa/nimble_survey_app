@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 
 import '../../../core/model/survey_details_model.dart';
-import '../../../core/ui/component/nimble_login_button.dart';
+import '../../../core/ui/component/nimble_button.dart';
 import '../../../core/ui/theme/app_dimension.dart';
 import '../../../core/ui/theme/app_text_size.dart';
 import '../../../gen/assets.gen.dart';
