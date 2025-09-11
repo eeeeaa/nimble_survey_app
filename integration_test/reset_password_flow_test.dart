@@ -59,7 +59,7 @@ void main() async {
         expect(find.byKey(AppWidgetKey.splashScreen), findsOneWidget);
 
         // Wait for splash screen to finish
-        await Future.delayed(
+        await tester.pump(
           const Duration(
             seconds: AppConstants.splashScreenDelayTimeInSeconds + 3,
           ),
@@ -78,7 +78,7 @@ void main() async {
         await tester.tap(find.byKey(AppWidgetKey.loginResetPasswordButton));
 
         // Wait for navigation
-        await Future.delayed(const Duration(seconds: 3));
+        await tester.pump(const Duration(seconds: 3));
 
         // Verify reset password screen
         expect(find.byKey(AppWidgetKey.resetPasswordLogo), findsOneWidget);

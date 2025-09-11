@@ -63,7 +63,7 @@ void main() async {
       expect(find.byKey(AppWidgetKey.splashScreen), findsOneWidget);
 
       // Wait for splash screen to finish
-      await Future.delayed(
+      await tester.pump(
         const Duration(
           seconds: AppConstants.splashScreenDelayTimeInSeconds + 3,
         ),
@@ -86,11 +86,11 @@ void main() async {
       );
 
       // Click submit button
-      await Future.delayed(const Duration(seconds: 3));
+      await tester.pump(const Duration(seconds: 3));
       await tester.tap(find.byKey(AppWidgetKey.loginSubmitButton));
 
       // Wait for home screen navigation
-      await Future.delayed(const Duration(seconds: 3));
+      await tester.pump(const Duration(seconds: 3));
 
       // Verify successful navigation to home
       expect(find.byKey(AppWidgetKey.homeScreen), findsOneWidget);
@@ -129,7 +129,7 @@ void main() async {
       expect(find.byKey(AppWidgetKey.splashScreen), findsOneWidget);
 
       // Wait for splash screen to finish
-      await Future.delayed(
+      await tester.pump(
         const Duration(
           seconds: AppConstants.splashScreenDelayTimeInSeconds + 3,
         ),
@@ -165,7 +165,7 @@ void main() async {
       expect(find.byKey(AppWidgetKey.splashScreen), findsOneWidget);
 
       // Wait for splash screen to finish
-      await Future.delayed(
+      await tester.pump(
         const Duration(
           seconds: AppConstants.splashScreenDelayTimeInSeconds + 3,
         ),
@@ -188,11 +188,11 @@ void main() async {
       );
 
       // Click submit button
-      await Future.delayed(const Duration(seconds: 3));
+      await tester.pump(const Duration(seconds: 3));
       await tester.tap(find.byKey(AppWidgetKey.loginSubmitButton));
 
       // Wait for home screen navigation
-      await Future.delayed(const Duration(seconds: 3));
+      await tester.pump(const Duration(seconds: 3));
 
       // Verify no navigation to home
       expect(find.byKey(AppWidgetKey.homeScreen), findsNothing);
@@ -235,7 +235,7 @@ void main() async {
       expect(find.byKey(AppWidgetKey.splashScreen), findsOneWidget);
 
       // Wait for splash screen to finish
-      await Future.delayed(
+      await tester.pump(
         const Duration(
           seconds: AppConstants.splashScreenDelayTimeInSeconds + 3,
         ),
@@ -248,7 +248,7 @@ void main() async {
 
       // Open drawer
       await tester.tap(find.byKey(AppWidgetKey.homeProfileAvatar));
-      await Future.delayed(Duration(seconds: 3));
+      await tester.pump(Duration(seconds: 3));
 
       // Verify home drawer
       expect(find.byKey(AppWidgetKey.homeDrawer), findsOneWidget);
@@ -258,7 +258,7 @@ void main() async {
 
       // Click logout
       await tester.tap(find.byKey(AppWidgetKey.homeDrawerLogout));
-      await Future.delayed(Duration(seconds: 3));
+      await tester.pump(Duration(seconds: 3));
 
       // Verify navigation to login form
       expect(find.byKey(AppWidgetKey.loginEmailTextField), findsOneWidget);
