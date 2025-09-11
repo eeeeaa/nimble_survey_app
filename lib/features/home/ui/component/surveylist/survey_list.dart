@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_dimension.dart';
-import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 import 'package:nimble_survey_app/features/home/ui/component/surveylist/survey_background_image.dart';
 import 'package:nimble_survey_app/features/home/ui/component/surveylist/survey_item.dart';
 import 'package:nimble_survey_app/features/home/ui/viewmodel/survey_list_view_model.dart';
@@ -116,13 +115,15 @@ class SurveyListState extends ConsumerState<SurveyList> {
 
     return RefreshIndicator(
       onRefresh: () async {
-        final result =
-            await ref.read(surveyListViewModelProvider.notifier).refresh();
-        if (result is Success) {
+        await ref.read(surveyListViewModelProvider.notifier).refresh();
+        final isRefreshSuccess =
+            ref.read(surveyListViewModelProvider).isRefreshSuccess;
+
+        if (isRefreshSuccess == true) {
           _controller.jumpToPage(
             ref.read(surveyListViewModelProvider).currentIndex,
           );
-        } else {
+        } else if (isRefreshSuccess == false) {
           if (mounted) {
             Fluttertoast.showToast(
               msg:
@@ -195,6 +196,8 @@ class SurveyListState extends ConsumerState<SurveyList> {
     final isLoading = ref.watch(surveyListViewModelProvider).isLoading;
     final isFirstLoad = ref.watch(surveyListViewModelProvider).isFirstLoad;
     final currentIndex = ref.watch(surveyListViewModelProvider).currentIndex;
+    final isRefreshSuccess =
+        ref.watch(surveyListViewModelProvider).isRefreshSuccess;
 
     if (surveyList.isEmpty) {
       if (isFirstLoad) {
