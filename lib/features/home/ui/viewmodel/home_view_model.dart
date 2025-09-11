@@ -28,16 +28,19 @@ class HomeViewModel extends _$HomeViewModel {
     state = state.copyWith(user: user, isContentLoading: false);
   }
 
-  Future<UserModel?> _getUser() async {
-    final result = await _userRepository.getUser(isForceReload: false);
-    return result is Success ? (result as Success).data : null;
-  }
-
-  Future<Result<void>> logout() async {
+  Future<void> logout() async {
     state = state.copyWith(isLoggingOut: true);
     final result = await _authRepository.logout();
     await _localStorageRepository.clearAll();
-    state = state.copyWith(isLoggingOut: false);
-    return result;
+    if (result is Success) {
+      state = state.copyWith(isLoggingOut: false, isLogOutSuccess: true);
+    } else {
+      state = state.copyWith(isLoggingOut: false, isLogOutSuccess: false);
+    }
+  }
+
+  Future<UserModel?> _getUser() async {
+    final result = await _userRepository.getUser(isForceReload: false);
+    return result is Success ? (result as Success).data : null;
   }
 }

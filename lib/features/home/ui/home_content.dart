@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
-import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 import 'package:nimble_survey_app/features/home/ui/viewmodel/home_view_model.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
@@ -25,14 +24,15 @@ class HomeContent extends ConsumerWidget {
       endDrawer: HomeDrawer(
         uiModel: uiModel,
         onLogout: () async {
-          final result =
-              await ref.read(homeViewModelProvider.notifier).logout();
+          await ref.read(homeViewModelProvider.notifier).logout();
+          final isLogOutSuccess =
+              ref.read(homeViewModelProvider).isLogOutSuccess;
 
           if (!context.mounted) return;
 
-          if (result is Success) {
+          if (isLogOutSuccess == true) {
             context.go('/auth');
-          } else {
+          } else if (isLogOutSuccess == false) {
             Fluttertoast.showToast(
               msg: AppLocalizations.of(context)?.homeLogoutFailed ?? "",
             );
