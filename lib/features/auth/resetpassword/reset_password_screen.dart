@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
-import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
 import 'package:nimble_survey_app/features/auth/resetpassword/viewmodel/reset_password_view_model.dart';
 
 import '../../../core/ui/component/nimble_login_button.dart';
@@ -22,6 +21,30 @@ class ResetPasswordScreen extends ConsumerWidget {
   Widget _createResetPasswordForm(BuildContext context, WidgetRef ref) {
     final resetPasswordUiModel = ref.watch(resetPasswordViewModelProvider);
     final screenHeight = MediaQuery.of(context).size.height;
+
+    void onResetPasswordSubmit() async {
+      if (!resetPasswordUiModel.isResetEnabled) return;
+
+      final title = AppLocalizations.of(context)?.resetPasswordSuccessTitle;
+      final description =
+          AppLocalizations.of(context)?.resetPasswordSuccessDescription;
+
+      await ref
+          .read(resetPasswordViewModelProvider.notifier)
+          .resetPassword(title: title, description: description);
+      final isResetPasswordEmailSent =
+          ref.read(resetPasswordViewModelProvider).isResetPasswordEmailSent;
+
+      if (!context.mounted) return;
+
+      if (isResetPasswordEmailSent == false) {
+        final toastText =
+            AppLocalizations.of(context)?.resetPasswordInvalidEmail;
+        if (toastText != null) {
+          Fluttertoast.showToast(msg: toastText);
+        }
+      }
+    }
 
     return Padding(
       padding: const EdgeInsetsGeometry.directional(
@@ -90,31 +113,7 @@ class ResetPasswordScreen extends ConsumerWidget {
                 key: AppWidgetKey.resetPasswordSubmitButton,
                 buttonText:
                     AppLocalizations.of(context)?.resetPasswordReset ?? "",
-                onPressed: () async {
-                  if (resetPasswordUiModel.isResetEnabled) {
-                    final result = await ref
-                        .read(resetPasswordViewModelProvider.notifier)
-                        .resetPassword(
-                          title:
-                              AppLocalizations.of(
-                                context,
-                              )?.resetPasswordSuccessTitle,
-                          description:
-                              AppLocalizations.of(
-                                context,
-                              )?.resetPasswordSuccessDescription,
-                        );
-                    if (result is Failure && context.mounted) {
-                      final toastText =
-                          AppLocalizations.of(
-                            context,
-                          )?.resetPasswordInvalidEmail;
-                      if (toastText != null) {
-                        Fluttertoast.showToast(msg: toastText);
-                      }
-                    }
-                  }
-                },
+                onPressed: onResetPasswordSubmit,
               ),
         ],
       ),

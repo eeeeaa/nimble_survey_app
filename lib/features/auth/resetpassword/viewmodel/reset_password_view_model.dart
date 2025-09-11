@@ -23,7 +23,7 @@ class ResetPasswordViewModel extends _$ResetPasswordViewModel {
     state = state.copyWith(email: value);
   }
 
-  Future<Result<String?>> resetPassword({
+  Future<void> resetPassword({
     required String? title,
     required String? description,
   }) async {
@@ -31,8 +31,9 @@ class ResetPasswordViewModel extends _$ResetPasswordViewModel {
     final result = await _authRepository.resetPassword(email: state.email);
     if (title != null && description != null && result is Success) {
       await notificationService.showNotification(title, description);
+      state = state.copyWith(isLoading: false, isResetPasswordEmailSent: true);
+    } else {
+      state = state.copyWith(isLoading: false, isResetPasswordEmailSent: false);
     }
-    state = state.copyWith(isLoading: false);
-    return result;
   }
 }
