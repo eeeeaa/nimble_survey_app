@@ -149,6 +149,7 @@ void main() {
       // Then
       final refreshState = container.read(surveyListViewModelProvider);
 
+      expect(refreshState.isRefreshSuccess, true);
       expect(refreshState.surveyList, [MockUtil.mockSurveyModel]);
     },
   );
