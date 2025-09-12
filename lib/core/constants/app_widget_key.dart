@@ -30,4 +30,41 @@ class AppWidgetKey {
   static const homeDrawerProfileName = ValueKey(("HomeDrawerProfileName"));
   static const homeDrawerProfileAvatar = ValueKey("HomeDrawerProfileAvatar");
   static const homeDrawerLogout = ValueKey("HomeDrawerLogout");
+  static const surveyItemNavigateToDetailsButton = ValueKey(
+    "SurveyItemNavigateToDetailsButton",
+  );
+
+  // Survey details keys
+  static const surveyDetailsScreen = ValueKey("SurveyDetailsScreen");
+  static const surveyDetailsTitle = ValueKey("SurveyDetailsTitle");
+  static const surveyDetailsDescription = ValueKey("SurveyDetailsDescription");
+  static const surveyDetailsStartSurveyButton = ValueKey(
+    "SurveyDetailsStartSurveyButton",
+  );
+
+  // Question list keys
+  static const questionListScreen = ValueKey("QuestionListScreen");
+  static const questionListSubmitSurveyButton = ValueKey(
+    "QuestionListSubmitSurveyButton",
+  );
+  static const questionListNavigateBackButton = ValueKey(
+    "QuestionListNavigateBackButton",
+  );
+
+  // Exit survey dialog
+  static const questionListExitSurveyTitle = ValueKey(
+    "QuestionListExitSurveyTitle",
+  );
+  static const questionListExitSurveyDescription = ValueKey(
+    "QuestionListExitSurveyDescription",
+  );
+  static const questionListExitSurveyPositiveButton = ValueKey(
+    "QuestionListExitSurveyPositiveButton",
+  );
+  static const questionListExitSurveyNegativeButton = ValueKey(
+    "QuestionListExitSurveyNegativeButton",
+  );
+
+  // Survey completed screen
+  static const surveyCompletedScreen = ValueKey("SurveyCompletedScreen");
 }
