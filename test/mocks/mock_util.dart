@@ -61,7 +61,7 @@ class MockUtil {
       attributes: UserAttributes(
         email: 'email',
         name: 'john',
-        avatarUrl: 'url',
+        avatarUrl: 'https://www.example.com/avatar',
       ),
     ),
   );
@@ -69,7 +69,7 @@ class MockUtil {
     id: 'id',
     email: 'email',
     name: 'john',
-    avatar: 'url',
+    avatar: 'https://www.example.com/avatar',
   );
   static final SurveyResponse mockSurveyResponse = SurveyResponse(
     data: [
@@ -82,7 +82,7 @@ class MockUtil {
           thankEmailAboveThreshold: 'test',
           thankEmailBelowThreshold: 'thankEmailBelowThreshold',
           isActive: true,
-          coverImageUrl: 'url',
+          coverImageUrl: 'https://www.example.com/avatar',
           createdAt: 'time',
           activeAt: 'time',
           surveyType: 'type',
@@ -95,7 +95,7 @@ class MockUtil {
     id: 'id',
     title: 'title',
     description: 'description',
-    coverImageUrl: 'url',
+    coverImageUrl: 'https://www.example.com/avatar',
   );
   static final SurveyDetailsResponse mockSurveyDetailsResponse =
       SurveyDetailsResponse();
@@ -103,7 +103,7 @@ class MockUtil {
     id: 'id',
     title: 'title',
     description: 'description',
-    coverImageUrl: 'url',
+    coverImageUrl: 'https://www.example.com/avatar',
     questions: [
       SurveyQuestionModel(
         id: 'id',
