@@ -25,5 +25,10 @@
     "numberRatingBarAnswerNegativeText": "ไม่น่าจะเป็นไปได้",
     "textAreaAnswerHint": "ความคิดเห็นของคุณ",
     "surveyCompletionDefaultText": "ขอบคุณที่สละเวลาตอบแบบสอบถาม",
-    "surveyFailedToSubmit": "การส่งแบบสำรวจล้มเหลว กรุณาลองอีกครั้ง"
+  "surveyFailedToSubmit": "การส่งแบบสำรวจล้มเหลว กรุณาลองอีกครั้ง",
+  "genericErrorTitle": "เกิดข้อผิดพลาดบางอย่าง",
+  "genericErrorDescription": "กรุณารีเฟรชหน้า",
+  "genericTryAgain": "ลองอีกครั้ง",
+  "surveyListEmptyContentTitle": "ยังไม่มีแบบสำรวจ",
+  "surveyListEmptyContentDescription": "กรุณารีเฟรชหน้าเพื่อรับแบบสำรวจล่าสุด"
 }

@@ -7,6 +7,7 @@ import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 
 import '../../../core/model/survey_details_model.dart';
 import '../../../core/ui/component/nimble_button.dart';
+import '../../../core/ui/component/screen/base_nimble_error_screen.dart';
 import '../../../core/ui/theme/app_dimension.dart';
 import '../../../core/ui/theme/app_text_size.dart';
 import '../../../gen/assets.gen.dart';
@@ -78,33 +79,29 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
     final SurveyDetailsUiModel uiModel = ref.watch(
       surveyDetailsViewModelProvider,
     );
+    final isLoading = uiModel.isLoading;
     final SurveyDetailsModel? survey = uiModel.surveyDetails;
 
-    if (survey == null) {
-      // TODO replace with error screen
-      return Stack(
-        children: [
-          SurveyBackgroundImage(imageUrl: ''),
-          uiModel.isLoading
-              ? Positioned.fill(
-                child: Center(child: CircularProgressIndicator()),
-              )
-              : Positioned.fill(
-                child: Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: AppDimension.profileMediumIconDiameter / 2,
-                    child: Icon(
-                      Icons.no_backpack,
-                      color: Colors.white,
-                      size: AppDimension.profileMediumIconDiameter,
-                    ),
-                  ),
-                ),
-              ),
-        ],
+    if (isLoading) {
+      return Container(
+        color: Colors.black,
+        child: Center(child: CircularProgressIndicator()),
       );
     }
+
+    if (survey == null) {
+      return BaseNimbleErrorScreen(
+        icon: Assets.images.icGenericError.svg(),
+        title: AppLocalizations.of(context)?.genericErrorTitle ?? '',
+        description:
+            AppLocalizations.of(context)?.genericErrorDescription ?? '',
+        primaryButtonLabel: AppLocalizations.of(context)?.genericTryAgain ?? '',
+        onPressed: () async {
+          // TODO handle refresh
+        },
+      );
+    }
+
     return Scaffold(
       key: AppWidgetKey.surveyDetailsScreen,
       body: Stack(

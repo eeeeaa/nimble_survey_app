@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
+import 'package:nimble_survey_app/core/ui/component/screen/base_nimble_error_screen.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_dimension.dart';
 import 'package:nimble_survey_app/features/home/model/survey_list_ui_model.dart';
 import 'package:nimble_survey_app/features/home/ui/component/surveylist/survey_background_image.dart';
@@ -11,6 +12,7 @@ import 'package:nimble_survey_app/l10n/app_localizations.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../loading/bottom_loading_content.dart';
+import '../../../../../l10n/app_localizations.dart';
 
 class SurveyList extends ConsumerStatefulWidget {
   const SurveyList({super.key});
@@ -140,17 +142,16 @@ class SurveyListState extends ConsumerState<SurveyList> {
   }
 
   Widget _createEmptyListContent() {
-    return Container(
-      color: Colors.black,
-      child: Center(
-        child: Text(
-          AppLocalizations.of(context)?.homeEmptySurveyList ?? '',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
+    return BaseNimbleErrorScreen(
+      icon: Assets.images.icEmptyContent.svg(),
+      title: AppLocalizations.of(context)?.surveyListEmptyContentTitle ?? '',
+      description:
+      AppLocalizations.of(context)?.surveyListEmptyContentDescription ??
+          '',
+      primaryButtonLabel: AppLocalizations.of(context)?.genericTryAgain ?? '',
+      onPressed: () async {
+        // TODO handle refresh
+      },
     );
   }
 
@@ -181,6 +182,13 @@ class SurveyListState extends ConsumerState<SurveyList> {
     final isLoading = ref.watch(surveyListViewModelProvider).isLoading;
     final isFirstLoad = ref.watch(surveyListViewModelProvider).isFirstLoad;
     final currentIndex = ref.watch(surveyListViewModelProvider).currentIndex;
+
+    if (isLoading) {
+      return Container(
+        color: Colors.black,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
 
     if (surveyList.isEmpty) {
       if (isFirstLoad) {

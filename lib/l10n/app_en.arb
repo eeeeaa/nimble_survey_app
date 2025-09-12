@@ -25,5 +25,10 @@
   "numberRatingBarAnswerNegativeText": "Not at all Likely",
   "textAreaAnswerHint": "Your thoughts",
   "surveyCompletionDefaultText": "Thanks for taking the survey.",
-  "surveyFailedToSubmit": "Survey submission Failed, please try again"
+  "surveyFailedToSubmit": "Survey submission Failed, please try again",
+  "genericErrorTitle": "Something went wrong",
+  "genericErrorDescription": "Please refresh the page",
+  "genericTryAgain": "Try Again",
+  "surveyListEmptyContentTitle": "There are no survey available",
+  "surveyListEmptyContentDescription": "Please try refreshing the page to get latest surveys"
 }
