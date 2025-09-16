@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_dimension.dart';
+import 'package:nimble_survey_app/features/home/model/survey_list_ui_model.dart';
 import 'package:nimble_survey_app/features/home/ui/component/surveylist/survey_background_image.dart';
 import 'package:nimble_survey_app/features/home/ui/component/surveylist/survey_item.dart';
 import 'package:nimble_survey_app/features/home/ui/viewmodel/survey_list_view_model.dart';
@@ -116,22 +117,6 @@ class SurveyListState extends ConsumerState<SurveyList> {
     return RefreshIndicator(
       onRefresh: () async {
         await ref.read(surveyListViewModelProvider.notifier).refresh();
-        final isRefreshSuccess =
-            ref.read(surveyListViewModelProvider).isRefreshSuccess;
-
-        if (isRefreshSuccess == true) {
-          _controller.jumpToPage(
-            ref.read(surveyListViewModelProvider).currentIndex,
-          );
-        } else if (isRefreshSuccess == false) {
-          if (mounted) {
-            Fluttertoast.showToast(
-              msg:
-                  AppLocalizations.of(context)?.homeFailedToGetSurveyList ??
-                  'Something went wrong',
-            );
-          }
-        }
       },
       child: Stack(
         children: [
@@ -196,8 +181,6 @@ class SurveyListState extends ConsumerState<SurveyList> {
     final isLoading = ref.watch(surveyListViewModelProvider).isLoading;
     final isFirstLoad = ref.watch(surveyListViewModelProvider).isFirstLoad;
     final currentIndex = ref.watch(surveyListViewModelProvider).currentIndex;
-    final isRefreshSuccess =
-        ref.watch(surveyListViewModelProvider).isRefreshSuccess;
 
     if (surveyList.isEmpty) {
       if (isFirstLoad) {
@@ -206,6 +189,29 @@ class SurveyListState extends ConsumerState<SurveyList> {
         return _createEmptyListContent();
       }
     }
+
+    ref.listen(surveyListViewModelProvider, (_, uiModel) {
+      uiModel.when((
+        surveyList,
+        currentIndex,
+        isLoading,
+        hasMore,
+        isFirstLoad,
+        isRefreshSuccess,
+      ) {
+        if (isRefreshSuccess == true) {
+          _controller.jumpToPage(currentIndex);
+        } else if (isRefreshSuccess == false) {
+          if (mounted) {
+            Fluttertoast.showToast(
+              msg:
+                  AppLocalizations.of(context)?.homeFailedToGetSurveyList ??
+                  'Something went wrong',
+            );
+          }
+        }
+      });
+    });
 
     return GestureDetector(
       onHorizontalDragStart: (details) {
