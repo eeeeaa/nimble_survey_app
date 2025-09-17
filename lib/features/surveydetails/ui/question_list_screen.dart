@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/model/survey_question_model.dart';
+import 'package:nimble_survey_app/features/surveydetails/model/survey_details_ui_model.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/ui/component/nimble_login_button.dart';
@@ -34,21 +35,8 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
     super.dispose();
   }
 
-  void onSubmitSurvey() async {
-    await ref.read(surveyDetailsViewModelProvider.notifier).submitSurvey();
-    final isSurveySubmitted =
-        ref.read(surveyDetailsViewModelProvider).isSurveySubmitted;
-
-    if (!mounted) return;
-
-    if (isSurveySubmitted == true) {
-      context.go('/survey/completed');
-    } else if (isSurveySubmitted == false) {
-      Fluttertoast.showToast(
-        msg: AppLocalizations.of(context)?.surveyFailedToSubmit ?? "",
-      );
-    }
-  }
+  void onSubmitSurvey() async =>
+      await ref.read(surveyDetailsViewModelProvider.notifier).submitSurvey();
 
   Future<void> _createShowExitSurveyDialog() async {
     return showDialog(
@@ -189,6 +177,23 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
     final questions =
         ref.watch(surveyDetailsViewModelProvider).surveyDetails?.questions ??
         List.empty();
+
+    ref.listen(surveyDetailsViewModelProvider, (_, uiModel) {
+      uiModel.when((
+        surveyDetails,
+        surveyQuestions,
+        isLoading,
+        isSurveySubmitted,
+      ) {
+        if (isSurveySubmitted == true) {
+          context.go('/survey/completed');
+        } else if (isSurveySubmitted == false) {
+          Fluttertoast.showToast(
+            msg: AppLocalizations.of(context)?.surveyFailedToSubmit ?? "",
+          );
+        }
+      });
+    });
 
     return PopScope(
       key: AppWidgetKey.questionListScreen,

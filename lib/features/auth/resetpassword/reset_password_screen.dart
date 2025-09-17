@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
+import 'package:nimble_survey_app/features/auth/resetpassword/model/reset_password_ui_model.dart';
 import 'package:nimble_survey_app/features/auth/resetpassword/viewmodel/reset_password_view_model.dart';
 
 import '../../../core/ui/component/nimble_login_button.dart';
@@ -32,18 +33,6 @@ class ResetPasswordScreen extends ConsumerWidget {
       await ref
           .read(resetPasswordViewModelProvider.notifier)
           .resetPassword(title: title, description: description);
-      final isResetPasswordEmailSent =
-          ref.read(resetPasswordViewModelProvider).isResetPasswordEmailSent;
-
-      if (!context.mounted) return;
-
-      if (isResetPasswordEmailSent == false) {
-        final toastText =
-            AppLocalizations.of(context)?.resetPasswordInvalidEmail;
-        if (toastText != null) {
-          Fluttertoast.showToast(msg: toastText);
-        }
-      }
     }
 
     return Padding(
@@ -122,6 +111,18 @@ class ResetPasswordScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(resetPasswordViewModelProvider, (_, uiModel) {
+      uiModel.when((email, isLoading, isResetPasswordEmailSent) {
+        if (isResetPasswordEmailSent == false) {
+          final toastText =
+              AppLocalizations.of(context)?.resetPasswordInvalidEmail;
+          if (toastText != null) {
+            Fluttertoast.showToast(msg: toastText);
+          }
+        }
+      });
+    });
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
+import 'package:nimble_survey_app/features/home/model/home_ui_model.dart';
 import 'package:nimble_survey_app/features/home/ui/viewmodel/home_view_model.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
@@ -19,25 +20,24 @@ class HomeContent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final uiModel = ref.watch(homeViewModelProvider);
 
+    ref.listen(homeViewModelProvider, (_, uiModel) {
+      uiModel.when((user, isContentLoading, isLoggingOut, isLogOutSuccess) {
+        if (isLogOutSuccess == true) {
+          context.go('/auth');
+        } else if (isLogOutSuccess == false) {
+          Fluttertoast.showToast(
+            msg: AppLocalizations.of(context)?.homeLogoutFailed ?? "",
+          );
+        }
+      });
+    });
+
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: HomeDrawer(
         uiModel: uiModel,
-        onLogout: () async {
-          await ref.read(homeViewModelProvider.notifier).logout();
-          final isLogOutSuccess =
-              ref.read(homeViewModelProvider).isLogOutSuccess;
-
-          if (!context.mounted) return;
-
-          if (isLogOutSuccess == true) {
-            context.go('/auth');
-          } else if (isLogOutSuccess == false) {
-            Fluttertoast.showToast(
-              msg: AppLocalizations.of(context)?.homeLogoutFailed ?? "",
-            );
-          }
-        },
+        onLogout:
+            () async => await ref.read(homeViewModelProvider.notifier).logout(),
       ),
       body: Stack(
         key: AppWidgetKey.homeScreen,
