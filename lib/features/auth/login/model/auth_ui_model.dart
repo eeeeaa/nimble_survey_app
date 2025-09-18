@@ -4,5 +4,8 @@ part 'auth_ui_model.freezed.dart';
 
 @freezed
 abstract class AuthUiModel with _$AuthUiModel {
-  const factory AuthUiModel({required bool isLoggedIn}) = _AuthUiModel;
+  const factory AuthUiModel({
+    @Default(false) bool isLoading,
+    @Default(null) bool? isLoggedIn,
+  }) = _AuthUiModel;
 }

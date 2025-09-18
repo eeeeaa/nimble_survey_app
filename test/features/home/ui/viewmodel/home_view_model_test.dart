@@ -83,11 +83,12 @@ void main() {
       () => mockLocalStorageRepository.clearAll(),
     ).thenAnswer((_) async => Success(null));
 
-    final result =
-        await container.read(homeViewModelProvider.notifier).logout();
+    await container.read(homeViewModelProvider.notifier).logout();
 
     // Then
-    expect(result, isA<Success>());
+    final isLogOutSuccess =
+        container.read(homeViewModelProvider).isLogOutSuccess;
+    expect(isLogOutSuccess, true);
 
     verify(() => mockAuthRepository.logout()).called(1);
     verify(() => mockLocalStorageRepository.clearAll()).called(1);
