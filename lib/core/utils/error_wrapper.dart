@@ -12,11 +12,11 @@ sealed class Result<T> with _$Result<T> {
 
 Future<Result<R>> safeApiCall<T, R>({
   required Future<T> Function() call,
-  R Function(T data)? mapper,
+  Future<R> Function(T data)? mapper,
 }) async {
   try {
     final response = await call();
-    final mapped = mapper != null ? mapper(response) : response as R;
+    final mapped = mapper != null ? await mapper(response) : response as R;
     return Result.success(mapped);
   } on DioException catch (e) {
     return Result.failure(_mapDioError(e));

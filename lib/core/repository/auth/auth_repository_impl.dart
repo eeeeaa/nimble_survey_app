@@ -120,7 +120,7 @@ class AuthRepositoryImpl extends AuthRepository {
               clientSecret: clientSecret,
             ),
           ),
-      mapper: (res) => res.meta?.message,
+      mapper: (res) async => res.meta?.message,
     );
   }
 }

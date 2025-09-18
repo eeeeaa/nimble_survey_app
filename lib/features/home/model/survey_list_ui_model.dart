@@ -11,5 +11,6 @@ abstract class SurveyListUiModel with _$SurveyListUiModel {
     @Default(false) bool isLoading,
     @Default(true) bool hasMore,
     @Default(true) bool isFirstLoad,
+    @Default(null) bool? isRefreshSuccess,
   }) = _SurveyListUiModel;
 }

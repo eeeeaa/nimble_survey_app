@@ -13,6 +13,8 @@
   "homeUser": "User",
   "homeLogout": "Logout",
   "homeLogoutFailed": "Failed to logout",
+  "homeEmptySurveyList": "There are currently no survey available",
+  "homeFailedToGetSurveyList": "Failed to fetch survey list, please try again",
   "surveyDetailStartSurvey": "Start Survey",
   "questionsSubmit": "Submit",
   "questionsQuitSurveyDialogTitle": "Warning!",
