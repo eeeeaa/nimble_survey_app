@@ -11,8 +11,8 @@ import 'package:nimble_survey_app/features/home/ui/viewmodel/survey_list_view_mo
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../../gen/assets.gen.dart';
 import '../loading/bottom_loading_content.dart';
-import '../../../../../l10n/app_localizations.dart';
 
 class SurveyList extends ConsumerStatefulWidget {
   const SurveyList({super.key});
@@ -146,8 +146,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
       icon: Assets.images.icEmptyContent.svg(),
       title: AppLocalizations.of(context)?.surveyListEmptyContentTitle ?? '',
       description:
-      AppLocalizations.of(context)?.surveyListEmptyContentDescription ??
-          '',
+          AppLocalizations.of(context)?.surveyListEmptyContentDescription ?? '',
       primaryButtonLabel: AppLocalizations.of(context)?.genericTryAgain ?? '',
       onPressed: () async {
         // TODO handle refresh

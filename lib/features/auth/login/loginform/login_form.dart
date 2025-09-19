@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
-import 'package:nimble_survey_app/core/ui/component/nimble_login_button.dart';
 import 'package:nimble_survey_app/core/ui/component/nimble_text_field.dart';
+import 'package:nimble_survey_app/features/auth/login/model/auth_ui_model.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 
 import '../../../../core/ui/component/nimble_button.dart';

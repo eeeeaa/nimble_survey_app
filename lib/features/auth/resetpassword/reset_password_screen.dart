@@ -100,7 +100,10 @@ class ResetPasswordScreen extends ConsumerWidget {
                 key: AppWidgetKey.resetPasswordSubmitButton,
                 buttonText:
                     AppLocalizations.of(context)?.resetPasswordReset ?? "",
-                onPressed: resetPasswordUiModel.isResetEnabled == true ? onResetPasswordSubmit : null,
+                onPressed:
+                    resetPasswordUiModel.isResetEnabled == true
+                        ? onResetPasswordSubmit
+                        : null,
               ),
         ],
       ),
