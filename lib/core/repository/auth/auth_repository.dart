@@ -13,4 +13,6 @@ abstract class AuthRepository {
   Future<Result<void>> logout();
 
   Future<bool> isLoggedIn();
+
+  Future<Result<String?>> resetPassword({required String email});
 }

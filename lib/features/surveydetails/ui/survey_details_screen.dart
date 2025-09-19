@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 
 import '../../../core/model/survey_details_model.dart';
 import '../../../core/ui/component/nimble_login_button.dart';
@@ -51,6 +52,7 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
           ),
         ),
         Text(
+          key: AppWidgetKey.surveyDetailsTitle,
           survey.title,
           style: TextStyle(
             color: ColorName.primaryText,
@@ -59,6 +61,7 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
           ),
         ),
         Text(
+          key: AppWidgetKey.surveyDetailsDescription,
           survey.description,
           style: TextStyle(
             color: ColorName.secondaryText,
@@ -103,6 +106,7 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
       );
     }
     return Scaffold(
+      key: AppWidgetKey.surveyDetailsScreen,
       body: Stack(
         children: [
           SurveyBackgroundImage(imageUrl: survey.coverImageUrl),
@@ -127,6 +131,7 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: NimbleButton(
+                        key: AppWidgetKey.surveyDetailsStartSurveyButton,
                         width: null,
                         buttonText:
                             AppLocalizations.of(

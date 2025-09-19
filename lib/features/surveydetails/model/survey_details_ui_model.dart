@@ -11,5 +11,6 @@ abstract class SurveyDetailsUiModel with _$SurveyDetailsUiModel {
     required SurveyDetailsModel? surveyDetails,
     @Default({}) Map<String, List<AnswerUiModel>> surveyQuestions,
     @Default(false) bool isLoading,
+    @Default(null) bool? isSurveySubmitted,
   }) = _SurveyDetailsUiModel;
 }

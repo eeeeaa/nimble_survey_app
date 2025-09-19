@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_text_size.dart';
 import 'package:nimble_survey_app/gen/colors.gen.dart';
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
@@ -37,6 +38,7 @@ class _SurveyCompletedScreenState extends State<SurveyCompletedScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: AppWidgetKey.surveyCompletedScreen,
       body: Stack(
         children: [
           Positioned.fill(child: Container(color: Colors.black)),

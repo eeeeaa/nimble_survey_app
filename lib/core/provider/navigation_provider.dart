@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/features/auth/resetpassword/reset_password_screen.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/question_list_screen.dart';
 import 'package:nimble_survey_app/features/surveydetails/ui/survey_completed_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../features/auth/ui/auth_screen.dart';
+import '../../features/auth/login/auth_screen.dart';
 import '../../features/home/ui/home_screen.dart';
 import '../../features/splash/ui/splash_screen.dart';
 import '../../features/surveydetails/ui/survey_details_screen.dart';
@@ -44,6 +45,7 @@ GoRouter goRouter(Ref ref) {
     routes: [
       route(path: '/', child: const SplashScreen()),
       route(path: '/auth', child: const AuthScreen()),
+      route(path: '/auth/reset', child: const ResetPasswordScreen()),
       route(path: '/home', child: const HomeScreen()),
       route(path: '/survey/completed', child: const SurveyCompletedScreen()),
       GoRoute(

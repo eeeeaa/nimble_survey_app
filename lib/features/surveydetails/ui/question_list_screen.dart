@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 import 'package:nimble_survey_app/core/model/survey_question_model.dart';
-import 'package:nimble_survey_app/core/utils/error_wrapper.dart';
+import 'package:nimble_survey_app/features/surveydetails/model/survey_details_ui_model.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/ui/component/nimble_login_button.dart';
@@ -34,6 +35,9 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
     super.dispose();
   }
 
+  void onSubmitSurvey() async =>
+      await ref.read(surveyDetailsViewModelProvider.notifier).submitSurvey();
+
   Future<void> _createShowExitSurveyDialog() async {
     return showDialog(
       context: context,
@@ -41,6 +45,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
         return AlertDialog(
           backgroundColor: Colors.black,
           title: Text(
+            key: AppWidgetKey.questionListExitSurveyTitle,
             AppLocalizations.of(context)?.questionsQuitSurveyDialogTitle ?? '',
             style: TextStyle(
               color: ColorName.primaryText,
@@ -49,6 +54,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
             ),
           ),
           content: Text(
+            key: AppWidgetKey.questionListExitSurveyDescription,
             AppLocalizations.of(
                   context,
                 )?.questionsQuitSurveyDialogDescription ??
@@ -61,6 +67,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
           ),
           actions: <Widget>[
             TextButton(
+              key: AppWidgetKey.questionListExitSurveyPositiveButton,
               child: Text(
                 AppLocalizations.of(
                       context,
@@ -71,13 +78,12 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
                 ref
                     .read(surveyDetailsViewModelProvider.notifier)
                     .clearSurveyQuestion();
-                // Close dialog
-                context.pop();
-                // Go back to survey details screen
-                context.pop();
+                // Navigate to home screen
+                context.go("/home");
               },
             ),
             TextButton(
+              key: AppWidgetKey.questionListExitSurveyNegativeButton,
               child: Text(
                 AppLocalizations.of(
                       context,
@@ -124,6 +130,7 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
         Align(
           alignment: Alignment.topRight,
           child: IconButton(
+            key: AppWidgetKey.questionListNavigateBackButton,
             onPressed: () {
               _createShowExitSurveyDialog();
             },
@@ -147,29 +154,11 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
           child:
               (index == questions.length - 1)
                   ? NimbleButton(
+                    key: AppWidgetKey.questionListSubmitSurveyButton,
                     width: null,
                     buttonText:
                         AppLocalizations.of(context)?.questionsSubmit ?? '',
-                    onPressed: () async {
-                      final result =
-                          await ref
-                              .read(surveyDetailsViewModelProvider.notifier)
-                              .submitSurvey();
-
-                      if (mounted) {
-                        if (result is Success) {
-                          context.go('/survey/completed');
-                        } else {
-                          Fluttertoast.showToast(
-                            msg:
-                                AppLocalizations.of(
-                                  context,
-                                )?.surveyFailedToSubmit ??
-                                "",
-                          );
-                        }
-                      }
-                    },
+                    onPressed: onSubmitSurvey,
                   )
                   : _createContinueButton(),
         ),
@@ -189,7 +178,25 @@ class QuestionListScreenState extends ConsumerState<QuestionListScreen> {
         ref.watch(surveyDetailsViewModelProvider).surveyDetails?.questions ??
         List.empty();
 
+    ref.listen(surveyDetailsViewModelProvider, (_, uiModel) {
+      uiModel.when((
+        surveyDetails,
+        surveyQuestions,
+        isLoading,
+        isSurveySubmitted,
+      ) {
+        if (isSurveySubmitted == true) {
+          context.go('/survey/completed');
+        } else if (isSurveySubmitted == false) {
+          Fluttertoast.showToast(
+            msg: AppLocalizations.of(context)?.surveyFailedToSubmit ?? "",
+          );
+        }
+      });
+    });
+
     return PopScope(
+      key: AppWidgetKey.questionListScreen,
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         _createShowExitSurveyDialog();

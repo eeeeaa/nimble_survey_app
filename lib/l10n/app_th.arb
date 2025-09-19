@@ -13,6 +13,8 @@
     "homeUser": "ผู้ใช้",
     "homeLogout": "ออกจากระบบ",
     "homeLogoutFailed": "ไม่สามารถออกจากระบบได้",
+    "homeEmptySurveyList": "ขณะนี้ยังไม่มีแบบสำรวจ",
+    "homeFailedToGetSurveyList": "ดึงแบบสำรวจไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
     "surveyDetailStartSurvey": "เริ่มทำแบบสอบถาม",
     "questionsSubmit": "ส่งแบบสอบถาม",
     "questionsQuitSurveyDialogTitle": "คำเตือน!",

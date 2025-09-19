@@ -4,6 +4,8 @@ import 'package:nimble_survey_app/core/model/auth_request.dart';
 import 'package:nimble_survey_app/core/model/auth_response.dart';
 import 'package:nimble_survey_app/core/model/logout_request.dart';
 import 'package:nimble_survey_app/core/model/registration_request.dart';
+import 'package:nimble_survey_app/core/model/reset_password_request.dart';
+import 'package:nimble_survey_app/core/model/reset_password_response.dart';
 import 'package:nimble_survey_app/core/network/service/auth_service.dart';
 import 'package:nimble_survey_app/core/repository/auth/auth_repository.dart';
 import 'package:nimble_survey_app/core/repository/local/secure_storage_repository.dart';
@@ -105,5 +107,20 @@ class AuthRepositoryImpl extends AuthRepository {
     } else {
       return false;
     }
+  }
+
+  @override
+  Future<Result<String?>> resetPassword({required String email}) async {
+    return safeApiCall<ResetPasswordResponse, String?>(
+      call:
+          () => authService.resetPassword(
+            ResetPasswordRequest(
+              user: ResetPasswordUser(email: email),
+              clientId: clientId,
+              clientSecret: clientSecret,
+            ),
+          ),
+      mapper: (res) async => res.meta?.message,
+    );
   }
 }

@@ -1,5 +1,6 @@
-import 'package:nimble_survey_app/features/auth/model/login_form_ui_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../model/login_form_ui_model.dart';
 
 part 'login_form_view_model.g.dart';
 

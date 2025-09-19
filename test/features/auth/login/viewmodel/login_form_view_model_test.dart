@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nimble_survey_app/features/auth/model/login_form_ui_model.dart';
-import 'package:nimble_survey_app/features/auth/ui/viewmodel/login_form_view_model.dart';
+import 'package:nimble_survey_app/features/auth/login/model/login_form_ui_model.dart';
+import 'package:nimble_survey_app/features/auth/login/viewmodel/login_form_view_model.dart';
 
 void main() {
   late ProviderContainer container;

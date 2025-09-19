@@ -10,5 +10,6 @@ abstract class HomeUiModel with _$HomeUiModel {
     required UserModel? user,
     @Default(true) bool isContentLoading,
     @Default(false) bool isLoggingOut,
+    @Default(null) bool? isLogOutSuccess,
   }) = _HomeUiModel;
 }

@@ -50,13 +50,14 @@ class SurveyRepositoryImpl extends SurveyRepository {
   }) {
     return safeApiCall<SurveyResponse, List<SurveyModel>>(
       call: () => surveyService.getSurveyList(pageNumber, pageSize),
-      mapper: (res) {
+      mapper: (res) async {
         final list =
             res.data
                 ?.map((surveyData) => SurveyModel.fromResponse(res: surveyData))
                 .toList() ??
             List.empty();
-        localStorageRepository.updateCachedSurveyModelList(list);
+        await localStorageRepository.clearCachedSurveyModelList();
+        await localStorageRepository.updateCachedSurveyModelList(list);
         return list;
       },
     );
