@@ -89,6 +89,7 @@ class ResetPasswordScreen extends ConsumerWidget {
           ),
           NimbleTextField(
             key: AppWidgetKey.resetPasswordEmailTextField,
+            enabled: !resetPasswordUiModel.isLoading,
             hintText: AppLocalizations.of(context)?.email ?? "",
             onChanged: (value) {
               ref.read(resetPasswordViewModelProvider.notifier).setEmail(value);

@@ -39,6 +39,7 @@ class LoginForm extends ConsumerWidget {
     Widget createEmailTextField() {
       return NimbleTextField(
         key: AppWidgetKey.loginEmailTextField,
+        enabled: !authUiModel.isLoading,
         hintText: AppLocalizations.of(context)?.email ?? "",
         onChanged:
             (value) =>
@@ -49,34 +50,23 @@ class LoginForm extends ConsumerWidget {
     Widget createPasswordTextField() {
       return NimbleTextField(
         key: AppWidgetKey.loginPasswordTextField,
-        suffix:
-            authUiModel.isLoading
-                ? Padding(
-                  padding: const EdgeInsets.all(AppDimension.spacingExtraSmall),
-                  child: Center(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: SizedBox(
-                        width: AppDimension.spacingMedium,
-                        height: AppDimension.spacingMedium,
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                  ),
-                )
-                : TextButton(
-                  key: AppWidgetKey.loginResetPasswordButton,
-                  onPressed: () {
+        enabled: !authUiModel.isLoading,
+        suffix: TextButton(
+          key: AppWidgetKey.loginResetPasswordButton,
+          onPressed:
+              !authUiModel.isLoading
+                  ? () {
                     context.go('/auth/reset');
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)?.loginForgotPassword ?? "",
-                    style: TextStyle(
-                      fontSize: AppTextSize.textSizeSmall,
-                      color: ColorName.secondaryText,
-                    ),
-                  ),
-                ),
+                  }
+                  : null,
+          child: Text(
+            AppLocalizations.of(context)?.loginForgotPassword ?? "",
+            style: TextStyle(
+              fontSize: AppTextSize.textSizeSmall,
+              color: ColorName.secondaryText,
+            ),
+          ),
+        ),
         hintText: AppLocalizations.of(context)?.loginPassword ?? "",
         obscureText: true,
         onChanged:
