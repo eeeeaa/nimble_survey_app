@@ -7,18 +7,21 @@ class NimbleTextField extends StatelessWidget {
   final bool obscureText;
   final Function(String) onChanged;
   final Widget? suffix;
+  final bool enabled;
 
   const NimbleTextField({
     required this.hintText,
     required this.onChanged,
     this.suffix,
     this.obscureText = false,
+    this.enabled = true,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      enabled: enabled,
       obscureText: obscureText,
       style: TextStyle(color: ColorName.primaryText),
       decoration: InputDecoration(

@@ -6,7 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:nimble_survey_app/core/constants/app_widget_key.dart';
 
 import '../../../core/model/survey_details_model.dart';
-import '../../../core/ui/component/nimble_login_button.dart';
+import '../../../core/ui/component/nimble_button.dart';
+import '../../../core/ui/component/screen/base_nimble_error_screen.dart';
 import '../../../core/ui/theme/app_dimension.dart';
 import '../../../core/ui/theme/app_text_size.dart';
 import '../../../gen/assets.gen.dart';
@@ -73,43 +74,49 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final SurveyDetailsUiModel uiModel = ref.watch(
-      surveyDetailsViewModelProvider,
+  Widget _createErrorScreen() {
+    return BaseNimbleErrorScreen(
+      icon: Assets.images.icGenericError.svg(),
+      title: AppLocalizations.of(context)?.genericErrorTitle ?? '',
+      description: AppLocalizations.of(context)?.genericErrorDescription ?? '',
+      primaryButtonLabel: AppLocalizations.of(context)?.genericTryAgain ?? '',
+      onPressed: () async {
+        await ref
+            .read(surveyDetailsViewModelProvider.notifier)
+            .initialLoad(id: widget.id);
+      },
     );
-    final SurveyDetailsModel? survey = uiModel.surveyDetails;
+  }
 
-    if (survey == null) {
-      // TODO replace with error screen
-      return Stack(
-        children: [
-          SurveyBackgroundImage(imageUrl: ''),
-          uiModel.isLoading
-              ? Positioned.fill(
-                child: Center(child: CircularProgressIndicator()),
-              )
-              : Positioned.fill(
-                child: Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: AppDimension.profileMediumIconDiameter / 2,
-                    child: Icon(
-                      Icons.no_backpack,
-                      color: Colors.white,
-                      size: AppDimension.profileMediumIconDiameter,
-                    ),
-                  ),
-                ),
-              ),
-        ],
-      );
-    }
+  Widget _createSurveyDetailsContent(SurveyDetailsModel surveyDetails) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _createSurveyDetailsHeader(survey: surveyDetails),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: NimbleButton(
+            key: AppWidgetKey.surveyDetailsStartSurveyButton,
+            width: null,
+            buttonText:
+                AppLocalizations.of(context)?.surveyDetailStartSurvey ?? '',
+            onPressed: () {
+              context.push('/survey/${surveyDetails.id}/survey-sessions');
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _createSurveyDetailsScreen(SurveyDetailsModel surveyDetails) {
     return Scaffold(
       key: AppWidgetKey.surveyDetailsScreen,
       body: Stack(
         children: [
-          SurveyBackgroundImage(imageUrl: survey.coverImageUrl),
+          SurveyBackgroundImage(imageUrl: surveyDetails.coverImageUrl),
           // Blurred overlay
           Positioned.fill(
             child: BackdropFilter(
@@ -122,34 +129,37 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(AppDimension.paddingMedium),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _createSurveyDetailsHeader(survey: survey),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: NimbleButton(
-                        key: AppWidgetKey.surveyDetailsStartSurveyButton,
-                        width: null,
-                        buttonText:
-                            AppLocalizations.of(
-                              context,
-                            )?.surveyDetailStartSurvey ??
-                            '',
-                        onPressed: () {
-                          context.push('/survey/${survey.id}/survey-sessions');
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                child: _createSurveyDetailsContent(surveyDetails),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ref
+        .watch(surveyDetailsViewModelProvider)
+        .maybeWhen(
+          (surveyDetails, surveyQuestions, isLoading, isSurveySubmitted) {
+            if (isLoading) {
+              return Container(
+                color: Colors.black,
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+
+            if (surveyDetails == null) {
+              return _createErrorScreen();
+            }
+
+            return _createSurveyDetailsScreen(surveyDetails);
+          },
+          orElse: () {
+            return _createErrorScreen();
+          },
+        );
   }
 }
