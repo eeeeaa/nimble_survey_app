@@ -176,27 +176,6 @@ class SurveyListState extends ConsumerState<SurveyList> {
 
   @override
   Widget build(BuildContext context) {
-    final List<SurveyModel> surveyList =
-        ref.watch(surveyListViewModelProvider).surveyList;
-    final isLoading = ref.watch(surveyListViewModelProvider).isLoading;
-    final isFirstLoad = ref.watch(surveyListViewModelProvider).isFirstLoad;
-    final currentIndex = ref.watch(surveyListViewModelProvider).currentIndex;
-
-    if (isLoading) {
-      return Container(
-        color: Colors.black,
-        child: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    if (surveyList.isEmpty) {
-      if (isFirstLoad) {
-        return _createLoadingListContent();
-      } else {
-        return _createEmptyListContent();
-      }
-    }
-
     ref.listen(surveyListViewModelProvider, (_, uiModel) {
       uiModel.when((
         surveyList,
@@ -220,32 +199,55 @@ class SurveyListState extends ConsumerState<SurveyList> {
       });
     });
 
-    return GestureDetector(
-      onHorizontalDragStart: (details) {
-        _screenDragStart = details.globalPosition;
-      },
-      onHorizontalDragUpdate: (details) {
-        final dragDistance =
-            details.globalPosition.dx - (_screenDragStart?.dx ?? 0);
-        _controller.position.moveTo(_controller.position.pixels - dragDistance);
-        _screenDragStart = details.globalPosition;
-      },
-      onHorizontalDragEnd: (_) {
-        _screenDragStart = null;
-      },
-      child: Stack(
-        children: [
-          SurveyBackgroundImage(
-            imageUrl: surveyList[currentIndex].coverImageUrl,
-          ),
-          _createSurveyListContent(surveyList: surveyList),
-          isLoading
-              ? Positioned.fill(
+    return ref.watch(surveyListViewModelProvider).maybeWhen((
+      surveyList,
+      currentIndex,
+      isLoading,
+      hasMore,
+      isFirstLoad,
+      isRefreshSuccess,
+    ) {
+      if (isLoading) {
+        return const ColoredBox(
+          color: Colors.black,
+          child: Center(child: CircularProgressIndicator()),
+        );
+      }
+
+      if (surveyList.isEmpty) {
+        return isFirstLoad
+            ? _createLoadingListContent()
+            : _createEmptyListContent();
+      }
+
+      return GestureDetector(
+        onHorizontalDragStart: (details) {
+          _screenDragStart = details.globalPosition;
+        },
+        onHorizontalDragUpdate: (details) {
+          final dragDistance =
+              details.globalPosition.dx - (_screenDragStart?.dx ?? 0);
+          _controller.position.moveTo(
+            _controller.position.pixels - dragDistance,
+          );
+          _screenDragStart = details.globalPosition;
+        },
+        onHorizontalDragEnd: (_) {
+          _screenDragStart = null;
+        },
+        child: Stack(
+          children: [
+            SurveyBackgroundImage(
+              imageUrl: surveyList[currentIndex].coverImageUrl,
+            ),
+            _createSurveyListContent(surveyList: surveyList),
+            if (isLoading)
+              const Positioned.fill(
                 child: Center(child: CircularProgressIndicator()),
-              )
-              : Container(),
-        ],
-      ),
-    );
+              ),
+          ],
+        ),
+      );
+    }, orElse: _createEmptyListContent);
   }
 }

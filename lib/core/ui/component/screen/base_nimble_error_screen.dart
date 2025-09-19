@@ -25,36 +25,35 @@ class BaseNimbleErrorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        padding: const EdgeInsets.all(AppDimension.spacingMedium),
         color: Colors.black,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(AppDimension.spacingMedium),
-            child: Column(
-              spacing: AppDimension.spacingMedium,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                icon ?? SizedBox.shrink(),
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: ColorName.primaryText,
-                    fontSize: AppTextSize.textSizeLarge,
-                  ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Column(
+            spacing: AppDimension.spacingMedium,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              icon ?? SizedBox.shrink(),
+              Text(
+                title,
+                style: TextStyle(
+                  color: ColorName.primaryText,
+                  fontSize: AppTextSize.textSizeLarge,
                 ),
-                Text(
-                  description,
-                  style: TextStyle(
-                    color: ColorName.secondaryText,
-                    fontSize: AppTextSize.textSizeMedium,
-                  ),
+              ),
+              Text(
+                description,
+                style: TextStyle(
+                  color: ColorName.secondaryText,
+                  fontSize: AppTextSize.textSizeMedium,
                 ),
-                NimbleButton(
-                  buttonText: primaryButtonLabel,
-                  onPressed: onPressed,
-                ),
-              ],
-            ),
+              ),
+              NimbleButton(
+                buttonText: primaryButtonLabel,
+                onPressed: onPressed,
+              ),
+            ],
           ),
         ),
       ),
