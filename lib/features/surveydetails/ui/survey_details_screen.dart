@@ -97,7 +97,9 @@ class SurveyDetailsScreenState extends ConsumerState<SurveyDetailsScreen> {
             AppLocalizations.of(context)?.genericErrorDescription ?? '',
         primaryButtonLabel: AppLocalizations.of(context)?.genericTryAgain ?? '',
         onPressed: () async {
-          // TODO handle refresh
+          await ref
+              .read(surveyDetailsViewModelProvider.notifier)
+              .initialLoad(id: widget.id);
         },
       );
     }

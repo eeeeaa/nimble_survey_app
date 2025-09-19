@@ -149,7 +149,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
           AppLocalizations.of(context)?.surveyListEmptyContentDescription ?? '',
       primaryButtonLabel: AppLocalizations.of(context)?.genericTryAgain ?? '',
       onPressed: () async {
-        // TODO handle refresh
+        await ref.read(surveyListViewModelProvider.notifier).refresh();
       },
     );
   }
