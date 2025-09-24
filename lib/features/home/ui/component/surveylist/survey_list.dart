@@ -186,7 +186,9 @@ class SurveyListState extends ConsumerState<SurveyList> {
         isRefreshSuccess,
       ) {
         if (isRefreshSuccess == true) {
-          _controller.jumpToPage(currentIndex);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _controller.jumpToPage(currentIndex);
+          });
         } else if (isRefreshSuccess == false) {
           if (mounted) {
             Fluttertoast.showToast(
@@ -207,7 +209,7 @@ class SurveyListState extends ConsumerState<SurveyList> {
       isFirstLoad,
       isRefreshSuccess,
     ) {
-      if (isLoading) {
+      if (isLoading && isFirstLoad) {
         return const ColoredBox(
           color: Colors.black,
           child: Center(child: CircularProgressIndicator()),

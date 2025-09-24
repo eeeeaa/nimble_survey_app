@@ -20,7 +20,12 @@ class SurveyRepositoryImpl extends SurveyRepository {
     required int pageNumber,
     required int pageSize,
     required bool isForceReload,
+    bool shouldClearCache = false,
   }) async {
+    if (shouldClearCache) {
+      await localStorageRepository.clearCachedSurveyModelList();
+    }
+
     if (isForceReload) {
       return _getRemoteSurveyList(pageNumber: pageNumber, pageSize: pageSize);
     }
@@ -56,7 +61,6 @@ class SurveyRepositoryImpl extends SurveyRepository {
                 ?.map((surveyData) => SurveyModel.fromResponse(res: surveyData))
                 .toList() ??
             List.empty();
-        await localStorageRepository.clearCachedSurveyModelList();
         await localStorageRepository.updateCachedSurveyModelList(list);
         return list;
       },
