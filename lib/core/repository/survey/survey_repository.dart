@@ -7,5 +7,6 @@ abstract class SurveyRepository {
     required int pageNumber,
     required int pageSize,
     required bool isForceReload,
+    bool shouldClearCache = false,
   });
 }

@@ -23,6 +23,10 @@ class NimbleButton extends StatelessWidget {
       width: width,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
+          foregroundColor: ColorName.blackPrimaryText,
+          backgroundColor: Colors.white,
+          disabledForegroundColor: Colors.black38,
+          disabledBackgroundColor: Colors.grey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDimension.borderRadius),
           ),
@@ -32,7 +36,6 @@ class NimbleButton extends StatelessWidget {
           buttonText,
           style: TextStyle(
             fontSize: AppTextSize.textSizeMedium,
-            color: ColorName.blackPrimaryText,
             fontWeight: FontWeight.bold,
           ),
         ),

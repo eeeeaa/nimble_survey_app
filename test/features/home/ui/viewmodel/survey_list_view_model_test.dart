@@ -131,6 +131,7 @@ void main() {
           pageNumber: any(named: 'pageNumber'),
           pageSize: AppConstants.defaultPageSize,
           isForceReload: any(named: 'isForceReload'),
+          shouldClearCache: any(named: 'shouldClearCache'),
         ),
       ).thenAnswer((_) async => Success([MockUtil.mockSurveyModel]));
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nimble_survey_app/core/model/survey_model.dart';
+import 'package:nimble_survey_app/core/ui/component/screen/base_nimble_error_screen.dart';
 import 'package:nimble_survey_app/core/ui/theme/app_dimension.dart';
 import 'package:nimble_survey_app/features/home/model/survey_list_ui_model.dart';
 import 'package:nimble_survey_app/features/home/ui/component/surveylist/survey_background_image.dart';
@@ -10,6 +11,7 @@ import 'package:nimble_survey_app/features/home/ui/viewmodel/survey_list_view_mo
 import 'package:nimble_survey_app/l10n/app_localizations.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../../gen/assets.gen.dart';
 import '../loading/bottom_loading_content.dart';
 
 class SurveyList extends ConsumerStatefulWidget {
@@ -140,17 +142,15 @@ class SurveyListState extends ConsumerState<SurveyList> {
   }
 
   Widget _createEmptyListContent() {
-    return Container(
-      color: Colors.black,
-      child: Center(
-        child: Text(
-          AppLocalizations.of(context)?.homeEmptySurveyList ?? '',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
+    return BaseNimbleErrorScreen(
+      icon: Assets.images.icEmptyContent.svg(),
+      title: AppLocalizations.of(context)?.surveyListEmptyContentTitle ?? '',
+      description:
+          AppLocalizations.of(context)?.surveyListEmptyContentDescription ?? '',
+      primaryButtonLabel: AppLocalizations.of(context)?.genericTryAgain ?? '',
+      onPressed: () async {
+        await ref.read(surveyListViewModelProvider.notifier).refresh();
+      },
     );
   }
 
@@ -176,20 +176,6 @@ class SurveyListState extends ConsumerState<SurveyList> {
 
   @override
   Widget build(BuildContext context) {
-    final List<SurveyModel> surveyList =
-        ref.watch(surveyListViewModelProvider).surveyList;
-    final isLoading = ref.watch(surveyListViewModelProvider).isLoading;
-    final isFirstLoad = ref.watch(surveyListViewModelProvider).isFirstLoad;
-    final currentIndex = ref.watch(surveyListViewModelProvider).currentIndex;
-
-    if (surveyList.isEmpty) {
-      if (isFirstLoad) {
-        return _createLoadingListContent();
-      } else {
-        return _createEmptyListContent();
-      }
-    }
-
     ref.listen(surveyListViewModelProvider, (_, uiModel) {
       uiModel.when((
         surveyList,
@@ -200,7 +186,9 @@ class SurveyListState extends ConsumerState<SurveyList> {
         isRefreshSuccess,
       ) {
         if (isRefreshSuccess == true) {
-          _controller.jumpToPage(currentIndex);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _controller.jumpToPage(currentIndex);
+          });
         } else if (isRefreshSuccess == false) {
           if (mounted) {
             Fluttertoast.showToast(
@@ -213,32 +201,55 @@ class SurveyListState extends ConsumerState<SurveyList> {
       });
     });
 
-    return GestureDetector(
-      onHorizontalDragStart: (details) {
-        _screenDragStart = details.globalPosition;
-      },
-      onHorizontalDragUpdate: (details) {
-        final dragDistance =
-            details.globalPosition.dx - (_screenDragStart?.dx ?? 0);
-        _controller.position.moveTo(_controller.position.pixels - dragDistance);
-        _screenDragStart = details.globalPosition;
-      },
-      onHorizontalDragEnd: (_) {
-        _screenDragStart = null;
-      },
-      child: Stack(
-        children: [
-          SurveyBackgroundImage(
-            imageUrl: surveyList[currentIndex].coverImageUrl,
-          ),
-          _createSurveyListContent(surveyList: surveyList),
-          isLoading
-              ? Positioned.fill(
+    return ref.watch(surveyListViewModelProvider).maybeWhen((
+      surveyList,
+      currentIndex,
+      isLoading,
+      hasMore,
+      isFirstLoad,
+      isRefreshSuccess,
+    ) {
+      if (isLoading && isFirstLoad) {
+        return const ColoredBox(
+          color: Colors.black,
+          child: Center(child: CircularProgressIndicator()),
+        );
+      }
+
+      if (surveyList.isEmpty) {
+        return isFirstLoad
+            ? _createLoadingListContent()
+            : _createEmptyListContent();
+      }
+
+      return GestureDetector(
+        onHorizontalDragStart: (details) {
+          _screenDragStart = details.globalPosition;
+        },
+        onHorizontalDragUpdate: (details) {
+          final dragDistance =
+              details.globalPosition.dx - (_screenDragStart?.dx ?? 0);
+          _controller.position.moveTo(
+            _controller.position.pixels - dragDistance,
+          );
+          _screenDragStart = details.globalPosition;
+        },
+        onHorizontalDragEnd: (_) {
+          _screenDragStart = null;
+        },
+        child: Stack(
+          children: [
+            SurveyBackgroundImage(
+              imageUrl: surveyList[currentIndex].coverImageUrl,
+            ),
+            _createSurveyListContent(surveyList: surveyList),
+            if (isLoading)
+              const Positioned.fill(
                 child: Center(child: CircularProgressIndicator()),
-              )
-              : Container(),
-        ],
-      ),
-    );
+              ),
+          ],
+        ),
+      );
+    }, orElse: _createEmptyListContent);
   }
 }

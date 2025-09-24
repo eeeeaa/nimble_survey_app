@@ -53,6 +53,7 @@ class SurveyListViewModel extends _$SurveyListViewModel {
     final List<SurveyModel> surveyList = await _getSurveyList(
       pageNumber: 1,
       isForceReload: true,
+      shouldClearCache: true,
     );
     if (surveyList.isNotEmpty) {
       _currentPage = 2; // Next page
@@ -95,11 +96,13 @@ class SurveyListViewModel extends _$SurveyListViewModel {
   Future<List<SurveyModel>> _getSurveyList({
     required int pageNumber,
     bool isForceReload = false,
+    bool shouldClearCache = false,
   }) async {
     final result = await _surveyRepository.getSurveyList(
       pageNumber: pageNumber,
       pageSize: AppConstants.defaultPageSize,
       isForceReload: isForceReload,
+      shouldClearCache: shouldClearCache,
     );
     return result is Success ? (result as Success).data : List.empty();
   }

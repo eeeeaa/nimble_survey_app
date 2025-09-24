@@ -9,7 +9,7 @@ import 'package:nimble_survey_app/core/model/survey_question_model.dart';
 import 'package:nimble_survey_app/features/surveydetails/model/survey_details_ui_model.dart';
 
 import '../../../core/constants/app_constants.dart';
-import '../../../core/ui/component/nimble_login_button.dart';
+import '../../../core/ui/component/nimble_button.dart';
 import '../../../core/ui/theme/app_dimension.dart';
 import '../../../core/ui/theme/app_text_size.dart';
 import '../../../gen/assets.gen.dart';
