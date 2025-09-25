@@ -1,98 +1,62 @@
-name: Create Release PR
+name: Create release pull request
 
 on:
   workflow_dispatch:
+    inputs:
+      release_milestone_url:
+        description: Release milestone URL
+        required: true
+      newVersion:
+        description: "Version name"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  create-release-pr:
+  create_release_pull_request:
+    name: Create release pull request
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-
+    timeout-minutes: 30
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Check out source code
+        uses: actions/checkout@v4
 
-      - name: Read version from pubspec.yaml
-        id: get_version
-        run: |
-          VERSION=$(grep '^version:' pubspec.yaml | cut -d ' ' -f2)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Find HEAD commit
+        id: head
+        run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Fetch PRs from milestone and group
-        id: fetch_prs
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GH_TOKEN }}
-          script: |
-            const version = '${{ steps.get_version.outputs.version }}';
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const milestoneLink = `https://github.com/${owner}/${repo}/milestone/${version}?closed=1`;
-
-            const milestones = await github.rest.issues.listMilestones({ owner, repo });
-            const milestone = milestones.data.find(m => m.title === version);
-
-            if (!milestone) {
-              core.setFailed(`Milestone "${version}" not found`);
-              return;
-            }
-
-            const issues = await github.paginate(github.rest.issues.listForRepo, {
-              owner,
-              repo,
-              milestone: milestone.number,
-              state: 'closed'
-            });
-
-            const groups = {
-              feature: [],
-              chore: [],
-              bug: [],
-              others: []
-            };
-
-            for (const issue of issues) {
-              if (!issue.pull_request) continue;
-              const labels = issue.labels.map(l => l.name);
-              const type = labels.find(l =>
-                ['type:feature', 'type:chore', 'type:bug'].includes(l)
-              );
-
-              const title = issue.title;
-              const number = issue.number;
-              const item = `- ${title} (#${number})`;
-
-              if (type === 'type:feature') groups.feature.push(item);
-              else if (type === 'type:chore') groups.chore.push(item);
-              else if (type === 'type:bug') groups.bug.push(item);
-              else groups.others.push(item);
-            }
-
-            function section(title, items) {
-              return `## ${title}\n\n${items.length ? items.join('\n') : 'None'}\n`;
-            }
-
-            const description = [
-              `Link to the milestone on Github: ${milestoneLink}`,
-              ``,
-              section("Features", groups.feature),
-              section("Chores", groups.chore),
-              section("Bugs", groups.bug),
-              section("Others", groups.others)
-            ].join('\n');
-
-            core.setOutput("description", description);
-
-      - name: Create Release PR
-        uses: peter-evans/create-pull-request@v6
+      - name: Build changelog on "master"
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v5
         with:
           token: ${{ secrets.GH_TOKEN }}
-          title: "Release ${{ steps.get_version.outputs.version }}"
-          body: "${{ steps.fetch_prs.outputs.description }}"
-          commit-message: "chore: prepare release ${{ steps.get_version.outputs.version }}"
-          branch: release/${{ steps.get_version.outputs.version }}
-          base: master
-          labels: |
-            type: release
+          configuration: ".github/workflows/configs/changelog-config.json"
+          outputFile: changelog.txt
+          # List PRs from the last tag to the HEAD commit
+          toTag: ${{ steps.head.outputs.sha }}
+
+      - name: Prepend Release URL into changelog
+        shell: bash
+        run: |
+          echo -e "${{ inputs.release_milestone_url }}\n$(cat changelog.txt)" > changelog.txt
+
+      - name: Create release branch
+        uses: peterjgrainger/action-create-branch@v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          branch: release/${{ github.event.inputs.newVersion }}
+
+      - name: Create pull request
+        run: |
+          gh pr create \
+            --draft \
+            --base master \
+            --head release/${{ github.event.inputs.newVersion }} \
+            --title 'Release - ${{ github.event.inputs.newVersion }}' \
+            --body-file changelog.txt \
+            --label 'type: release' \
+            --milestone ${{ github.event.inputs.newVersion }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
